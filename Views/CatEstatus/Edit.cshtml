@@ -1,13 +1,19 @@
 ﻿@model WebAdminHecsa.Models.CatEstatus
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Marca";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Edit</h1>
-
-<h4>CatEstatus</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Marca</li>
+        <li class="breadcrumb-item">Control de Marca</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Marca</li>
+    </ol>
+</nav>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,24 +26,19 @@
                 <span asp-validation-for="EstatusDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <input asp-for="IdEstatusRegistro" class="form-control" />
+                <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaCatEstatus,"IdEstatus","EstatusDesc"))">
+                    <option value="">Seleccionar Estatus</option>
+                </select>
                 <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Regresar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

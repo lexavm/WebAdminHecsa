@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,30 @@ namespace WebAdminHecsa.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public CatEstatusController(ApplicationDbContext context)
+        private readonly INotyfService _notyf;
+        public CatEstatusController(ApplicationDbContext context, INotyfService notyf)
         {
             _context = context;
+            _notyf = notyf;
         }
 
         // GET: CatEstatus
         public async Task<IActionResult> Index()
         {
+            var ValidaEstatus = _context.CatEstatus.ToList();
+
+            if (ValidaEstatus.Count == 2)
+            {
+                ViewBag.EstatusFlag = true;
+
+            }
+            else
+            {
+                ViewBag.UserFlag = false;
+                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+            }
             return View(await _context.CatEstatus.ToListAsync());
+            
         }
 
         // GET: CatEstatus/Details/5
@@ -68,6 +84,10 @@ namespace WebAdminHecsa.Controllers
         // GET: CatEstatus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaCatEstatus = ListaCatEstatus;
+
             if (id == null)
             {
                 return NotFound();

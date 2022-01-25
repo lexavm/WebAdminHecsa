@@ -1,5 +1,3 @@
-using System;
-
 namespace WebAdminHecsa.Models
 {
     public class ErrorViewModel
