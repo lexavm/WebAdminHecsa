@@ -1,7 +1,7 @@
-﻿@model WebAdminHecsa.Models.CatEstatus
+﻿@model WebAdminHecsa.Models.CatDivisa
 
 @{
-    ViewData["Title"] = "Editar Estatus";
+    ViewData["Title"] = "Editar Divisa";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
@@ -11,7 +11,7 @@
         <li class="breadcrumb-item">Catálogos</li>
         <li class="breadcrumb-item">Estatus</li>
         <li class="breadcrumb-item">Control de Estatus</li>
-        <li class="breadcrumb-item active" aria-current="page">Editar Estatus</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Divisa</li>
     </ol>
 </nav>
 <hr />
@@ -19,11 +19,11 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdEstatus" id="IdEstatus" />
+            <input type="hidden" asp-for="IdDivisa" id="IdEstatus" />
             <div class="form-group">
-                <label asp-for="EstatusDesc" class="control-label"></label>
-                <input asp-for="EstatusDesc" class="form-control" />
-                <span asp-validation-for="EstatusDesc" class="text-danger"></span>
+                <label asp-for="DivisaDesc" class="control-label"></label>
+                <input asp-for="DivisaDesc" class="form-control" />
+                <span asp-validation-for="DivisaDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdEstatusRegistro" class="control-label"></label>

@@ -1,7 +1,7 @@
-﻿@model IEnumerable<WebAdminHecsa.Models.CatEstatus>
+﻿@model IEnumerable<WebAdminHecsa.Models.CatDivisa>
 
 @{
-    ViewData["Title"] = "Estatus";
+    ViewData["Title"] = "Divisas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
@@ -9,8 +9,8 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Estatus</li>
-        <li class="breadcrumb-item active" aria-current="page">Control de Estatus</li>
+        <li class="breadcrumb-item">Divisas</li>
+        <li class="breadcrumb-item active" aria-current="page">Control de Divisas</li>
     </ol>
 </nav>
 <p>
@@ -23,7 +23,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EstatusDesc)
+                @Html.DisplayNameFor(model => model.DivisaDesc)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaRegistro)
@@ -39,7 +39,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EstatusDesc)
+                    @Html.DisplayFor(modelItem => item.DivisaDesc)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaRegistro)
@@ -51,9 +51,9 @@
                     @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdEstatus" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
-                    <a asp-action="Details" asp-route-id="@item.IdEstatus" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
-                    <a asp-action="Delete" asp-route-id="@item.IdEstatus" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>
+                    <a asp-action="Edit" asp-route-id="@item.IdDivisa" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.IdDivisa" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdDivisa" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>
                 </td>
             </tr>
         }

@@ -1,7 +1,7 @@
-﻿@model WebAdminHecsa.Models.CatEstatus
+﻿@model WebAdminHecsa.Models.CatDivisa
 
 @{
-    ViewData["Title"] = "Desactivar Estatus";
+    ViewData["Title"] = "Desactivar Divisa";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
@@ -10,18 +10,18 @@
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
         <li class="breadcrumb-item">Divisa</li>
-        <li class="breadcrumb-item">Control de Estatus</li>
-        <li class="breadcrumb-item active" aria-current="page">Desactivar Estatus</li>
+        <li class="breadcrumb-item">Control de Divisa</li>
+        <li class="breadcrumb-item active" aria-current="page">Desactivar Divisa</li>
     </ol>
 </nav>
 <hr />
 <div>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EstatusDesc)
+            @Html.DisplayNameFor(model => model.DivisaDesc)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EstatusDesc)
+            @Html.DisplayFor(model => model.DivisaDesc)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaRegistro)
@@ -38,9 +38,8 @@
     </dl>
 
     <form asp-action="Delete">
-        <input type="hidden" asp-for="IdEstatus" />
+        <input type="hidden" asp-for="IdDivisa" />
         <input type="submit" value="Desactivar" class="btn btn-danger" />
         <a asp-action="Index" class="btn btn-secondary">Regresar</a>
     </form>
 </div>
-

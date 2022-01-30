@@ -1,0 +1,120 @@
+﻿@model IEnumerable<WebAdminHecsa.Models.CatCodigosPostales>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.d_codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.d_asenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.d_tipo_asenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.D_mnpio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.d_estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.d_ciudad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.d_CP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.c_estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.c_oficina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.c_CP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.c_tipo_asenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.c_mnpio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_asenta_cpcons)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.d_zona)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.c_cve_ciudad)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.d_codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.d_asenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.d_tipo_asenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.D_mnpio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.d_estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.d_ciudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.d_CP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.c_estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.c_oficina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.c_CP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.c_tipo_asenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.c_mnpio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_asenta_cpcons)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.d_zona)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.c_cve_ciudad)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdCodigosPostales">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdCodigosPostales">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdCodigosPostales">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
