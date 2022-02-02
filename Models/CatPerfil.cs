@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAdminHecsa.Models
 {
-    public class CatPerfile
+    public class CatPerfil
     {
         [Key]
         [Display(Name = "ID Perfil")]

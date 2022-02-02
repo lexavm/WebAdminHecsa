@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAdminHecsa.Models
 {
-    public class CatProductos
+    public class CatProducto
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

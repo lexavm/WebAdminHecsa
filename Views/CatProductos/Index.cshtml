@@ -1,0 +1,126 @@
+﻿@model IEnumerable<WebAdminHecsa.Models.CatProducto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoInterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoExterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMarca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MarcaDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCategoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoriaDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescProducto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadMinima)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadInicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductoPrecio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PorcentajeGanancia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PorcentajeVenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubCosto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Costo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaRegistro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEstatusRegistro)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoInterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoExterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMarca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MarcaDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCategoria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoriaDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadMinima)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadInicial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductoPrecio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PorcentajeGanancia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PorcentajeVenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCosto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Costo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaRegistro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdProducto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdProducto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdProducto">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
