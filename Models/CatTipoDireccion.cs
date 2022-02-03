@@ -7,11 +7,11 @@ namespace WebAdminHecsa.Models
     public class CatTipoDireccion
     {
         [Key]
-        [Display(Name = "ID Tipo Direccion")]
+        [Display(Name = "ID Tipo Dirección ")]
         public int IdTipoDireccion { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Rol Descripción")]
+        [Display(Name = "Tipos Dirección Descripción")]
         public string TipoDireccionDesc { get; set; }
 
         [Column("FechaRegistro")]

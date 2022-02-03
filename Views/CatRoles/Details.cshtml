@@ -1,15 +1,22 @@
 ﻿@model WebAdminHecsa.Models.CatRole
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Rol";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Rol</li>
+        <li class="breadcrumb-item">Control de Rol</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Rol</li>
+    </ol>
+</nav>
+<hr />
 <div>
-    <h4>CatRole</h4>
-    <hr />
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RolDesc)
@@ -32,6 +39,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdRol">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+ <a asp-action="Index" class="btn btn-secondary">Regresar</a>
 </div>

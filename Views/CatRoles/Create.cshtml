@@ -1,13 +1,19 @@
 ﻿@model WebAdminHecsa.Models.CatRole
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Rol";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>CatRole</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Rol</li>
+        <li class="breadcrumb-item">Control de Rol</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Rol</li>
+    </ol>
+</nav>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,27 +24,18 @@
                 <input asp-for="RolDesc" class="form-control" />
                 <span asp-validation-for="RolDesc" class="text-danger"></span>
             </div>
+            <br>
             <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <input asp-for="IdEstatusRegistro" class="form-control" />
-                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Regresar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

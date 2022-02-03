@@ -1,14 +1,19 @@
 ﻿@model WebAdminHecsa.Models.CatMarca
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Género";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Edit</h1>
-
-<h4>CatMarca</h4>
-<hr />
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Marca</li>
+        <li class="breadcrumb-item">Control de Marca</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Marca</li>
+    </ol>
+</nav>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">

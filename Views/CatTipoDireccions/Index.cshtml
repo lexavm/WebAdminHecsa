@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<WebAdminHecsa.Models.CatTipoDireccion>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tipos Direcciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Tipos Direcciones</li>
+        <li class="breadcrumb-item active" aria-current="page">Control de Tipos Direcciones</li>
+    </ol>
+</nav>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a id="iNuevo" type="submit" class="btn btn-outline-primary" asp-action="Create" value="Nuevo" title="Nuevo"><i class="fas fa-plus"></i> Nuevo</a>
 </p>
 <table class="table">
     <thead>
@@ -26,23 +32,43 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoDireccionDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTipoDireccion">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdTipoDireccion">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdTipoDireccion">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoDireccionDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                </td>
+                <td>
+                    <span style="font-size: 1em; color: green;">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdTipoDireccion" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.IdTipoDireccion" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdTipoDireccion" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script type="text/javascript">
+          $(document).ready(function() {
+              var v = '@ViewBag.EstatusFlag'
+              if (v == 1) {
+       document.getElementById("iNuevo").style.visibility="visible";
+    } else {
+       document.getElementById("iNuevo").style.visibility="hidden";
+    }
+          });
+
+</script>
+}

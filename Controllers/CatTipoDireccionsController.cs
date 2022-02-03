@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,28 @@ namespace WebAdminHecsa.Controllers
     public class CatTipoDireccionsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotyfService _notyf;
 
-        public CatTipoDireccionsController(ApplicationDbContext context)
+        public CatTipoDireccionsController(ApplicationDbContext context, INotyfService notyf)
         {
             _context = context;
+            _notyf = notyf;
         }
 
         // GET: CatTipoDireccions
         public async Task<IActionResult> Index()
         {
+            var ValidaEstatus = _context.CatEstatus.ToList();
+
+            if (ValidaEstatus.Count == 2)
+            {
+                ViewBag.EstatusFlag = 1;
+            }
+            else
+            {
+                ViewBag.EstatusFlag = 0;
+                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+            }
             return View(await _context.CatTipoDireccion.ToListAsync());
         }
 

@@ -1,14 +1,23 @@
 ﻿@model IEnumerable<WebAdminHecsa.Models.CatMarca>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Marcas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Marcas</li>
+        <li class="breadcrumb-item active" aria-current="page">Control de Marcas</li>
+    </ol>
+</nav>
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (ViewBag.EstatusFlag = true)
+    {
+        <a type="submit" class="btn btn-outline-primary" asp-action="Create" value="Nuevo" title="Nuevo"><i class="fas fa-plus"></i> Nuevo</a>
+    }
 </p>
 <table class="table">
     <thead>
@@ -32,29 +41,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MarcaDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProveedor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProveedorDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdMarca">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdMarca">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdMarca">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MarcaDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProveedor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProveedorDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdMarca" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.IdMarca" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdMarca" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

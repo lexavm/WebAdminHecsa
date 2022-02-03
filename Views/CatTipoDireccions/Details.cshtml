@@ -1,37 +1,42 @@
 ﻿@model WebAdminHecsa.Models.CatTipoDireccion
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Tipos Direcciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Tipos Direcciones</li>
+        <li class="breadcrumb-item">Control de Divisa</li>
+        <li class="breadcrumb-item active" aria-current="page">Detalles Tipos Direcciones</li>
+    </ol>
+</nav>
+<hr />
 <div>
-    <h4>CatTipoDireccion</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TipoDireccionDesc)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TipoDireccionDesc)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaRegistro)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaRegistro)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IdEstatusRegistro)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IdEstatusRegistro)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdTipoDireccion">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </div>
 </div>

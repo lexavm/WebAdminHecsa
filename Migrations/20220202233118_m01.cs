@@ -262,6 +262,51 @@ namespace WebAdminHecsa.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TblClienteContacto",
+                columns: table => new
+                {
+                    IdClienteContacto = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreClienteContacto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdCliente = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NombreCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdEstatusRegistro = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TblClienteContacto", x => x.IdClienteContacto);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TblClienteDirecciones",
+                columns: table => new
+                {
+                    IdClienteDirecciones = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdTipoDireccion = table.Column<int>(type: "int", nullable: false),
+                    TipoDireccionDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Calle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CodigoPostal = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdColonia = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Colonia = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocalidadMunicipio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ciudad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdCliente = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NombreCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdEstatusRegistro = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TblClienteDirecciones", x => x.IdClienteDirecciones);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TblEmpresa",
                 columns: table => new
                 {
@@ -589,6 +634,12 @@ namespace WebAdminHecsa.Migrations
 
             migrationBuilder.DropTable(
                 name: "TblCliente");
+
+            migrationBuilder.DropTable(
+                name: "TblClienteContacto");
+
+            migrationBuilder.DropTable(
+                name: "TblClienteDirecciones");
 
             migrationBuilder.DropTable(
                 name: "TblEmpresa");

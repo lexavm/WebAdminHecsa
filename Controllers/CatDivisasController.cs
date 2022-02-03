@@ -25,14 +25,17 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> Index()
         {
             var ValidaEstatus = _context.CatEstatus.ToList();
+           
 
             if (ValidaEstatus.Count == 2)
             {
-                ViewBag.EstatusFlag = true;
+
+                ViewBag.EstatusFlag = 1;
             }
             else
             {
-                ViewBag.UserFlag = false;
+
+                ViewBag.EstatusFlag = 0;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.CatDivisa.ToListAsync());
@@ -72,8 +75,8 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatEstatus
-                       .Where(s => s.EstatusDesc == catDivisa.DivisaDesc && s.EstatusDesc == catDivisa.DivisaDesc)
+                var DuplicadosEstatus = _context.CatDivisa
+                       .Where(s => s.DivisaDesc == catDivisa.DivisaDesc && s.DivisaDesc == catDivisa.DivisaDesc)
                        .ToList();
 
                 if (DuplicadosEstatus.Count == 0)

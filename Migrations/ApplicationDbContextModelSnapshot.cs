@@ -432,7 +432,7 @@ namespace WebAdminHecsa.Migrations
                     b.ToTable("CatMarca");
                 });
 
-            modelBuilder.Entity("WebAdminHecsa.Models.CatPerfile", b =>
+            modelBuilder.Entity("WebAdminHecsa.Models.CatPerfil", b =>
                 {
                     b.Property<int>("IdPerfil")
                         .ValueGeneratedOnAdd()
@@ -456,7 +456,7 @@ namespace WebAdminHecsa.Migrations
                     b.ToTable("CatPerfile");
                 });
 
-            modelBuilder.Entity("WebAdminHecsa.Models.CatProductos", b =>
+            modelBuilder.Entity("WebAdminHecsa.Models.CatProducto", b =>
                 {
                     b.Property<int>("IdProducto")
                         .ValueGeneratedOnAdd()
@@ -630,6 +630,101 @@ namespace WebAdminHecsa.Migrations
                     b.HasKey("IdCliente");
 
                     b.ToTable("TblCliente");
+                });
+
+            modelBuilder.Entity("WebAdminHecsa.Models.TblClienteContacto", b =>
+                {
+                    b.Property<int>("IdClienteContacto")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdClienteContacto"), 1L, 1);
+
+                    b.Property<string>("CorreoElectronico")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaRegistro");
+
+                    b.Property<Guid>("IdCliente")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("IdEstatusRegistro")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NombreCliente")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreClienteContacto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdClienteContacto");
+
+                    b.ToTable("TblClienteContacto");
+                });
+
+            modelBuilder.Entity("WebAdminHecsa.Models.TblClienteDirecciones", b =>
+                {
+                    b.Property<int>("IdClienteDirecciones")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdClienteDirecciones"), 1L, 1);
+
+                    b.Property<string>("Calle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ciudad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodigoPostal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Colonia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Estado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaRegistro");
+
+                    b.Property<Guid>("IdCliente")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("IdColonia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdEstatusRegistro")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTipoDireccion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LocalidadMunicipio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreCliente")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoDireccionDesc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdClienteDirecciones");
+
+                    b.ToTable("TblClienteDirecciones");
                 });
 
             modelBuilder.Entity("WebAdminHecsa.Models.TblEmpresa", b =>

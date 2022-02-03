@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,28 @@ namespace WebAdminHecsa.Controllers
     public class CatGeneroesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotyfService _notyf;
 
-        public CatGeneroesController(ApplicationDbContext context)
+        public CatGeneroesController(ApplicationDbContext context, INotyfService notyf)
         {
             _context = context;
+            _notyf = notyf;
         }
 
         // GET: CatGeneroes
         public async Task<IActionResult> Index()
         {
+            var ValidaEstatus = _context.CatEstatus.ToList();
+
+            if (ValidaEstatus.Count == 2)
+            {
+                ViewBag.EstatusFlag = 1;
+            }
+            else
+            {
+                ViewBag.EstatusFlag = 0;
+                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+            }
             return View(await _context.CatGenero.ToListAsync());
         }
 
@@ -54,20 +68,43 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdGenero,GeneroDesc,FechaRegistro,IdEstatusRegistro")] CatGenero catGenero)
+        public async Task<IActionResult> Create([Bind("IdGenero,GeneroDesc")] CatGenero catGenero)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(catGenero);
-                await _context.SaveChangesAsync();
+                var DuplicadosEstatus = _context.CatEstatus
+                       .Where(s => s.EstatusDesc == catGenero.GeneroDesc && s.EstatusDesc == catGenero.GeneroDesc)
+                       .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    catGenero.FechaRegistro = DateTime.Now;
+                    catGenero.GeneroDesc = catGenero.GeneroDesc.ToString().ToUpper();
+                    catGenero.IdEstatusRegistro = 1;
+                    _context.SaveChanges();
+
+                    _context.Add(catGenero);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro guardado con éxito", 5);
+                }
+                else
+                {
+                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
+                    _notyf.Warning("Favor de validar, existe una Estatus con el mismo nombre", 5);
+                }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(catGenero);
         }
 
         // GET: CatGeneroes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaCatEstatus = ListaCatEstatus;
+
             if (id == null)
             {
                 return NotFound();
@@ -86,7 +123,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdGenero,GeneroDesc,FechaRegistro,IdEstatusRegistro")] CatGenero catGenero)
+        public async Task<IActionResult> Edit(int id, [Bind("IdGenero,GeneroDesc,IdEstatusRegistro")] CatGenero catGenero)
         {
             if (id != catGenero.IdGenero)
             {
@@ -97,8 +134,13 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    catGenero.FechaRegistro = DateTime.Now;
+                    catGenero.GeneroDesc = catGenero.GeneroDesc.ToString().ToUpper();
+                    catGenero.IdEstatusRegistro = catGenero.IdEstatusRegistro;
+                    _context.SaveChanges();
                     _context.Update(catGenero);
                     await _context.SaveChangesAsync();
+                    _notyf.Success("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,8 +182,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var catGenero = await _context.CatGenero.FindAsync(id);
-            _context.CatGenero.Remove(catGenero);
+            catGenero.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

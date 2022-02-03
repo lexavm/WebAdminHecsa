@@ -1,16 +1,22 @@
 ﻿@model WebAdminHecsa.Models.CatRole
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Desactiva Rol";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Rol</li>
+        <li class="breadcrumb-item">Control de Rol</li>
+        <li class="breadcrumb-item active" aria-current="page">Desactiva Rol</li>
+    </ol>
+</nav>
+<hr />
 <div>
-    <h4>CatRole</h4>
-    <hr />
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RolDesc)
@@ -34,7 +40,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdRol" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Desactivar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
     </form>
 </div>
