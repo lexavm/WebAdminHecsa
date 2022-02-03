@@ -228,6 +228,21 @@ namespace WebAdminHecsa.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CatTipoEnvio",
+                columns: table => new
+                {
+                    IdTiposEnvio = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TiposEnvioDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdEstatusRegistro = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CatTipoEnvio", x => x.IdTiposEnvio);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CatTiposEstatus",
                 columns: table => new
                 {
@@ -628,6 +643,9 @@ namespace WebAdminHecsa.Migrations
 
             migrationBuilder.DropTable(
                 name: "CatTipoDireccion");
+
+            migrationBuilder.DropTable(
+                name: "CatTipoEnvio");
 
             migrationBuilder.DropTable(
                 name: "CatTiposEstatus");

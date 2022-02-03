@@ -12,7 +12,7 @@ using WebAdminHecsa.Data;
 namespace WebAdminHecsa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220203024925_m01")]
+    [Migration("20220203175428_m01")]
     partial class m01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -570,6 +570,30 @@ namespace WebAdminHecsa.Migrations
                     b.HasKey("IdTipoDireccion");
 
                     b.ToTable("CatTipoDireccion");
+                });
+
+            modelBuilder.Entity("WebAdminHecsa.Models.CatTipoEnvio", b =>
+                {
+                    b.Property<int>("IdTiposEnvio")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTiposEnvio"), 1L, 1);
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaRegistro");
+
+                    b.Property<int>("IdEstatusRegistro")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TiposEnvioDesc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdTiposEnvio");
+
+                    b.ToTable("CatTipoEnvio");
                 });
 
             modelBuilder.Entity("WebAdminHecsa.Models.CatTiposEstatus", b =>

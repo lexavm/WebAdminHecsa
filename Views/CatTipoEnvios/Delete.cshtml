@@ -1,0 +1,45 @@
+﻿@model WebAdminHecsa.Models.CatTipoEnvio
+
+@{
+    ViewData["Title"] = "Desactivar Tipo Envío";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Tipo Envío</li>
+        <li class="breadcrumb-item">Control de Tipo Envío</li>
+        <li class="breadcrumb-item active" aria-current="page">Desactivar Tipo Envío</li>
+    </ol>
+</nav>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TiposEnvioDesc)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TiposEnvioDesc)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaRegistro)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaRegistro)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdEstatusRegistro)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdEstatusRegistro)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input style="text-transform:uppercase" type="hidden" asp-for="IdTiposEnvio" />
+        <input style="text-transform:uppercase" type="submit" value="Desactivar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </form>
+</div>

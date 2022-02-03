@@ -1,5 +1,5 @@
 ﻿!DOCTYPE html>
-<html lang="en">
+<html lang="es-MX" xml:lang="es-MX">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -47,30 +47,21 @@
                             Resumen
                         </a>
                         <div class="sb-sidenav-menu-heading">Datos Iniciales</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Información
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCatalogos" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tasks"></i></div>
+                            Catálogos
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    Catálogos
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" asp-area="" asp-controller="CatEstatus" asp-action="Index">Estatus</a>
-                                        <a class="nav-link" asp-area="" asp-controller="CatGeneroes" asp-action="Index">Géneros</a>
-                                        <a class="nav-link" asp-area="" asp-controller="CatRoles" asp-action="Index">Roles</a>
-                                        <a class="nav-link" asp-area="" asp-controller="CatPerfils" asp-action="Index">Perfiles</a>
-                                        <a class="nav-link" asp-area="" asp-controller="CatDivisas" asp-action="Index">Divisas</a>
-                                        <a class="nav-link" asp-area="" asp-controller="CatTipoDireccions" asp-action="Index">Tipos Direcciones</a>
-                                        <a class="nav-link" asp-area="" asp-controller="CatTipoDireccions" asp-action="Index">Tipos Envíos</a>
-                                    </nav>
-                                </div>
-
-
+                        <div class="collapse" id="pagesCatalogos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" asp-area="" asp-controller="CatCodigosPostales" asp-action="Index">CP</a>
+                                <a class="nav-link" asp-area="" asp-controller="CatEstatus" asp-action="Index">Estatus</a>
+                                <a class="nav-link" asp-area="" asp-controller="CatGeneroes" asp-action="Index">Géneros</a>
+                                <a class="nav-link" asp-area="" asp-controller="CatRoles" asp-action="Index">Roles</a>
+                                <a class="nav-link" asp-area="" asp-controller="CatPerfils" asp-action="Index">Perfiles</a>
+                                <a class="nav-link" asp-area="" asp-controller="CatDivisas" asp-action="Index">Divisas</a>
+                                <a class="nav-link" asp-area="" asp-controller="CatTipoDireccions" asp-action="Index">Tipos Direcciones</a>
+                                <a class="nav-link" asp-area="" asp-controller="CatTipoEnvios" asp-action="Index">Tipos Envíos</a>
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Datos Complementarios</div>
@@ -81,10 +72,10 @@
                         </a>
                         <div class="collapse" id="pagesEmpresa" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="401.html">General</a>
-                                <a class="nav-link" href="404.html">Fiscales</a>
-                                <a class="nav-link" href="404.html">Áreas</a>
-                                <a class="nav-link" href="404.html">Usuarios</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblEmpresas" asp-action="Index">General</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblEmpresaFiscales" asp-action="Index">Fiscales</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Áreas</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblUsuarios" asp-action="Index">Usuarios</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesProveedores" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -94,9 +85,9 @@
                         </a>
                         <div class="collapse" id="pagesProveedores" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="401.html">General</a>
-                                <a class="nav-link" href="401.html">Domicilios</a>
-                                <a class="nav-link" href="404.html">Contactos</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblProveedors" asp-action="Index">General</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblProveedorDirecciones" asp-action="Index">Domicilios</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblProveedorContactoes" asp-action="Index">Contactos</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesProductos" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -106,21 +97,21 @@
                         </a>
                         <div class="collapse" id="pagesProductos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="401.html">Marcas</a>
-                                <a class="nav-link" href="404.html">Categorias</a>
-                                <a class="nav-link" href="404.html">Productos</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Marcas</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Categorias</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Productos</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesClientes" aria-expanded="false" aria-controls="pagesCollapseError">
-                           <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
                             Clientes
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="pagesClientes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="401.html">General</a>
-                                <a class="nav-link" href="401.html">Domicilios</a>
-                                <a class="nav-link" href="404.html">Contactos</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblClientes" asp-action="Index">General</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblClienteDirecciones" asp-action="Index">Domicilios</a>
+                                <a class="nav-link" asp-area="" asp-controller="TblClienteContactoes" asp-action="Index">Contactos</a>
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Datos Finales</div>
@@ -131,11 +122,11 @@
                         </a>
                         <div class="collapse" id="pagesDocumentos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Ordenes de Compra</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Cotizaciones</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Ordenes de Compra</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Cotizaciones</a>
                             </nav>
                         </div>
-                            <div class="sb-sidenav-menu-heading">Datos Control</div>
+                        <div class="sb-sidenav-menu-heading">Datos Control</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesInvetarios" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
                             Inventario
@@ -143,8 +134,8 @@
                         </a>
                         <div class="collapse" id="pagesInvetarios" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Entradas</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Salidas</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Entradas</a>
+                                <a class="nav-link" asp-area="" asp-controller="" asp-action="Index">Salidas</a>
                             </nav>
                         </div>
                     </div>

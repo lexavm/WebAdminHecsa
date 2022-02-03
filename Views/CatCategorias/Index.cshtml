@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<WebAdminHecsa.Models.CatCategoria>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categorias";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Productos</li>
+        <li class="breadcrumb-item">Categorias</li>
+        <li class="breadcrumb-item active" aria-current="page">Control de Categorias</li>
+    </ol>
+</nav>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a id="iNuevo" type="submit" class="btn btn-outline-primary" asp-action="Create" value="Nuevo" title="Nuevo"><i class="fas fa-plus"></i> Nuevo</a>
 </p>
 <table class="table">
     <thead>
@@ -58,3 +64,19 @@
 }
     </tbody>
 </table>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script type="text/javascript">
+          $(document).ready(function() {
+              var v = '@ViewBag.EstatusFlag'
+              if (v == 1) {
+       document.getElementById("iNuevo").style.visibility="visible";
+    } else {
+       document.getElementById("iNuevo").style.visibility="hidden";
+    }
+          });
+
+</script>
+}

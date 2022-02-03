@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,28 @@ namespace WebAdminHecsa.Controllers
     public class TblUsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotyfService _notyf;
 
-        public TblUsuariosController(ApplicationDbContext context)
+        public TblUsuariosController(ApplicationDbContext context, INotyfService notyf)
         {
             _context = context;
+            _notyf = notyf;
         }
 
         // GET: TblUsuarios
         public async Task<IActionResult> Index()
         {
+            var ValidaEstatus = _context.CatEstatus.ToList();
+
+            if (ValidaEstatus.Count == 2)
+            {
+                ViewBag.EstatusFlag = true;
+            }
+            else
+            {
+                ViewBag.EstatusFlag = false;
+                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+            }
             return View(await _context.TblUsuario.ToListAsync());
         }
 

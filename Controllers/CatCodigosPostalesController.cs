@@ -1,27 +1,75 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAdminHecsa.Data;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using WebAdminHecsa.Models;
+using System.Data;
+using System.Collections.Generic;
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatCodigosPostalesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        [System.Obsolete]
+        private IHostingEnvironment Environment;
 
+        [System.Obsolete]
+        public CatCodigosPostalesController(IHostingEnvironment _environment)
+        {
+            Environment = _environment;
+        }
         public CatCodigosPostalesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: CatCodigosPostales
-        public async Task<IActionResult> Index()
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
+
+        [HttpPost]
+        [System.Obsolete]
+        public IActionResult Index(List<IFormFile> postedFiles)
         {
-            return View(await _context.CatCodigosPostales.ToListAsync());
+            List<CatCodigosPostales> cpModel = new List<CatCodigosPostales>();
+            string wwwPath = this.Environment.WebRootPath;
+            string contentPath = this.Environment.ContentRootPath;
+
+            string path = Path.Combine(this.Environment.WebRootPath, "Uploads");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            List<string> uploadedFiles = new List<string>();
+            foreach (IFormFile postedFile in postedFiles)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                    uploadedFiles.Add(fileName);
+                }
+            }
+            return View();
         }
 
+        [HttpGet]
+        public ActionResult FiltroCodigosPostales(string id)
+        {
+            var fcatCodigosPostales = _context.CatCodigosPostales
+                       .Where(s => s.d_codigo == id)
+                       .ToList();
+
+            return Json(fcatCodigosPostales);
+        }
         // GET: CatCodigosPostales/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -1,0 +1,46 @@
+﻿@model WebAdminHecsa.Models.CatTipoEnvio
+
+@{
+    ViewData["Title"] = "Editar Tipo Envío";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Tipo Envío</li>
+        <li class="breadcrumb-item">Control de Tipo Envío</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Tipo Envío</li>
+    </ol>
+</nav>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input style="text-transform:uppercase" type="hidden" asp-for="IdTiposEnvio" id="IdEstatus" />
+            <div class="form-group">
+                <label asp-for="TiposEnvioDesc" class="control-label"></label>
+                <input style="text-transform:uppercase" asp-for="TiposEnvioDesc" class="form-control" />
+                <span asp-validation-for="TiposEnvioDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstatusRegistro" class="control-label"></label>
+                <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaCatEstatus,"IdEstatus","EstatusDesc"))">
+                    <option value="">Seleccionar Estatus</option>
+                </select>
+                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input style="text-transform:uppercase" type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

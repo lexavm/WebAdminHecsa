@@ -15,7 +15,7 @@ namespace WebAdminHecsa.Data
         public DbSet<WebAdminHecsa.Models.CatCodigosPostales> CatCodigosPostales { get; set; }
         public DbSet<WebAdminHecsa.Models.CatDivisa> CatDivisa { get; set; }
         public DbSet<WebAdminHecsa.Models.CatEstatus> CatEstatus { get; set; }
-
+        public DbSet<WebAdminHecsa.Models.CatTipoEnvio> CatTipoEnvio { get; set; }
         public DbSet<WebAdminHecsa.Models.CatGenero> CatGenero { get; set; }
         public DbSet<WebAdminHecsa.Models.CatMarca> CatMarca { get; set; }
         public DbSet<WebAdminHecsa.Models.CatPerfil> CatPerfile { get; set; }

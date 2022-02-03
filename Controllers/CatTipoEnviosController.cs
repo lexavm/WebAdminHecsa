@@ -1,88 +1,88 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
 using WebAdminHecsa.Models;
 
 namespace WebAdminHecsa.Controllers
 {
-    public class TblEmpresasController : Controller
+    public class CatTipoEnviosController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly INotyfService _notyf;
-
-        public TblEmpresasController(ApplicationDbContext context, INotyfService notyf)
+        public CatTipoEnviosController(ApplicationDbContext context, INotyfService notyf)
         {
             _context = context;
             _notyf = notyf;
         }
 
-        // GET: TblEmpresas
+        // GET: CatTipoEnvios
         public async Task<IActionResult> Index()
         {
             var ValidaEstatus = _context.CatEstatus.ToList();
 
             if (ValidaEstatus.Count == 2)
             {
-                ViewBag.EstatusFlag = true;
+                ViewBag.EstatusFlag = 1;
             }
             else
             {
-                ViewBag.EstatusFlag = false;
+                ViewBag.EstatusFlag = 0;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
-            return View(await _context.TblEmpresa.ToListAsync());
+            return View(await _context.CatTipoEnvio.ToListAsync());
         }
 
-        // GET: TblEmpresas/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        // GET: CatTipoEnvios/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tblEmpresa = await _context.TblEmpresa
-                .FirstOrDefaultAsync(m => m.IdEmpresa == id);
-            if (tblEmpresa == null)
+            var catTipoEnvio = await _context.CatTipoEnvio
+                .FirstOrDefaultAsync(m => m.IdTiposEnvio == id);
+            if (catTipoEnvio == null)
             {
                 return NotFound();
             }
 
-            return View(tblEmpresa);
+            return View(catTipoEnvio);
         }
 
-        // GET: TblEmpresas/Create
+        // GET: CatTipoEnvios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TblEmpresas/Create
+        // POST: CatTipoEnvios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEmpresa,NombreEmpresa,GiroComercial,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,CorreoElectronico,Telefono")] TblEmpresa tblEmpresa)
+        public async Task<IActionResult> Create([Bind("IdTiposEnvio,TiposEnvioDesc")] CatTipoEnvio catTipoEnvio)
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.TblEmpresa
-                       .Where(s => s.NombreEmpresa == tblEmpresa.NombreEmpresa)
+                var DuplicadosEstatus = _context.CatTipoEnvio
+                       .Where(s => s.TiposEnvioDesc == catTipoEnvio.TiposEnvioDesc)
                        .ToList();
 
                 if (DuplicadosEstatus.Count == 0)
                 {
-                    tblEmpresa.FechaRegistro = DateTime.Now;
-                    tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
-                    tblEmpresa.IdEstatusRegistro = 1;
+                    catTipoEnvio.FechaRegistro = DateTime.Now;
+                    catTipoEnvio.TiposEnvioDesc = catTipoEnvio.TiposEnvioDesc.ToString().ToUpper();
+                    catTipoEnvio.IdEstatusRegistro = 1;
                     _context.SaveChanges();
 
-                    _context.Add(tblEmpresa);
+                    _context.Add(catTipoEnvio);
                     await _context.SaveChangesAsync();
                     _notyf.Success("Registro guardado con éxito", 5);
                 }
@@ -93,43 +93,36 @@ namespace WebAdminHecsa.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tblEmpresa);
+            return View(catTipoEnvio);
         }
 
-        // GET: TblEmpresas/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        // GET: CatTipoEnvios/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
             ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
-            ViewBag.ListaEstatus = ListaCatEstatus;
-
-            var results = (from ta in _context.CatCodigosPostales
-                           select ta.d_estado).Distinct().ToList();
-
-            List<string> Estados = new List<string>();
-            Estados = results;
-            ViewBag.ListaEstados = Estados;
+            ViewBag.ListaCatEstatus = ListaCatEstatus;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tblEmpresa = await _context.TblEmpresa.FindAsync(id);
-            if (tblEmpresa == null)
+            var catTipoEnvio = await _context.CatTipoEnvio.FindAsync(id);
+            if (catTipoEnvio == null)
             {
                 return NotFound();
             }
-            return View(tblEmpresa);
+            return View(catTipoEnvio);
         }
 
-        // POST: TblEmpresas/Edit/5
+        // POST: CatTipoEnvios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdEmpresa,NombreEmpresa,RFC,GiroComercial,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,CorreoElectronico,Telefono,IdEstatusRegistro")] TblEmpresa tblEmpresa)
+        public async Task<IActionResult> Edit(int id, [Bind("IdTiposEnvio,TiposEnvioDesc,IdEstatusRegistro")] CatTipoEnvio catTipoEnvio)
         {
-            if (id != tblEmpresa.IdEmpresa)
+            if (id != catTipoEnvio.IdTiposEnvio)
             {
                 return NotFound();
             }
@@ -138,18 +131,17 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
-                    tblEmpresa.FechaRegistro = DateTime.Now;
-                    tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
-                    var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresa.Colonia).FirstOrDefault();
-                    tblEmpresa.Colonia = strColonia.d_asenta.ToString().ToUpper();
-                    tblEmpresa.IdColonia = strColonia.id_asenta_cpcons;
+                    catTipoEnvio.FechaRegistro = DateTime.Now;
+                    catTipoEnvio.TiposEnvioDesc = catTipoEnvio.TiposEnvioDesc.ToString().ToUpper();
+                    catTipoEnvio.IdEstatusRegistro = catTipoEnvio.IdEstatusRegistro;
                     _context.SaveChanges();
-                    _context.Update(tblEmpresa);
+                    _context.Update(catTipoEnvio);
                     await _context.SaveChangesAsync();
+                    _notyf.Success("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblEmpresaExists(tblEmpresa.IdEmpresa))
+                    if (!CatTipoEnvioExists(catTipoEnvio.IdTiposEnvio))
                     {
                         return NotFound();
                     }
@@ -160,43 +152,43 @@ namespace WebAdminHecsa.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tblEmpresa);
+            return View(catTipoEnvio);
         }
 
-        // GET: TblEmpresas/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        // GET: CatTipoEnvios/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tblEmpresa = await _context.TblEmpresa
-                .FirstOrDefaultAsync(m => m.IdEmpresa == id);
-            if (tblEmpresa == null)
+            var catTipoEnvio = await _context.CatTipoEnvio
+                .FirstOrDefaultAsync(m => m.IdTiposEnvio == id);
+            if (catTipoEnvio == null)
             {
                 return NotFound();
             }
 
-            return View(tblEmpresa);
+            return View(catTipoEnvio);
         }
 
-        // POST: TblEmpresas/Delete/5
+        // POST: CatTipoEnvios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tblEmpresa = await _context.TblEmpresa.FindAsync(id);
-            tblEmpresa.IdEstatusRegistro = 2;
+            var catTipoEnvio = await _context.CatTipoEnvio.FindAsync(id);
+            catTipoEnvio.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
             _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TblEmpresaExists(Guid id)
+        private bool CatTipoEnvioExists(int id)
         {
-            return _context.TblEmpresa.Any(e => e.IdEmpresa == id);
+            return _context.CatTipoEnvio.Any(e => e.IdTiposEnvio == id);
         }
     }
 }
