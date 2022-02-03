@@ -46,18 +46,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Resumen
                         </a>
-                        <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Documentos
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Ordenes de Compra</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Cotizaciones</a>
-                            </nav>
-                        </div>
+                        <div class="sb-sidenav-menu-heading">Datos Iniciales</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Información
@@ -77,30 +66,87 @@
                                         <a class="nav-link" asp-area="" asp-controller="CatPerfils" asp-action="Index">Perfiles</a>
                                         <a class="nav-link" asp-area="" asp-controller="CatDivisas" asp-action="Index">Divisas</a>
                                         <a class="nav-link" asp-area="" asp-controller="CatTipoDireccions" asp-action="Index">Tipos Direcciones</a>
+                                        <a class="nav-link" asp-area="" asp-controller="CatTipoDireccions" asp-action="Index">Tipos Envíos</a>
                                     </nav>
                                 </div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                    Error
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="401.html">401 Page</a>
-                                        <a class="nav-link" href="404.html">404 Page</a>
-                                        <a class="nav-link" href="500.html">500 Page</a>
-                                    </nav>
-                                </div>
+
+
                             </nav>
                         </div>
-                        <div class="sb-sidenav-menu-heading">Extras</div>
-                        <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Test1
+                        <div class="sb-sidenav-menu-heading">Datos Complementarios</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesEmpresa" aria-expanded="false" aria-controls="pagesCollapseError">
+                            <div class="sb-nav-link-icon"><i class="fas fa-city"></i></div>
+                            Empresa
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Test2
+                        <div class="collapse" id="pagesEmpresa" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="401.html">General</a>
+                                <a class="nav-link" href="404.html">Fiscales</a>
+                                <a class="nav-link" href="404.html">Áreas</a>
+                                <a class="nav-link" href="404.html">Usuarios</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesProveedores" aria-expanded="false" aria-controls="pagesCollapseError">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck-loading"></i></div>
+                            Proveedores
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+                        <div class="collapse" id="pagesProveedores" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="401.html">General</a>
+                                <a class="nav-link" href="401.html">Domicilios</a>
+                                <a class="nav-link" href="404.html">Contactos</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesProductos" aria-expanded="false" aria-controls="pagesCollapseError">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
+                            Productos
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesProductos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="401.html">Marcas</a>
+                                <a class="nav-link" href="404.html">Categorias</a>
+                                <a class="nav-link" href="404.html">Productos</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesClientes" aria-expanded="false" aria-controls="pagesCollapseError">
+                           <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
+                            Clientes
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesClientes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="401.html">General</a>
+                                <a class="nav-link" href="401.html">Domicilios</a>
+                                <a class="nav-link" href="404.html">Contactos</a>
+                            </nav>
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Datos Finales</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesDocumentos" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
+                            Documentos
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesDocumentos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="layout-static.html">Ordenes de Compra</a>
+                                <a class="nav-link" href="layout-sidenav-light.html">Cotizaciones</a>
+                            </nav>
+                        </div>
+                            <div class="sb-sidenav-menu-heading">Datos Control</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesInvetarios" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
+                            Inventario
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesInvetarios" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="layout-static.html">Entradas</a>
+                                <a class="nav-link" href="layout-sidenav-light.html">Salidas</a>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
