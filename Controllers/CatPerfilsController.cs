@@ -1,11 +1,10 @@
-﻿using System;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
 using WebAdminHecsa.Models;
 
@@ -68,13 +67,13 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPerfil,PerfilDesco")] CatPerfil catPerfil)
+        public async Task<IActionResult> Create([Bind("IdPerfil,PerfilDesc")] CatPerfil catPerfil)
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatDivisa
-                       .Where(s => s.DivisaDesc == catPerfil.PerfilDesc && s.DivisaDesc == catPerfil.PerfilDesc)
-                       .ToList();
+                var DuplicadosEstatus = _context.CatPerfile
+                        .Where(s => s.PerfilDesc == catPerfil.PerfilDesc)
+                        .ToList();
 
                 if (DuplicadosEstatus.Count == 0)
                 {
@@ -94,7 +93,6 @@ namespace WebAdminHecsa.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
             return View(catPerfil);
         }
 
@@ -104,7 +102,6 @@ namespace WebAdminHecsa.Controllers
             List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
             ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
             ViewBag.ListaCatEstatus = ListaCatEstatus;
-
             if (id == null)
             {
                 return NotFound();
@@ -185,6 +182,7 @@ namespace WebAdminHecsa.Controllers
             catPerfil.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

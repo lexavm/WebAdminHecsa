@@ -12,7 +12,7 @@ using WebAdminHecsa.Data;
 namespace WebAdminHecsa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220202233118_m01")]
+    [Migration("20220203024925_m01")]
     partial class m01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

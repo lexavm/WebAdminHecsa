@@ -10,7 +10,7 @@
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
         <li class="breadcrumb-item">Perfil</li>
-        <li class="breadcrumb-item">Control de Estatus</li>
+        <li class="breadcrumb-item">Control de Perfil</li>
         <li class="breadcrumb-item active" aria-current="page">Editar Perfil</li>
     </ol>
 </nav>
@@ -19,10 +19,10 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdPerfil" id="IdEstatus" />
+            <input style="text-transform:uppercase" type="hidden" asp-for="IdPerfil" id="IdEstatus" />
             <div class="form-group">
                 <label asp-for="PerfilDesc" class="control-label"></label>
-                <input asp-for="PerfilDesc" class="form-control" />
+                <input style="text-transform:uppercase" asp-for="PerfilDesc" class="form-control" />
                 <span asp-validation-for="PerfilDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,7 +34,7 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <input style="text-transform:uppercase" type="submit" value="Guardar" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">Regresar</a>
             </div>
         </form>

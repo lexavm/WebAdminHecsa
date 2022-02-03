@@ -1,11 +1,10 @@
-﻿using System;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
 using WebAdminHecsa.Models;
 
@@ -68,12 +67,30 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdTipoDireccion,TipoDireccionDesc,FechaRegistro,IdEstatusRegistro")] CatTipoDireccion catTipoDireccion)
+        public async Task<IActionResult> Create([Bind("IdTipoDireccion,TipoDireccionDesc")] CatTipoDireccion catTipoDireccion)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(catTipoDireccion);
-                await _context.SaveChangesAsync();
+                var DuplicadosEstatus = _context.CatTipoDireccion
+                         .Where(s => s.TipoDireccionDesc == catTipoDireccion.TipoDireccionDesc)
+                         .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    catTipoDireccion.FechaRegistro = DateTime.Now;
+                    catTipoDireccion.TipoDireccionDesc = catTipoDireccion.TipoDireccionDesc.ToString().ToUpper();
+                    catTipoDireccion.IdEstatusRegistro = 1;
+                    _context.SaveChanges();
+
+                    _context.Add(catTipoDireccion);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro guardado con éxito", 5);
+                }
+                else
+                {
+                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
+                    _notyf.Warning("Favor de validar, existe una Estatus con el mismo nombre", 5);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(catTipoDireccion);
@@ -82,6 +99,9 @@ namespace WebAdminHecsa.Controllers
         // GET: CatTipoDireccions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaCatEstatus = ListaCatEstatus;
             if (id == null)
             {
                 return NotFound();
@@ -100,7 +120,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdTipoDireccion,TipoDireccionDesc,FechaRegistro,IdEstatusRegistro")] CatTipoDireccion catTipoDireccion)
+        public async Task<IActionResult> Edit(int id, [Bind("IdTipoDireccion,TipoDireccionDesc,IdEstatusRegistro")] CatTipoDireccion catTipoDireccion)
         {
             if (id != catTipoDireccion.IdTipoDireccion)
             {
@@ -111,8 +131,13 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    catTipoDireccion.FechaRegistro = DateTime.Now;
+                    catTipoDireccion.TipoDireccionDesc = catTipoDireccion.TipoDireccionDesc.ToString().ToUpper();
+                    catTipoDireccion.IdEstatusRegistro = catTipoDireccion.IdEstatusRegistro;
+                    _context.SaveChanges();
                     _context.Update(catTipoDireccion);
                     await _context.SaveChangesAsync();
+                    _notyf.Success("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,8 +179,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var catTipoDireccion = await _context.CatTipoDireccion.FindAsync(id);
-            _context.CatTipoDireccion.Remove(catTipoDireccion);
+            catTipoDireccion.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

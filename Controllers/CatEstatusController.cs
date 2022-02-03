@@ -1,11 +1,10 @@
-﻿using System;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
 using WebAdminHecsa.Models;
 
@@ -73,7 +72,7 @@ namespace WebAdminHecsa.Controllers
             if (ModelState.IsValid)
             {
                 var DuplicadosEstatus = _context.CatEstatus
-                       .Where(s => s.EstatusDesc == catEstatus.EstatusDesc && s.EstatusDesc == catEstatus.EstatusDesc)
+                       .Where(s => s.EstatusDesc == catEstatus.EstatusDesc)
                        .ToList();
 
                 if (DuplicadosEstatus.Count == 0)

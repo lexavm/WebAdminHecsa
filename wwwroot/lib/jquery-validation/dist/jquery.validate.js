@@ -76,7 +76,7 @@ $.extend( $.fn, {
 					//   - There was a pending request due to `remote` method and `stopRequest()`
 					//     was called to submit the form in case it's valid
 					if ( validator.submitButton && ( validator.settings.submitHandler || validator.formSubmitted ) ) {
-						hidden = $( "<input type='hidden'/>" )
+						hidden = $( "<input style="text-transform:uppercase" type='hidden'/>" )
 							.attr( "name", validator.submitButton.name )
 							.val( $( validator.submitButton ).val() )
 							.appendTo( validator.currentForm );
@@ -1211,7 +1211,7 @@ $.extend( $.validator, {
 
 		for ( method in $.validator.methods ) {
 
-			// Support for <input required> in both html5 and older browsers
+			// Support for <input style="text-transform:uppercase" required> in both html5 and older browsers
 			if ( method === "required" ) {
 				value = element.getAttribute( method );
 
