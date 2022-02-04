@@ -29,11 +29,33 @@ namespace WebAdminHecsa.Controllers
 
             if (ValidaEstatus.Count == 2)
             {
-                ViewBag.EstatusFlag = 1;
+                ViewBag.EstatusFlag = true;
+                var ValidaEmpresa = _context.TblEmpresa.ToList();
+
+                if (ValidaEmpresa.Count == 1)
+                {
+                    ViewBag.EmpresaFlag = true;
+                    var ValidaMarca = _context.CatMarca.ToList();
+
+                    if (ValidaMarca.Count > 1)
+                    {
+                        ViewBag.MarcaFlag = true;
+                    }
+                    else
+                    {
+                        ViewBag.MarcaFlag = false;
+                        _notyf.Warning("Favor de registrar los datos de la Marca para la Aplicación", 5);
+                    }
+                }
+                else
+                {
+                    ViewBag.EmpresaFlag = false;
+                    _notyf.Warning("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                }
             }
             else
             {
-                ViewBag.EstatusFlag = 0;
+                ViewBag.UserFlag = false;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.CatCategoria.ToListAsync());

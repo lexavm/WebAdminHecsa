@@ -13,55 +13,55 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.NombreClienteContacto)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.CorreoElectronico)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdCliente)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.NombreCliente)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdEstatusRegistro)
             </th>
-            <th></th>
+             <td style="text-align:center"></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.NombreClienteContacto)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.CorreoElectronico)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.IdCliente)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.NombreCliente)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.FechaRegistro)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
             </td>
-            <td>
+            <td style="text-align:center">
                 <a asp-action="Edit" asp-route-id="@item.IdClienteContacto">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IdClienteContacto">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IdClienteContacto">Delete</a>

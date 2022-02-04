@@ -8,7 +8,6 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
-        <li class="breadcrumb-item">Catálogos</li>
         <li class="breadcrumb-item">Empresa</li>
         <li class="breadcrumb-item">Control de Empresa</li>
         <li class="breadcrumb-item active" aria-current="page">Crear Empresa</li>
@@ -19,6 +18,7 @@
 <div class="row">
     <form asp-action="Create">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="IdColonia" />
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
@@ -59,28 +59,30 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label asp-for="Colonia" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Colonia" class="form-control" />
+                     <select id="drpColonias" class="form-select" asp-for="Colonia" >
+                        <option value="">SELECCIONAR</option>
+                    </select>
                     <span asp-validation-for="Colonia" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="LocalidadMunicipio" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="LocalidadMunicipio" class="form-control" />
+                    <input id="idLocalidadMunicipio" style="text-transform:uppercase" asp-for="LocalidadMunicipio" class="form-control"  readonly="readonly" />
                     <span asp-validation-for="LocalidadMunicipio" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label asp-for="Ciudad" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Ciudad" class="form-control" />
+                    <input id="idCiudad" style="text-transform:uppercase" asp-for="Ciudad" class="form-control" readonly="readonly" />
                     <span asp-validation-for="Ciudad" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="Estado" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Estado" class="form-control" />
+                    <input id="idEstados" style="text-transform:uppercase" asp-for="Estado" class="form-control"  readonly="readonly" />
                     <span asp-validation-for="Estado" class="text-danger"></span>
                 </div>
             </div>
@@ -89,7 +91,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="CorreoElectronico" class="control-label"></label>
-                    <input id="iCorreoElectronico" asp-for="CorreoElectronico" class="form-control" type="email" oninput="checkPasscode();"  />
+                    <input id="iCorreoElectronico" asp-for="CorreoElectronico" class="form-control" type="email"   />
                     <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
                 </div>
             </div>
@@ -115,6 +117,10 @@
 
         <script type="text/javascript">
 
+            $(document).ready(function () {
+              
+            });
+
             function filtro_cp() {
 
                 var valor_cp = document.getElementById("iCodigoPostal").value;
@@ -130,15 +136,17 @@
                         $("#drpColonias").empty();
 
                         if (list.length == 0) {
-                            $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                            $select_colonias.append('<option value="">SELECCIONAR</option>');
+                            $select_colonias.attr('required', false);
                             document.getElementById("idLocalidadMunicipio").value = null;
                             document.getElementById("idCiudad").value = null;
                             document.getElementById("idEstados").value = null;
                         }
                         else {
-                            $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                            $select_colonias.append('<option value="">SELECCIONAR</option>');
                             for (var i = 0, len = list.length; i < len; i++) {
                                 $select_colonias.append('<option value=' + list[i].id_asenta_cpcons + '>' + list[i].d_asenta + '</option>');
+                                $select_colonias.attr('required', true);
                                 document.getElementById("idLocalidadMunicipio").value = list[i].d_mnpio;
                                 document.getElementById("idCiudad").value = list[i].d_ciudad;
                                 document.getElementById("idEstados").value = list[i].d_estado;
@@ -149,7 +157,34 @@
                         alert("Error!!")
                     }
                 });
+            }
+            function filtro_colonias() {
 
+                var valor_col = document.getElementById("idColonia").value;
+                var $select_colonias = $('#drpColonias');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/CatCodigosPostales/FiltroColonia/",
+                    data: { id: valor_col },
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (list) {
+
+                        if (list.length == 0) {
+                            $select_colonias.append('<option value="">SELECCIONAR</option>');
+                        }
+                        else {
+
+                            for (var i = 0, len = list.length; i < len; i++) {
+                                $select_colonias.append('<option value=' + list[i].id_asenta_cpcons + '>' + list[i].d_asenta + '</option>');
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert("Error!!")
+                    }
+                });
             }
 
         </script>

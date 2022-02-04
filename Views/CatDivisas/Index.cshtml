@@ -19,35 +19,39 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.DivisaDesc)
             </th>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdEstatusRegistro)
             </th>
-            <th></th>
+            <th style="text-align:center">Acciones</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                 <td style="text-align:center">
                     @Html.DisplayFor(modelItem => item.DivisaDesc)
                 </td>
-                <td>
+                 <td style="text-align:center">
                     @Html.DisplayFor(modelItem => item.FechaRegistro)
                 </td>
-                <td>
-                    <span style="font-size: 1em; color: green;">
-                        <i class="fas fa-check"></i>
-                    </span>
-                    @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
+                 <td style="text-align:center">
+                         @if (item.IdEstatusRegistro == 1)
+                    {
+                        <i class="fas fa-check"style="font-size: 1em; color: green;"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-times" style="font-size: 1em; color: red;"></i>
+                    }
                 </td>
-                <td>
+                 <td style="text-align:center">
                     <a asp-action="Edit" asp-route-id="@item.IdDivisa" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
                     <a asp-action="Details" asp-route-id="@item.IdDivisa" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
                     <a asp-action="Delete" asp-route-id="@item.IdDivisa" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>

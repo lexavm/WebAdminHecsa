@@ -1,15 +1,21 @@
 ﻿@model WebAdminHecsa.Models.TblEmpresaFiscales
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Fiscales";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">HECSA</li>
+    <li class="breadcrumb-item">Información</li>
+    <li class="breadcrumb-item">Empresa</li>
+    <li class="breadcrumb-item">Control de Empresa</li>
+    <li class="breadcrumb-item active" aria-current="page">Detalles Fiscales</li>
+  </ol>
+</nav>
+<hr />
 <div>
-    <h4>TblEmpresaFiscales</h4>
-    <hr />
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NombreFiscal)

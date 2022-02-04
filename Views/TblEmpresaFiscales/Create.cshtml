@@ -1,104 +1,168 @@
 ﻿@model WebAdminHecsa.Models.TblEmpresaFiscales
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Fiscales";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>TblEmpresaFiscales</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Empresa</li>
+        <li class="breadcrumb-item">Control de Empresa</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Empresa</li>
+    </ol>
+</nav>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="NombreFiscal" class="control-label"></label>
                 <input style="text-transform:uppercase" asp-for="NombreFiscal" class="form-control" />
                 <span asp-validation-for="NombreFiscal" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RFC" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="RFC" class="form-control" />
-                <span asp-validation-for="RFC" class="text-danger"></span>
-            </div>
+
+        </div>
+
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="RegimenFiscal" class="control-label"></label>
                 <input style="text-transform:uppercase" asp-for="RegimenFiscal" class="form-control" />
                 <span asp-validation-for="RegimenFiscal" class="text-danger"></span>
             </div>
+
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="RFC" class="control-label"></label>
+                <input style="text-transform:uppercase" asp-for="RFC" class="form-control" />
+                <span asp-validation-for="RFC" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="Calle" class="control-label"></label>
                 <input style="text-transform:uppercase" asp-for="Calle" class="form-control" />
                 <span asp-validation-for="Calle" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CodigoPostal" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="CodigoPostal" class="form-control" />
-                <span asp-validation-for="CodigoPostal" class="text-danger"></span>
+        </div>
+    </div>
+
+       <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="CodigoPostal" class="control-label"></label>
+                    <div class="input-group mb-3">
+                        <input type="number" asp-for="CodigoPostal" class="form-control" id="iCodigoPostal" aria-label="CodigoPostal" aria-describedby="basic-addon2"  pattern="[0-9]" title="Solo números. Tamaño mínimo: 6">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="filtro_cp()">Buscar</button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CodigoPostal" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="IdColonia" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdColonia" class="form-control" />
-                <span asp-validation-for="IdColonia" class="text-danger"></span>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Colonia" class="control-label"></label>
+                     <select id="drpColonias" class="form-select" asp-for="Colonia" >
+                        <option value="">SELECCIONAR</option>
+                    </select>
+                    <span asp-validation-for="Colonia" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Colonia" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Colonia" class="form-control" />
-                <span asp-validation-for="Colonia" class="text-danger"></span>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="LocalidadMunicipio" class="control-label"></label>
+                    <input id="idLocalidadMunicipio" style="text-transform:uppercase" asp-for="LocalidadMunicipio" class="form-control" type="text" disabled="disabled" />
+                    <span asp-validation-for="LocalidadMunicipio" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LocalidadMunicipio" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="LocalidadMunicipio" class="form-control" />
-                <span asp-validation-for="LocalidadMunicipio" class="text-danger"></span>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Ciudad" class="control-label"></label>
+                    <input id="idCiudad" style="text-transform:uppercase" asp-for="Ciudad" class="form-control" type="text" disabled="disabled" />
+                    <span asp-validation-for="Ciudad" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Ciudad" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Ciudad" class="form-control" />
-                <span asp-validation-for="Ciudad" class="text-danger"></span>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Estado" class="control-label"></label>
+                    <input id="idEstados" style="text-transform:uppercase" asp-for="Estado" class="form-control" type="text" disabled="disabled" />
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
+        </div>
+    <div class="row">
+
+     
+        <div class="col-md-2">
+
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
+                <input asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IdEmpresa" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdEmpresa" class="form-control" />
-                <span asp-validation-for="IdEmpresa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreEmpresa" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="NombreEmpresa" class="form-control" />
-                <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdEstatusRegistro" class="form-control" />
-                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input style="text-transform:uppercase" type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Crear" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </div>
+    <label id="lbl_estatus" class="control-label"></label>
+</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script type="text/javascript">
+
+            function filtro_cp() {
+
+                var valor_cp = document.getElementById("iCodigoPostal").value;
+
+                $.ajax({
+                    type: "GET",
+                    url: "/CatCodigosPostales/FiltroCodigosPostales/",
+                    data: { id: valor_cp },
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (list) {
+                        var $select_colonias = $('#drpColonias');
+                        $("#drpColonias").empty();
+
+                        if (list.length == 0) {
+                            $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                            document.getElementById("idLocalidadMunicipio").value = null;
+                            document.getElementById("idCiudad").value = null;
+                            document.getElementById("idEstados").value = null;
+                        }
+                        else {
+                            $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                            for (var i = 0, len = list.length; i < len; i++) {
+                                $select_colonias.append('<option value=' + list[i].id_asenta_cpcons + '>' + list[i].d_asenta + '</option>');
+                                document.getElementById("idLocalidadMunicipio").value = list[i].d_mnpio;
+                                document.getElementById("idCiudad").value = list[i].d_ciudad;
+                                document.getElementById("idEstados").value = list[i].d_estado;
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert("Error!!")
+                    }
+                });
+
+            }
+
+        </script>
+
+    }
 }

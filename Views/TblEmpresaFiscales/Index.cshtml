@@ -1,120 +1,110 @@
 ﻿@model IEnumerable<WebAdminHecsa.Models.TblEmpresaFiscales>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Crear Fiscales";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Empresa</li>
+        <li class="breadcrumb-item">Control de Fiscales</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Fiscales</li>
+    </ol>
+</nav>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a id="iNuevo" type="submit" class="btn btn-outline-primary" asp-action="Create" value="Nuevo" title="Nuevo"><i class="fas fa-plus"></i> Nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.NombreFiscal)
             </th>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.RFC)
             </th>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.RegimenFiscal)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Calle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoPostal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdColonia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Colonia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LocalidadMunicipio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ciudad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEmpresa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreEmpresa)
-            </th>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdEstatusRegistro)
             </th>
-            <th></th>
+            <th style="text-align:center">Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreFiscal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RFC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegimenFiscal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Calle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoPostal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdColonia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Colonia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalidadMunicipio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ciudad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEmpresa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreEmpresa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdEmpresaFiscales">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdEmpresaFiscales">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdEmpresaFiscales">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.NombreFiscal)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.RFC)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.RegimenFiscal)
+                </td>
+              
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+              
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                </td>
+                <td style="text-align:center">
+                    @if (item.IdEstatusRegistro == 1)
+                    {
+                        <i class="fas fa-check" style="font-size: 1em; color: green;"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-times" style="font-size: 1em; color: red;"></i>
+                    }
+                </td>
+                <td style="text-align:center">
+                    <a asp-action="Edit" asp-route-id="@item.IdEmpresaFiscales" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.IdEmpresaFiscales" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdEmpresaFiscales" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script type="text/javascript">
+          $(document).ready(function() {
+              var vEstatusFlag = '@ViewBag.EstatusFlag'
+              var vEmpresaFlag = '@ViewBag.EmpresaFlag'
+
+              if (vEstatusFlag == 0) {
+       document.getElementById("iNuevo").style.visibility="hidden";
+    }
+
+    else {
+        if (vEmpresaFlag == 0)
+    {
+        document.getElementById("iNuevo").style.visibility="hidden";
+    }
+    else
+    {
+       document.getElementById("iNuevo").style.visibility="visible";
+    }
+
+    }
+          });
+
+</script>
+}

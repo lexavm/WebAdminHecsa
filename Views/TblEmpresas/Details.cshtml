@@ -1,15 +1,20 @@
 ﻿@model WebAdminHecsa.Models.TblEmpresa
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Empresa";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">HECSA</li>
+    <li class="breadcrumb-item">Información</li>
+    <li class="breadcrumb-item">Empresa</li>
+    <li class="breadcrumb-item">Control de Empresa</li>
+    <li class="breadcrumb-item active" aria-current="page">Detalles Empresa</li>
+  </ol>
+</nav>
+<hr />
 <div>
-    <h4>TblEmpresa</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NombreEmpresa)
@@ -17,12 +22,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NombreEmpresa)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RFC)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RFC)
-        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.GiroComercial)
         </dt>
@@ -41,12 +41,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CodigoPostal)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdColonia)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdColonia)
-        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Colonia)
         </dt>
@@ -97,7 +92,6 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdEmpresa">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+   <div class="form-group">
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </div>

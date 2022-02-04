@@ -28,11 +28,11 @@ namespace WebAdminHecsa.Controllers
 
             if (ValidaEstatus.Count == 2)
             {
-                ViewBag.EstatusFlag = true;
+                ViewBag.EstatusFlag = 1;
             }
             else
             {
-                ViewBag.EstatusFlag = false;
+                ViewBag.EstatusFlag = 0;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.TblEmpresa.ToListAsync());
@@ -77,11 +77,29 @@ namespace WebAdminHecsa.Controllers
 
                 if (DuplicadosEstatus.Count == 0)
                 {
-                    tblEmpresa.FechaRegistro = DateTime.Now;
-                    tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
-                    tblEmpresa.IdEstatusRegistro = 1;
-                    _context.SaveChanges();
 
+                    if (tblEmpresa.Colonia == null)
+                    {
+                        tblEmpresa.FechaRegistro = DateTime.Now;
+                        tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
+                        tblEmpresa.GiroComercial = tblEmpresa.GiroComercial.ToString().ToUpper();
+                        tblEmpresa.IdEstatusRegistro = 1;
+                    }
+                    else
+                    {
+                        tblEmpresa.FechaRegistro = DateTime.Now;
+                        tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
+                        tblEmpresa.GiroComercial = tblEmpresa.GiroComercial.ToString().ToUpper();
+                        tblEmpresa.IdEstatusRegistro = 1;
+                        var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresa.Colonia).FirstOrDefault();
+                        tblEmpresa.IdColonia = tblEmpresa.Colonia;
+                        tblEmpresa.Colonia = strColonia.d_asenta.ToString().ToUpper();
+                        tblEmpresa.Calle = tblEmpresa.Calle.ToString().ToUpper();
+                        tblEmpresa.LocalidadMunicipio = tblEmpresa.LocalidadMunicipio.ToString().ToUpper();
+                        tblEmpresa.Ciudad = tblEmpresa.Ciudad.ToString().ToUpper();
+                        tblEmpresa.Estado = tblEmpresa.Estado.ToString().ToUpper();
+                    }
+                    _context.SaveChanges();
                     _context.Add(tblEmpresa);
                     await _context.SaveChangesAsync();
                     _notyf.Success("Registro guardado con éxito", 5);
@@ -140,9 +158,15 @@ namespace WebAdminHecsa.Controllers
                 {
                     tblEmpresa.FechaRegistro = DateTime.Now;
                     tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
+                  
+                    tblEmpresa.IdEstatusRegistro = 1;
                     var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresa.Colonia).FirstOrDefault();
+                    tblEmpresa.IdColonia = tblEmpresa.Colonia;
                     tblEmpresa.Colonia = strColonia.d_asenta.ToString().ToUpper();
-                    tblEmpresa.IdColonia = strColonia.id_asenta_cpcons;
+                    tblEmpresa.Calle = tblEmpresa.Calle.ToString().ToUpper();
+                    tblEmpresa.LocalidadMunicipio = tblEmpresa.LocalidadMunicipio.ToString().ToUpper();
+                    tblEmpresa.Ciudad = tblEmpresa.Ciudad.ToString().ToUpper();
+                    tblEmpresa.Estado = tblEmpresa.Estado.ToString().ToUpper();
                     _context.SaveChanges();
                     _context.Update(tblEmpresa);
                     await _context.SaveChangesAsync();

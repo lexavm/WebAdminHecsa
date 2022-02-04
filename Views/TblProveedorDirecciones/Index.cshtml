@@ -13,97 +13,97 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdTipoDireccion)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.TipoDireccionDesc)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.Calle)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.CodigoPostal)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdColonia)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.Colonia)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.LocalidadMunicipio)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.Ciudad)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdProveedor)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.NombreProveedor)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
-            <th>
+             <td style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdEstatusRegistro)
             </th>
-            <th></th>
+             <td style="text-align:center"></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.IdTipoDireccion)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.TipoDireccionDesc)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.Calle)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.CodigoPostal)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.IdColonia)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.Colonia)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.LocalidadMunicipio)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.Ciudad)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.IdProveedor)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.NombreProveedor)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.FechaRegistro)
             </td>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
             </td>
-            <td>
+            <td style="text-align:center">
                 <a asp-action="Edit" asp-route-id="@item.IdProveedorDirecciones">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IdProveedorDirecciones">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IdProveedorDirecciones">Delete</a>

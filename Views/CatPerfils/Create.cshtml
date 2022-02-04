@@ -1,13 +1,19 @@
 ﻿@model WebAdminHecsa.Models.CatPerfil
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Perfiles";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>CatPerfil</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Perfiles</li>
+        <li class="breadcrumb-item">Control de Perfiles</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Perfiles</li>
+    </ol>
+</nav>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,18 +24,14 @@
                 <input style="text-transform:uppercase" asp-for="PerfilDesc" class="form-control" />
                 <span asp-validation-for="PerfilDesc" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+              <br>
+          <div class="form-group">
+                <input style="text-transform:uppercase" type="submit" value="Crear" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Regresar</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
