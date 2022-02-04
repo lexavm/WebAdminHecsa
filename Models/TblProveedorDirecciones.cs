@@ -14,13 +14,15 @@ namespace WebAdminHecsa.Models
         [Display(Name = "ID Tipo Direccion")]
         public int IdTipoDireccion { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido")]
+        
         [Display(Name = "Tipo Direccion")]
         public string TipoDireccionDesc { get; set; }
 
+        [Required(ErrorMessage = "Campo Requerido")]
         [Display(Name = "Calle")]
         public string Calle { get; set; }
 
+        [Required(ErrorMessage = "Campo Requerido")]
         [Display(Name = "Codigo Postal")]
         public string CodigoPostal { get; set; }
 
@@ -30,7 +32,7 @@ namespace WebAdminHecsa.Models
         [Display(Name = "Colonia")]
         public string Colonia { get; set; }
 
-        [Display(Name = "LocalidadMunicipio")]
+        [Display(Name = "Localidad / Municipio")]
         public string LocalidadMunicipio { get; set; }
 
         [Display(Name = "Ciudad")]
@@ -39,10 +41,9 @@ namespace WebAdminHecsa.Models
         [Display(Name = "Estado")]
         public string Estado { get; set; }
 
-        [Display(Name = "Telefono")]
+        [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
-
         [Required(ErrorMessage = "Campo Requerido")]
         public Guid IdProveedor { get; set; }
 

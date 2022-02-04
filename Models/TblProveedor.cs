@@ -10,7 +10,7 @@ namespace WebAdminHecsa.Models
         public Guid IdProveedor { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Nombre")]
+        [Display(Name = "Nombre Proveedor")]
         public string NombreProveedor { get; set; }
 
         [Display(Name = "RFC")]
@@ -20,16 +20,15 @@ namespace WebAdminHecsa.Models
         public string GiroComercial { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Correo Electronico")]
+        [Display(Name = "Correo Electrónico")]
         [DataType(DataType.EmailAddress)]
         public string CorreoElectronico { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Telefono")]
+        [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido")]
         public Guid IdEmpresa { get; set; }
 
         [Display(Name = "NombreEmpresa")]

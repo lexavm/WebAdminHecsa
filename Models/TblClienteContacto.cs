@@ -14,16 +14,15 @@ namespace WebAdminHecsa.Models
         public string NombreClienteContacto { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Correo Electronico")]
+        [Display(Name = "Correo Electrónico")]
         [DataType(DataType.EmailAddress)]
         public string CorreoElectronico { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Telefono")]
+        [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido")]
         public Guid IdCliente { get; set; }
 
         [Display(Name = "Nombre Cliente")]

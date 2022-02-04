@@ -1,114 +1,115 @@
 ﻿@model IEnumerable<WebAdminHecsa.Models.TblProveedorDirecciones>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Crear Proveedores Direcciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Proveedores</li>
+        <li class="breadcrumb-item">Control Proveedores</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Proveedores Direcciones</li>
+    </ol>
+</nav>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a id="iNuevo" type="submit" class="btn btn-outline-primary" asp-action="Create" value="Nuevo" title="Nuevo"><i class="fas fa-plus"></i> Nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.IdTipoDireccion)
-            </th>
-             <td style="text-align:center">
+          
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.TipoDireccionDesc)
             </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.Calle)
-            </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.CodigoPostal)
-            </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.IdColonia)
-            </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.Colonia)
-            </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.LocalidadMunicipio)
-            </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.Ciudad)
-            </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-             <td style="text-align:center">
+
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
-             <td style="text-align:center">
-                @Html.DisplayNameFor(model => model.IdProveedor)
-            </th>
-             <td style="text-align:center">
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.NombreProveedor)
             </th>
-             <td style="text-align:center">
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
-             <td style="text-align:center">
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdEstatusRegistro)
             </th>
-             <td style="text-align:center"></th>
+            <th style="text-align:center">Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.IdTipoDireccion)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.TipoDireccionDesc)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.Calle)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.CodigoPostal)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.IdColonia)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.Colonia)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.LocalidadMunicipio)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.Ciudad)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.IdProveedor)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.NombreProveedor)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.FechaRegistro)
-            </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
-            </td>
-            <td style="text-align:center">
-                <a asp-action="Edit" asp-route-id="@item.IdProveedorDirecciones">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProveedorDirecciones">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProveedorDirecciones">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.TipoDireccionDesc)
+                </td>
+              
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.NombreProveedor)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                </td>
+                <td style="text-align:center">
+                    @if (item.IdEstatusRegistro == 1)
+                    {
+                        <i class="fas fa-check" style="font-size: 1em; color: green;"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-times" style="font-size: 1em; color: red;"></i>
+                    }
+                </td>
+                <td style="text-align:center">
+                    <a asp-action="Edit" asp-route-id="@item.IdProveedor" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.IdProveedor" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdProveedor" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script type="text/javascript">
+    $(document).ready(function() {
+            var vEstatusFlag = '@ViewBag.EstatusFlag'
+            var vEmpresaFlag = '@ViewBag.EmpresaFlag'
+            var vProveedorFlag = '@ViewBag.ProveedorFlag'
+
+          if (vEstatusFlag == 0)
+          {
+          document.getElementById("iNuevo").style.visibility="hidden";
+          }
+          else
+          {
+              if (vEmpresaFlag == 0)
+              {
+              document.getElementById("iNuevo").style.visibility="hidden";
+              }
+              else
+              {
+                  if (vProveedorFlag == 0)
+                  {
+                  document.getElementById("iNuevo").style.visibility="hidden";
+                  }
+                  else
+                  {
+                  document.getElementById("iNuevo").style.visibility="visible";
+                  }
+              }
+          }
+        });
+
+</script>
+}
+

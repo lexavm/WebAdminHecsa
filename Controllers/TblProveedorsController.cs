@@ -29,11 +29,22 @@ namespace WebAdminHecsa.Controllers
 
             if (ValidaEstatus.Count == 2)
             {
-                ViewBag.EstatusFlag = true;
+                ViewBag.EstatusFlag = 1;
+                var ValidaEmpresa = _context.TblEmpresa.ToList();
+
+                if (ValidaEmpresa.Count == 1)
+                {
+                    ViewBag.EmpresaFlag = 1;
+                }
+                else
+                {
+                    ViewBag.EmpresaFlag = 0;
+                    _notyf.Warning("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                }
             }
             else
             {
-                ViewBag.EstatusFlag = false;
+                ViewBag.EstatusFlag = 0;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.TblProveedor.ToListAsync());
@@ -68,13 +79,33 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProveedor,NombreProveedor,RFC,GiroComercial,CorreoElectronico,Telefono,IdEmpresa,NombreEmpresa,FechaRegistro,IdEstatusRegistro")] TblProveedor tblProveedor)
+        public async Task<IActionResult> Create([Bind("IdProveedor,NombreProveedor,RFC,GiroComercial,CorreoElectronico,Telefono")] TblProveedor tblProveedor)
         {
             if (ModelState.IsValid)
             {
-                tblProveedor.IdProveedor = Guid.NewGuid();
-                _context.Add(tblProveedor);
-                await _context.SaveChangesAsync();
+                var DuplicadosEstatus = _context.TblProveedor
+                                .Where(s => s.NombreProveedor == tblProveedor.NombreProveedor)
+                                .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    var idEmpresa = _context.TblEmpresa.FirstOrDefault();
+                    tblProveedor.FechaRegistro = DateTime.Now;
+                    tblProveedor.NombreProveedor = tblProveedor.NombreProveedor.ToString().ToUpper();
+                    tblProveedor.GiroComercial = !string.IsNullOrEmpty(tblProveedor.GiroComercial) ? tblProveedor.GiroComercial.ToUpper() : tblProveedor.GiroComercial;
+                    tblProveedor.RFC = !string.IsNullOrEmpty(tblProveedor.RFC) ? tblProveedor.RFC.ToUpper() : tblProveedor.RFC;
+                    tblProveedor.IdEstatusRegistro = 1;
+                    tblProveedor.IdEmpresa = idEmpresa.IdEmpresa;
+                    tblProveedor.NombreEmpresa = idEmpresa.NombreEmpresa;
+                    _context.SaveChanges();
+                    _context.Add(tblProveedor);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro guardado con éxito", 5);
+                }
+                else
+                {
+                    _notyf.Warning("Favor de validar, existe Proveedor con el mismo nombre y el mismo RFC", 5);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(tblProveedor);
@@ -83,6 +114,9 @@ namespace WebAdminHecsa.Controllers
         // GET: TblProveedors/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
             if (id == null)
             {
                 return NotFound();
@@ -101,7 +135,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdProveedor,NombreProveedor,RFC,GiroComercial,CorreoElectronico,Telefono,IdEmpresa,NombreEmpresa,FechaRegistro,IdEstatusRegistro")] TblProveedor tblProveedor)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdProveedor,NombreProveedor,RFC,GiroComercial,CorreoElectronico,Telefono,IdEstatusRegistro")] TblProveedor tblProveedor)
         {
             if (id != tblProveedor.IdProveedor)
             {
@@ -112,8 +146,17 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    var idEmpresa = _context.TblEmpresa.FirstOrDefault();
+                    tblProveedor.FechaRegistro = DateTime.Now;
+                    tblProveedor.NombreProveedor = tblProveedor.NombreEmpresa.ToString().ToUpper();
+                    tblProveedor.GiroComercial = !string.IsNullOrEmpty(tblProveedor.GiroComercial) ? tblProveedor.GiroComercial.ToUpper() : tblProveedor.GiroComercial;
+                    tblProveedor.RFC = !string.IsNullOrEmpty(tblProveedor.RFC) ? tblProveedor.RFC.ToUpper() : tblProveedor.RFC;
+                    tblProveedor.IdEstatusRegistro = 1;
+                    tblProveedor.IdEmpresa = idEmpresa.IdEmpresa;
+                    tblProveedor.NombreEmpresa = idEmpresa.NombreEmpresa;
                     _context.Update(tblProveedor);
                     await _context.SaveChangesAsync();
+                    _notyf.Success("Registro Actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -155,8 +198,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var tblProveedor = await _context.TblProveedor.FindAsync(id);
-            _context.TblProveedor.Remove(tblProveedor);
+            tblProveedor.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

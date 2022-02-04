@@ -12,7 +12,7 @@ using WebAdminHecsa.Data;
 namespace WebAdminHecsa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220203175428_m01")]
+    [Migration("20220204063157_m01")]
     partial class m01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -220,6 +220,30 @@ namespace WebAdminHecsa.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("WebAdminHecsa.Models.CatArea", b =>
+                {
+                    b.Property<int>("IdArea")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdArea"), 1L, 1);
+
+                    b.Property<string>("AreaDesc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaRegistro");
+
+                    b.Property<int>("IdEstatusRegistro")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdArea");
+
+                    b.ToTable("CatArea");
                 });
 
             modelBuilder.Entity("WebAdminHecsa.Models.CatCategoria", b =>
@@ -855,6 +879,7 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RFC")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegimenFiscal")
@@ -1009,14 +1034,47 @@ namespace WebAdminHecsa.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ApellidoMaterno")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaNacimiento");
+
                     b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2")
                         .HasColumnName("FechaRegistro");
 
+                    b.Property<int>("IdArea")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("IdEmpresa")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("IdEstatusRegistro")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdGenero")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPerfil")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NombreEmpresa")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NombreUsuario")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombres")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

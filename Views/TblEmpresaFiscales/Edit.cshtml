@@ -18,6 +18,7 @@
 <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="IdEmpresaFiscales" />
+    <input type="hidden" asp-for="IdEmpresa" />
     <input type="hidden" asp-for="IdColonia" />
 
     <div class="row">
@@ -51,81 +52,72 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="form-group">
-                <label asp-for="CodigoPostal" class="control-label"></label>
-                <div class="input-group mb-3">
-                    <input type="text" asp-for="CodigoPostal" class="form-control" id="iCodigoPostal" aria-label="CodigoPostal" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onclick="filtro_cp()">Buscar</button>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="CodigoPostal" class="control-label"></label>
+                    <div class="input-group mb-3">
+                        <input type="number" asp-for="CodigoPostal" class="form-control" id="iCodigoPostal" aria-label="CodigoPostal" aria-describedby="basic-addon2" pattern="[0-9]" title="Solo números. Tamaño mínimo: 6" >
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="filtro_cp()">Buscar</button>
+                        </div>
                     </div>
+                    <span asp-validation-for="CodigoPostal" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="CodigoPostal" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="Colonia" class="control-label"></label>
-                <select id="drpColonias" class="custom-select" asp-for="Colonia" onkeyup="this.value = this.value.toUpperCase();">
-                </select>
-                <span asp-validation-for="Colonia" class="text-danger"></span>
-
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="LocalidadMunicipio" class="control-label"></label>
-                <input id="idLocalidadMunicipio" asp-for="LocalidadMunicipio" class="form-control" onkeyup="this.value = this.value.toUpperCase();" />
-                <span asp-validation-for="LocalidadMunicipio" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label asp-for="Ciudad" class="control-label"></label>
-                <input id="idCiudad" asp-for="Ciudad" class="form-control" onkeyup="this.value = this.value.toUpperCase();" />
-                <span asp-validation-for="Ciudad" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input id="idEstados" asp-for="Estado" class="form-control" onkeyup="this.value = this.value.toUpperCase();" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row">
-       
-        <div class="col-md-2">
-
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
 
-        </div>
-        <div class="col-md-2">
-
-            <div class="form-group">
-
-                <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <select id="idEstatusLista" class="custom-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaEstatus,"IdEstatus","EstatusDesc"))">
-                    <option value="">Seleccionar Estatus</option>
-                </select>
-
-                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
+             <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Colonia" class="control-label"></label>
+                     <select id="drpColonias" class="form-select" asp-for="Colonia" >
+                        @*<option value="">Seleccionar Estatus</option>*@
+                    </select>
+                    <span asp-validation-for="Colonia" class="text-danger"></span>
+                </div>
             </div>
-
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="LocalidadMunicipio" class="control-label"></label>
+                    <input id="idLocalidadMunicipio" style="text-transform:uppercase" asp-for="LocalidadMunicipio" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="LocalidadMunicipio" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Ciudad" class="control-label"></label>
+                    <input id="idCiudad" style="text-transform:uppercase" asp-for="Ciudad" class="form-control"  readonly="readonly" />
+                    <span asp-validation-for="Ciudad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Estado" class="control-label"></label>
+                    <input id="idEstados" style="text-transform:uppercase" asp-for="Estado" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+            </div>
         </div>
-
-    </div>
-
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Telefono" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="IdEstatusRegistro" class="control-label"></label>
+                    <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaEstatus,"IdEstatus","EstatusDesc"))">
+                        <option value="">Seleccionar Estatus</option>
+                    </select>
+                    <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    <br />
     <div class="form-group">
-        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <input type="submit" value="Actualizar" class="btn btn-primary" />
         <a asp-action="Index" class="btn btn-secondary">Regresar</a>
     </div>
 </form>
@@ -157,13 +149,13 @@
                         $("#drpColonias").empty();
 
                         if (list.length == 0) {
-                            $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                            $select_colonias.append('<option value="">SELECCIONAR</option>');
                             document.getElementById("idLocalidadMunicipio").value = null;
                             document.getElementById("idCiudad").value = null;
                             document.getElementById("idEstados").value = null;
                         }
                         else {
-                            $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                            $select_colonias.append('<option value="">SELECCIONAR</option>');
                             for (var i = 0, len = list.length; i < len; i++) {
                                 $select_colonias.append('<option value=' + list[i].id_asenta_cpcons + '>' + list[i].d_asenta + '</option>');
                                 document.getElementById("idLocalidadMunicipio").value = list[i].d_mnpio;
@@ -179,19 +171,19 @@
             }
             function filtro_colonias() {
 
-                var valor_col = document.getElementById("idColonia").value;
+                var valor_col = document.getElementById("IdColonia").value;
                 var valor_cp = document.getElementById("iCodigoPostal").value;
                 $.ajax({
                     type: "GET",
                     url: "/CatCodigosPostales/FiltroColonia/",
-                    data: { id: valor_col, idC: valor_cp },
+                    data: { id: valor_cp, idC:valor_col  },
                     contentType: "application/json;charset=utf-8",
                     dataType: "json",
                     success: function (list) {
                         var $select_colonias = $('#drpColonias');
                         $("#drpColonias").empty();
                         if (list.length == 0) {
-                            $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                            $select_colonias.append('<option value="">SELECCIONAR</option>');
                         }
                         else {
 

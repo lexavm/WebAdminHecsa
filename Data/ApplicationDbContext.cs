@@ -32,5 +32,6 @@ namespace WebAdminHecsa.Data
         public DbSet<WebAdminHecsa.Models.TblUsuario> TblUsuario { get; set; }
         public DbSet<WebAdminHecsa.Models.TblClienteContacto> TblClienteContacto { get; set; }
         public DbSet<WebAdminHecsa.Models.TblClienteDirecciones> TblClienteDirecciones { get; set; }
+        public DbSet<WebAdminHecsa.Models.CatArea> CatArea { get; set; }
     }
 }

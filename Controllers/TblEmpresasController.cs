@@ -71,43 +71,39 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.TblEmpresa
-                       .Where(s => s.NombreEmpresa == tblEmpresa.NombreEmpresa)
-                       .ToList();
-
-                if (DuplicadosEstatus.Count == 0)
+                var vEmpresa = _context.TblEmpresa.ToList();
+                if (vEmpresa.Count == 0)
                 {
+                    var DuplicadosEstatus = _context.TblEmpresa
+                                         .Where(s => s.NombreEmpresa == tblEmpresa.NombreEmpresa)
+                                         .ToList();
 
-                    if (tblEmpresa.Colonia == null)
+                    if (DuplicadosEstatus.Count == 0)
                     {
                         tblEmpresa.FechaRegistro = DateTime.Now;
                         tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
-                        tblEmpresa.GiroComercial = tblEmpresa.GiroComercial.ToString().ToUpper();
+                        tblEmpresa.GiroComercial = !string.IsNullOrEmpty(tblEmpresa.GiroComercial) ? tblEmpresa.GiroComercial.ToUpper() : tblEmpresa.GiroComercial;
                         tblEmpresa.IdEstatusRegistro = 1;
+                        var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresa.Colonia).FirstOrDefault();
+                        tblEmpresa.IdColonia = !string.IsNullOrEmpty(tblEmpresa.Colonia) ? tblEmpresa.Colonia : tblEmpresa.Colonia;
+                        tblEmpresa.Colonia = !string.IsNullOrEmpty(tblEmpresa.Colonia) ? strColonia.d_asenta.ToUpper() : tblEmpresa.Colonia;
+                        tblEmpresa.Calle = !string.IsNullOrEmpty(tblEmpresa.Calle) ? tblEmpresa.Calle.ToUpper() : tblEmpresa.Calle;
+                        tblEmpresa.LocalidadMunicipio = !string.IsNullOrEmpty(tblEmpresa.LocalidadMunicipio) ? tblEmpresa.LocalidadMunicipio.ToUpper() : tblEmpresa.LocalidadMunicipio;
+                        tblEmpresa.Ciudad = !string.IsNullOrEmpty(tblEmpresa.Ciudad) ? tblEmpresa.Ciudad.ToUpper() : tblEmpresa.Ciudad;
+                        tblEmpresa.Estado = !string.IsNullOrEmpty(tblEmpresa.Estado) ? tblEmpresa.Estado.ToUpper() : tblEmpresa.Estado;
+                        _context.SaveChanges();
+                        _context.Add(tblEmpresa);
+                        await _context.SaveChangesAsync();
+                        _notyf.Success("Registro guardado con éxito", 5);
                     }
                     else
                     {
-                        tblEmpresa.FechaRegistro = DateTime.Now;
-                        tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
-                        tblEmpresa.GiroComercial = tblEmpresa.GiroComercial.ToString().ToUpper();
-                        tblEmpresa.IdEstatusRegistro = 1;
-                        var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresa.Colonia).FirstOrDefault();
-                        tblEmpresa.IdColonia = tblEmpresa.Colonia;
-                        tblEmpresa.Colonia = strColonia.d_asenta.ToString().ToUpper();
-                        tblEmpresa.Calle = tblEmpresa.Calle.ToString().ToUpper();
-                        tblEmpresa.LocalidadMunicipio = tblEmpresa.LocalidadMunicipio.ToString().ToUpper();
-                        tblEmpresa.Ciudad = tblEmpresa.Ciudad.ToString().ToUpper();
-                        tblEmpresa.Estado = tblEmpresa.Estado.ToString().ToUpper();
+                        _notyf.Warning("Favor de validar, existe una Estatus con el mismo nombre", 5);
                     }
-                    _context.SaveChanges();
-                    _context.Add(tblEmpresa);
-                    await _context.SaveChangesAsync();
-                    _notyf.Success("Registro guardado con éxito", 5);
                 }
                 else
                 {
-                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
-                    _notyf.Warning("Favor de validar, existe una Estatus con el mismo nombre", 5);
+                    _notyf.Error("Solo se permite crear 1 Empresa", 5);
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -121,12 +117,6 @@ namespace WebAdminHecsa.Controllers
             ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
             ViewBag.ListaEstatus = ListaCatEstatus;
 
-            var results = (from ta in _context.CatCodigosPostales
-                           select ta.d_estado).Distinct().ToList();
-
-            List<string> Estados = new List<string>();
-            Estados = results;
-            ViewBag.ListaEstados = Estados;
             if (id == null)
             {
                 return NotFound();
@@ -158,18 +148,19 @@ namespace WebAdminHecsa.Controllers
                 {
                     tblEmpresa.FechaRegistro = DateTime.Now;
                     tblEmpresa.NombreEmpresa = tblEmpresa.NombreEmpresa.ToString().ToUpper();
-                  
+                    tblEmpresa.GiroComercial = !string.IsNullOrEmpty(tblEmpresa.GiroComercial) ? tblEmpresa.GiroComercial.ToUpper() : tblEmpresa.GiroComercial;
                     tblEmpresa.IdEstatusRegistro = 1;
                     var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresa.Colonia).FirstOrDefault();
-                    tblEmpresa.IdColonia = tblEmpresa.Colonia;
-                    tblEmpresa.Colonia = strColonia.d_asenta.ToString().ToUpper();
-                    tblEmpresa.Calle = tblEmpresa.Calle.ToString().ToUpper();
-                    tblEmpresa.LocalidadMunicipio = tblEmpresa.LocalidadMunicipio.ToString().ToUpper();
-                    tblEmpresa.Ciudad = tblEmpresa.Ciudad.ToString().ToUpper();
-                    tblEmpresa.Estado = tblEmpresa.Estado.ToString().ToUpper();
+                    tblEmpresa.IdColonia = !string.IsNullOrEmpty(tblEmpresa.Colonia) ? tblEmpresa.Colonia : tblEmpresa.Colonia;
+                    tblEmpresa.Colonia = !string.IsNullOrEmpty(tblEmpresa.Colonia) ? strColonia.d_asenta.ToUpper() : tblEmpresa.Colonia;
+                    tblEmpresa.Calle = !string.IsNullOrEmpty(tblEmpresa.Calle) ? tblEmpresa.Calle.ToUpper() : tblEmpresa.Calle;
+                    tblEmpresa.LocalidadMunicipio = !string.IsNullOrEmpty(tblEmpresa.LocalidadMunicipio) ? tblEmpresa.LocalidadMunicipio.ToUpper() : tblEmpresa.LocalidadMunicipio;
+                    tblEmpresa.Ciudad = !string.IsNullOrEmpty(tblEmpresa.Ciudad) ? tblEmpresa.Ciudad.ToUpper() : tblEmpresa.Ciudad;
+                    tblEmpresa.Estado = !string.IsNullOrEmpty(tblEmpresa.Estado) ? tblEmpresa.Estado.ToUpper() : tblEmpresa.Estado;
                     _context.SaveChanges();
                     _context.Update(tblEmpresa);
                     await _context.SaveChangesAsync();
+                    _notyf.Success("Registro Actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

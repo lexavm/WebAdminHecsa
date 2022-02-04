@@ -1,7 +1,8 @@
-﻿@model WebAdminHecsa.Models.CatRole
+﻿@model WebAdminHecsa.Models.CatArea
+
 
 @{
-    ViewData["Title"] = "Editar Rol";
+    ViewData["Title"] = "Editar Área";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
@@ -9,9 +10,9 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Rol</li>
-        <li class="breadcrumb-item">Control de Rol</li>
-        <li class="breadcrumb-item active" aria-current="page">Editar Rol</li>
+        <li class="breadcrumb-item">Área</li>
+        <li class="breadcrumb-item">Control de Estatus</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Área</li>
     </ol>
 </nav>
 <hr />
@@ -19,11 +20,11 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input style="text-transform:uppercase" type="hidden" asp-for="IdRol" id="IdEstatus" />
+            <input style="text-transform:uppercase" type="hidden" asp-for="IdArea" id="IdEstatus" />
             <div class="form-group">
-                <label asp-for="RolDesc" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="RolDesc" class="form-control" />
-                <span asp-validation-for="RolDesc" class="text-danger"></span>
+                <label asp-for="AreaDesc" class="control-label"></label>
+                <input style="text-transform:uppercase" asp-for="AreaDesc" class="form-control" />
+                <span asp-validation-for="AreaDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdEstatusRegistro" class="control-label"></label>
@@ -34,7 +35,7 @@
             </div>
             <br />
             <div class="form-group">
-                <input  type="submit" value="Actualizar" class="btn btn-primary" />
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">Regresar</a>
             </div>
         </form>
@@ -44,3 +45,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

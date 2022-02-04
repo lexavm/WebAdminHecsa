@@ -42,7 +42,7 @@ namespace WebAdminHecsa.Models
         [Display(Name = "Estado")]
         public string Estado { get; set; }
 
-        [Display(Name = "Telefono")]
+        [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
         public Guid IdEmpresa { get; set; }

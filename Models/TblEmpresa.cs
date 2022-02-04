@@ -32,7 +32,7 @@ namespace WebAdminHecsa.Models
         [Display(Name = "Colonia")]
         public string Colonia { get; set; }
 
-        [Display(Name = "LocalidadMunicipio")]
+        [Display(Name = "Localidad / Municipio")]
         public string LocalidadMunicipio { get; set; }
 
         [Display(Name = "Ciudad")]
@@ -42,12 +42,12 @@ namespace WebAdminHecsa.Models
         public string Estado { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Correo Electronico")]
+        [Display(Name = "Correo Electrónico")]
         [DataType(DataType.EmailAddress)]
         public string CorreoElectronico { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Telefono")]
+        [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
 

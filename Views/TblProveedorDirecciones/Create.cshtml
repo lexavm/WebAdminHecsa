@@ -10,90 +10,106 @@
 <h4>TblProveedorDirecciones</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdTipoDireccion" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdTipoDireccion" class="form-control" />
-                <span asp-validation-for="IdTipoDireccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoDireccionDesc" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="TipoDireccionDesc" class="form-control" />
-                <span asp-validation-for="TipoDireccionDesc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Calle" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Calle" class="form-control" />
-                <span asp-validation-for="Calle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CodigoPostal" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="CodigoPostal" class="form-control" />
-                <span asp-validation-for="CodigoPostal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdColonia" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdColonia" class="form-control" />
-                <span asp-validation-for="IdColonia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Colonia" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Colonia" class="form-control" />
-                <span asp-validation-for="Colonia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LocalidadMunicipio" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="LocalidadMunicipio" class="form-control" />
-                <span asp-validation-for="LocalidadMunicipio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ciudad" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Ciudad" class="form-control" />
-                <span asp-validation-for="Ciudad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdProveedor" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdProveedor" class="form-control" />
-                <span asp-validation-for="IdProveedor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreProveedor" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="NombreProveedor" class="form-control" />
-                <span asp-validation-for="NombreProveedor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdEstatusRegistro" class="form-control" />
-                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input style="text-transform:uppercase" type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="IdProveedor" class="control-label"></label>
+                    <select id="idListaProveedor" class="form-select statesSelect" asp-for="IdProveedor" asp-items="@(new SelectList(ViewBag.ListaProveedor,"IdProveedor","NombreProveedor"))">
+                        <option value="">SELECCIONAR</option>
+                    </select>
+                    <span asp-validation-for="IdProveedor" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="IdTipoDireccion" class="control-label"></label>
+                    <select id="idListaTipoDireccion" class="form-select" asp-for="IdTipoDireccion" asp-items="@(new SelectList(ViewBag.ListaTipoDireccion,"IdTipoDireccion","TipoDireccionDesc"))">
+                        <option value="">SELECCIONAR</option>
+                    </select>
+                    <span asp-validation-for="IdTipoDireccion" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Calle" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="Calle" class="form-control" />
+                    <span asp-validation-for="Calle" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="CodigoPostal" class="control-label"></label>
+                    <div class="input-group mb-3">
+                        <input type="number" asp-for="CodigoPostal" class="form-control" id="iCodigoPostal" aria-label="CodigoPostal" aria-describedby="basic-addon2" pattern="[0-9]" title="Solo números. Tamaño mínimo: 6">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="filtro_cp()">Buscar</button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CodigoPostal" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Colonia" class="control-label"></label>
+                    <select id="drpColonias" class="form-select" asp-for="Colonia">
+                        <option value="">SELECCIONAR</option>
+                    </select>
+                    <span asp-validation-for="Colonia" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="LocalidadMunicipio" class="control-label"></label>
+                    <input id="idLocalidadMunicipio" style="text-transform:uppercase" asp-for="LocalidadMunicipio" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="LocalidadMunicipio" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Ciudad" class="control-label"></label>
+                    <input id="idCiudad" style="text-transform:uppercase" asp-for="Ciudad" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Ciudad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Estado" class="control-label"></label>
+                    <input id="idEstados" style="text-transform:uppercase" asp-for="Estado" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Telefono" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Crear" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        </div>
+    </form>
+</div>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    <script>
+        $(document).ready(function () {
+            $(".statesSelect").select2();
+        });
+    </script>
+}
 }

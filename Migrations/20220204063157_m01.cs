@@ -49,6 +49,21 @@ namespace WebAdminHecsa.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CatArea",
+                columns: table => new
+                {
+                    IdArea = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AreaDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdEstatusRegistro = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CatArea", x => x.IdArea);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CatCategoria",
                 columns: table => new
                 {
@@ -352,7 +367,7 @@ namespace WebAdminHecsa.Migrations
                 {
                     IdEmpresaFiscales = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NombreFiscal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RFC = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RFC = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegimenFiscal = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Calle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CodigoPostal = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -442,7 +457,17 @@ namespace WebAdminHecsa.Migrations
                 columns: table => new
                 {
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NombreUsuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nombres = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApellidoPaterno = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApellidoMaterno = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NombreUsuario = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdEmpresa = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NombreEmpresa = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdArea = table.Column<int>(type: "int", nullable: false),
+                    IdGenero = table.Column<int>(type: "int", nullable: false),
+                    IdPerfil = table.Column<int>(type: "int", nullable: false),
+                    IdRol = table.Column<int>(type: "int", nullable: false),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdEstatusRegistro = table.Column<int>(type: "int", nullable: false)
                 },
@@ -613,6 +638,9 @@ namespace WebAdminHecsa.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CatArea");
 
             migrationBuilder.DropTable(
                 name: "CatCategoria");

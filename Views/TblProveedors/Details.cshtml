@@ -1,15 +1,20 @@
 ﻿@model WebAdminHecsa.Models.TblProveedor
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Proveedor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">HECSA</li>
+    <li class="breadcrumb-item">Información</li>
+    <li class="breadcrumb-item">Empresa</li>
+    <li class="breadcrumb-item">Control de Proveedor</li>
+    <li class="breadcrumb-item active" aria-current="page">Detalles Proveedor</li>
+  </ol>
+</nav>
+<hr />
 <div>
-    <h4>TblProveedor</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NombreProveedor)
@@ -42,18 +47,6 @@
             @Html.DisplayFor(model => model.Telefono)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEmpresa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEmpresa)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreEmpresa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreEmpresa)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FechaRegistro)
         </dt>
         <dd class = "col-sm-10">
@@ -67,7 +60,6 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdProveedor">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+   <div class="form-group">
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </div>

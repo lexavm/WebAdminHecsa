@@ -88,23 +88,23 @@ namespace WebAdminHecsa.Controllers
 
                 if (DuplicadosEstatus.Count == 0)
                 {
-                    if (tblEmpresaFiscales.Colonia == null)
-                    {
-                        var idEmpresa = _context.TblEmpresa.FirstOrDefault();
-                        tblEmpresaFiscales.IdEmpresaFiscales = Guid.NewGuid();
-                        tblEmpresaFiscales.IdEmpresa = idEmpresa.IdEmpresa;
-                        tblEmpresaFiscales.NombreEmpresa = idEmpresa.NombreEmpresa;
-                        tblEmpresaFiscales.FechaRegistro = DateTime.Now;
-                        tblEmpresaFiscales.NombreFiscal = tblEmpresaFiscales.NombreFiscal.ToString().ToUpper();
-                        tblEmpresaFiscales.IdEstatusRegistro = 1;
-                    }
-                    else
-                    {
-                        var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresaFiscales.Colonia).FirstOrDefault();
-                        tblEmpresaFiscales.IdColonia = tblEmpresaFiscales.Colonia;
-                        tblEmpresaFiscales.Colonia = strColonia.d_asenta;
-                    }
 
+                    var idEmpresa = _context.TblEmpresa.FirstOrDefault();
+                    tblEmpresaFiscales.FechaRegistro = DateTime.Now;
+                    tblEmpresaFiscales.NombreFiscal = tblEmpresaFiscales.NombreFiscal.ToString().ToUpper();
+                    tblEmpresaFiscales.RFC = !string.IsNullOrEmpty(tblEmpresaFiscales.RFC) ? tblEmpresaFiscales.RFC.ToUpper() : tblEmpresaFiscales.RFC;
+                    tblEmpresaFiscales.RegimenFiscal = !string.IsNullOrEmpty(tblEmpresaFiscales.RegimenFiscal) ? tblEmpresaFiscales.RegimenFiscal.ToUpper() : tblEmpresaFiscales.RegimenFiscal;
+                    tblEmpresaFiscales.IdEstatusRegistro = 1;
+                    var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresaFiscales.Colonia).FirstOrDefault();
+                    tblEmpresaFiscales.IdColonia = !string.IsNullOrEmpty(tblEmpresaFiscales.Colonia) ? tblEmpresaFiscales.Colonia : tblEmpresaFiscales.Colonia;
+                    tblEmpresaFiscales.Colonia = !string.IsNullOrEmpty(tblEmpresaFiscales.Colonia) ? strColonia.d_asenta.ToUpper() : tblEmpresaFiscales.Colonia;
+                    tblEmpresaFiscales.Calle = !string.IsNullOrEmpty(tblEmpresaFiscales.Calle) ? tblEmpresaFiscales.Calle.ToUpper() : tblEmpresaFiscales.Calle;
+                    tblEmpresaFiscales.LocalidadMunicipio = !string.IsNullOrEmpty(tblEmpresaFiscales.LocalidadMunicipio) ? tblEmpresaFiscales.LocalidadMunicipio.ToUpper() : tblEmpresaFiscales.LocalidadMunicipio;
+                    tblEmpresaFiscales.Ciudad = !string.IsNullOrEmpty(tblEmpresaFiscales.Ciudad) ? tblEmpresaFiscales.Ciudad.ToUpper() : tblEmpresaFiscales.Ciudad;
+                    tblEmpresaFiscales.Estado = !string.IsNullOrEmpty(tblEmpresaFiscales.Estado) ? tblEmpresaFiscales.Estado.ToUpper() : tblEmpresaFiscales.Estado;
+                    tblEmpresaFiscales.IdEmpresa = idEmpresa.IdEmpresa;
+                    tblEmpresaFiscales.NombreEmpresa = idEmpresa.NombreEmpresa;
+                    _context.SaveChanges();
                     _context.Add(tblEmpresaFiscales);
                     await _context.SaveChangesAsync();
                     _notyf.Success("Registro guardado con éxito", 5);
@@ -124,13 +124,6 @@ namespace WebAdminHecsa.Controllers
             List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
             ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
             ViewBag.ListaEstatus = ListaCatEstatus;
-
-            var results = (from ta in _context.CatCodigosPostales
-                           select ta.d_estado).Distinct().ToList();
-
-            List<string> Estados = new List<string>();
-            Estados = results;
-            ViewBag.ListaEstados = Estados;
             if (id == null)
             {
                 return NotFound();
@@ -149,7 +142,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdEmpresaFiscales,NombreFiscal,RFC,RegimenFiscal,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,Telefono,IdEmpresa,NombreEmpresa,IdEstatusRegistro")] TblEmpresaFiscales tblEmpresaFiscales)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdEmpresaFiscales,NombreFiscal,RFC,RegimenFiscal,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,Telefono,IdEstatusRegistro,IdEmpresa")] TblEmpresaFiscales tblEmpresaFiscales)
         {
             if (id != tblEmpresaFiscales.IdEmpresaFiscales)
             {
@@ -160,8 +153,21 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    tblEmpresaFiscales.FechaRegistro = DateTime.Now;
+                    tblEmpresaFiscales.NombreFiscal = tblEmpresaFiscales.NombreFiscal.ToString().ToUpper();
+                    tblEmpresaFiscales.RFC = !string.IsNullOrEmpty(tblEmpresaFiscales.RFC) ? tblEmpresaFiscales.RFC.ToUpper() : tblEmpresaFiscales.RFC;
+                    tblEmpresaFiscales.RegimenFiscal = !string.IsNullOrEmpty(tblEmpresaFiscales.RegimenFiscal) ? tblEmpresaFiscales.RegimenFiscal.ToUpper() : tblEmpresaFiscales.RegimenFiscal;
+                    tblEmpresaFiscales.IdEstatusRegistro = 1;
+                    var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblEmpresaFiscales.Colonia).FirstOrDefault();
+                    tblEmpresaFiscales.IdColonia = !string.IsNullOrEmpty(tblEmpresaFiscales.Colonia) ? tblEmpresaFiscales.Colonia : tblEmpresaFiscales.Colonia;
+                    tblEmpresaFiscales.Colonia = !string.IsNullOrEmpty(tblEmpresaFiscales.Colonia) ? strColonia.d_asenta.ToUpper() : tblEmpresaFiscales.Colonia;
+                    tblEmpresaFiscales.Calle = !string.IsNullOrEmpty(tblEmpresaFiscales.Calle) ? tblEmpresaFiscales.Calle.ToUpper() : tblEmpresaFiscales.Calle;
+                    tblEmpresaFiscales.LocalidadMunicipio = !string.IsNullOrEmpty(tblEmpresaFiscales.LocalidadMunicipio) ? tblEmpresaFiscales.LocalidadMunicipio.ToUpper() : tblEmpresaFiscales.LocalidadMunicipio;
+                    tblEmpresaFiscales.Ciudad = !string.IsNullOrEmpty(tblEmpresaFiscales.Ciudad) ? tblEmpresaFiscales.Ciudad.ToUpper() : tblEmpresaFiscales.Ciudad;
+                    tblEmpresaFiscales.Estado = !string.IsNullOrEmpty(tblEmpresaFiscales.Estado) ? tblEmpresaFiscales.Estado.ToUpper() : tblEmpresaFiscales.Estado;
                     _context.Update(tblEmpresaFiscales);
                     await _context.SaveChangesAsync();
+                    _notyf.Success("Registro Actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -203,8 +209,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var tblEmpresaFiscales = await _context.TblEmpresaFiscales.FindAsync(id);
-            _context.TblEmpresaFiscales.Remove(tblEmpresaFiscales);
+            tblEmpresaFiscales.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

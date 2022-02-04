@@ -1,40 +1,46 @@
 ﻿@model IEnumerable<WebAdminHecsa.Models.TblProveedorContacto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Crear Proveedores Contactos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Proveedores</li>
+        <li class="breadcrumb-item">Control Proveedores</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Proveedores Contactos</li>
+    </ol>
+</nav>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a id="iNuevo" type="submit" class="btn btn-outline-primary" asp-action="Create" value="Nuevo" title="Nuevo"><i class="fas fa-plus"></i> Nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-             <td style="text-align:center">
+             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.NombreProveedorContacto)
             </th>
-             <td style="text-align:center">
+             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.CorreoElectronico)
             </th>
-             <td style="text-align:center">
+             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
-             <td style="text-align:center">
+             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdProveedor)
             </th>
-             <td style="text-align:center">
+             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.NombreProveedor)
             </th>
-             <td style="text-align:center">
+             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
-             <td style="text-align:center">
+             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.IdEstatusRegistro)
             </th>
-             <td style="text-align:center"></th>
+             <th style="text-align:center">Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -58,15 +64,58 @@
             <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.FechaRegistro)
             </td>
-            <td style="text-align:center">
-                @Html.DisplayFor(modelItem => item.IdEstatusRegistro)
-            </td>
-            <td style="text-align:center">
-                <a asp-action="Edit" asp-route-id="@item.IdProveedorContacto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProveedorContacto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProveedorContacto">Delete</a>
-            </td>
+             <td style="text-align:center">
+                            @if (item.IdEstatusRegistro == 1)
+                    {
+                        <i class="fas fa-check"style="font-size: 1em; color: green;"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-times" style="font-size: 1em; color: red;"></i>
+                    }
+                </td>
+                 <td style="text-align:center">
+                    <a asp-action="Edit" asp-route-id="@item.IdProveedor" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.IdProveedor" class="btn btn-info" title="Detalles"><i class="fas fa-toggle-off"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdProveedor" class="btn btn-danger" title="Desactivar"><i class="fas fa-toggle-off"></i></a>
+                </td>
         </tr>
 }
     </tbody>
 </table>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script type="text/javascript">
+      $(document).ready(function() {
+              var vEstatusFlag = '@ViewBag.EstatusFlag'
+              var vEmpresaFlag = '@ViewBag.EmpresaFlag'
+              var vProveedorFlag = '@ViewBag.ProveedorFlag'
+             
+            if (vEstatusFlag == 0) 
+            {
+            document.getElementById("iNuevo").style.visibility="hidden";
+            }
+            else 
+            {
+                if (vEmpresaFlag == 0)
+                {
+                document.getElementById("iNuevo").style.visibility="hidden";
+                }
+                else
+                {
+                    if (vProveedorFlag == 0)
+                    {
+                    document.getElementById("iNuevo").style.visibility="hidden";
+                    }
+                    else
+                    {
+                    document.getElementById("iNuevo").style.visibility="visible";
+                    }
+                }
+            }
+          });
+
+</script>
+}
