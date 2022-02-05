@@ -19,45 +19,28 @@
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="NombreProveedor" class="control-label"></label>
                     <input style="text-transform:uppercase" asp-for="NombreProveedor" class="form-control" />
                     <span asp-validation-for="NombreProveedor" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="GiroComercial" class="control-label"></label>
                     <input style="text-transform:uppercase" asp-for="GiroComercial" class="form-control" />
                     <span asp-validation-for="GiroComercial" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label asp-for="RFC" class="control-label"></label>
                     <input style="text-transform:uppercase" asp-for="RFC" class="form-control" />
                     <span asp-validation-for="RFC" class="text-danger"></span>
                 </div>
             </div>
-        </div>
- 
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label asp-for="CorreoElectronico" class="control-label"></label>
-                    <input id="iCorreoElectronico" asp-for="CorreoElectronico" class="form-control" type="email"   />
-                    <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label asp-for="Telefono" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
-                    <span asp-validation-for="Telefono" class="text-danger"></span>
-                </div>
-            </div>
-              <div class="col-md-2">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label asp-for="IdEstatusRegistro" class="control-label"></label>
                     <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaEstatus,"IdEstatus","EstatusDesc"))">
@@ -76,5 +59,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

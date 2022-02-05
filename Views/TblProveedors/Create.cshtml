@@ -41,32 +41,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label asp-for="CorreoElectronico" class="control-label"></label>
-                    <input id="iCorreoElectronico" asp-for="CorreoElectronico" class="form-control" type="email" />
-                    <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label asp-for="Telefono" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
-                    <span asp-validation-for="Telefono" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                    <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaEstatus,"IdEstatus","EstatusDesc"))">
-                        <option value="">Seleccionar Estatus</option>
-                    </select>
-                    <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
         <br />
         <div class="form-group">
             <input type="submit" value="Crear" class="btn btn-primary" />

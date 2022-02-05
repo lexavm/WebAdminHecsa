@@ -7,7 +7,7 @@ namespace WebAdminHecsa.Models
     public class CatTipoDireccion
     {
         [Key]
-        [Display(Name = "ID Tipo Dirección ")]
+        [Display(Name = "ID Tipo Dirección")]
         public int IdTipoDireccion { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]

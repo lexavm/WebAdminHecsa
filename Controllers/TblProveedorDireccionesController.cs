@@ -37,9 +37,20 @@ namespace WebAdminHecsa.Controllers
                     ViewBag.EmpresaFlag = 1;
                     var ValidaProveedor = _context.TblProveedor.ToList();
 
-                    if (ValidaProveedor.Count > 1)
+                    if (ValidaProveedor.Count >= 1)
                     {
                         ViewBag.ProveedorFlag = 1;
+                        var ValidaTipoDireccion = _context.CatTipoDireccion.ToList();
+
+                        if (ValidaTipoDireccion.Count > 1)
+                        {
+                            ViewBag.TipoDireccionFlag = 1;
+                        }
+                        else
+                        {
+                            ViewBag.TipoDireccionFlag = 0;
+                            _notyf.Warning("Favor de registrar los datos de la Tipo Dirección para la Aplicación", 5);
+                        }
                     }
                     else
                     {
@@ -55,7 +66,7 @@ namespace WebAdminHecsa.Controllers
             }
             else
             {
-                ViewBag.UserFlag = 0;
+                ViewBag.EstatusFlag = 0;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.TblProveedorDirecciones.ToListAsync());
@@ -105,6 +116,10 @@ namespace WebAdminHecsa.Controllers
                 _context.Add(tblProveedorDirecciones);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                _notyf.Error("Error en la validacion de campos", 5);
             }
             return RedirectToAction(nameof(Index));
         }

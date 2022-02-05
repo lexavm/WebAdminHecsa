@@ -38,6 +38,10 @@ namespace WebAdminHecsa.Models
 
         [Display(Name = "Estado")]
         public string Estado { get; set; }
+        [Required(ErrorMessage = "Campo Requerido")]
+        [Display(Name = "Correo Electrónico")]
+        [DataType(DataType.EmailAddress)]
+        public string CorreoElectronico { get; set; }
 
         [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]

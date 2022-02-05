@@ -648,10 +648,6 @@ namespace WebAdminHecsa.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CorreoElectronico")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2")
                         .HasColumnName("FechaRegistro");
@@ -702,6 +698,9 @@ namespace WebAdminHecsa.Migrations
                     b.Property<int>("IdEstatusRegistro")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdPerfil")
+                        .HasColumnType("int");
+
                     b.Property<string>("NombreCliente")
                         .HasColumnType("nvarchar(max)");
 
@@ -709,7 +708,14 @@ namespace WebAdminHecsa.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PerfilDesc")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelefonoMovil")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -736,6 +742,10 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Colonia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CorreoElectronico")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado")
@@ -850,6 +860,10 @@ namespace WebAdminHecsa.Migrations
                     b.Property<string>("Colonia")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CorreoElectronico")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Estado")
                         .HasColumnType("nvarchar(max)");
 
@@ -897,10 +911,6 @@ namespace WebAdminHecsa.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CorreoElectronico")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2");
 
@@ -921,10 +931,6 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RFC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefono")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdProveedor");
@@ -950,6 +956,9 @@ namespace WebAdminHecsa.Migrations
                     b.Property<int>("IdEstatusRegistro")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdPerfil")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("IdProveedor")
                         .HasColumnType("uniqueidentifier");
 
@@ -960,7 +969,14 @@ namespace WebAdminHecsa.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PerfilDesc")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelefonoMovil")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -978,15 +994,21 @@ namespace WebAdminHecsa.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProveedorDirecciones"), 1L, 1);
 
                     b.Property<string>("Calle")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ciudad")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CodigoPostal")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Colonia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CorreoElectronico")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado")
@@ -1018,7 +1040,6 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoDireccionDesc")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdProveedorDirecciones");

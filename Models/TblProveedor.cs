@@ -18,17 +18,6 @@ namespace WebAdminHecsa.Models
 
         [Display(Name = "Giro Comercial")]
         public string GiroComercial { get; set; }
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Correo Electrónico")]
-        [DataType(DataType.EmailAddress)]
-        public string CorreoElectronico { get; set; }
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Teléfono")]
-        [DataType(DataType.PhoneNumber)]
-        public string Telefono { get; set; }
-
         public Guid IdEmpresa { get; set; }
 
         [Display(Name = "NombreEmpresa")]

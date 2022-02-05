@@ -55,7 +55,7 @@ namespace WebAdminHecsa.Controllers
             }
             else
             {
-                ViewBag.UserFlag = false;
+                ViewBag.EstatusFlag = false;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.CatCategoria.ToListAsync());

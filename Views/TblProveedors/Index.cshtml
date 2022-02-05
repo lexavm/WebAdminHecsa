@@ -29,13 +29,6 @@
                 @Html.DisplayNameFor(model => model.GiroComercial)
             </th>
             <th style="text-align:center">
-                @Html.DisplayNameFor(model => model.CorreoElectronico)
-            </th>
-            <th style="text-align:center">
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-
-            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
             <th style="text-align:center">
@@ -58,13 +51,6 @@
                     @Html.DisplayFor(modelItem => item.GiroComercial)
                 </td>
                 <td style="text-align:center">
-                    @Html.DisplayFor(modelItem => item.CorreoElectronico)
-                </td>
-                <td style="text-align:center">
-                    @Html.DisplayFor(modelItem => item.Telefono)
-                </td>
-
-                <td style="text-align:center">
                     @Html.DisplayFor(modelItem => item.FechaRegistro)
                 </td>
                 <td style="text-align:center">
@@ -81,7 +67,7 @@
                     <a asp-action="Edit" asp-route-id="@item.IdProveedor" class="btn btn-outline-secondary" title="Editar"><i class="far fa-edit" style="font-size: 1em; color: #FFC300;"></i></a>
                     <a asp-action="Details" asp-route-id="@item.IdProveedor" class="btn btn-outline-secondary" title="Detalles"><i class="far fa-list-alt" style="font-size: 1em; color: #67C5C4 ;"></i></a>
                     <a asp-action="Delete" asp-route-id="@item.IdProveedor" class="btn btn-outline-secondary" title="Desactivar"><i class="far fa-stop-circle" style="font-size: 1em; color: #FF9333;"></i></a>
-                    <a asp-controller="TblProveedorDirecciones" asp-action="Index" class="btn btn-outline-secondary" title="Direcciones"><i class="fas fa-map-pin" style="font-size: 1em; color: #900C3F;"></i></a>
+                    @*<a asp-controller="TblProveedorDirecciones" asp-action="Index" class="btn btn-outline-secondary" title="Direcciones"><i class="fas fa-map-pin" style="font-size: 1em; color: #900C3F;"></i></a>*@
                 </td>
             </tr>
         }

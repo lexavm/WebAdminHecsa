@@ -11,6 +11,7 @@ using WebAdminHecsa.Models;
 
 namespace WebAdminHecsa.Controllers
 {
+
     public class TblProveedorContactoesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -37,14 +38,25 @@ namespace WebAdminHecsa.Controllers
                     ViewBag.EmpresaFlag = 1;
                     var ValidaProveedor = _context.TblProveedor.ToList();
 
-                    if (ValidaProveedor.Count > 1)
+                    if (ValidaProveedor.Count >= 1)
                     {
                         ViewBag.ProveedorFlag = 1;
+                        var ValidaPerfil = _context.CatPerfile.ToList();
+
+                        if (ValidaPerfil.Count >= 1)
+                        {
+                            ViewBag.PerfilFlag = 1;
+                        }
+                        else
+                        {
+                            ViewBag.PerfilFlag = 0;
+                            _notyf.Warning("Favor de registrar los datos de Perfil para la Aplicación", 5);
+                        }
                     }
                     else
                     {
                         ViewBag.ProveedorFlag = 0;
-                        _notyf.Warning("Favor de registrar los datos del Proveedor para la Aplicación", 5);
+                        _notyf.Warning("Favor de registrar los datos de la Proveedor para la Aplicación", 5);
                     }
                 }
                 else
@@ -55,7 +67,7 @@ namespace WebAdminHecsa.Controllers
             }
             else
             {
-                ViewBag.UserFlag = 0;
+                ViewBag.EstatusFlag = 0;
                 _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.TblProveedorContacto.ToListAsync());

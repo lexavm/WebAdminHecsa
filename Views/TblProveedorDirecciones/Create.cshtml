@@ -1,14 +1,20 @@
 ﻿@model WebAdminHecsa.Models.TblProveedorDirecciones
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Proveedor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>TblProveedorDirecciones</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Empresa</li>
+        <li class="breadcrumb-item">Control de Proveedor</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Proveedor Direcciones</li>
+    </ol>
+</nav>
 <hr />
+
 <div class="row">
 
     <form asp-action="Create">
