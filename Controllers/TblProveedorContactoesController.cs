@@ -1,17 +1,15 @@
-﻿using System;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
 using WebAdminHecsa.Models;
 
 namespace WebAdminHecsa.Controllers
 {
-
     public class TblProveedorContactoesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -94,6 +92,14 @@ namespace WebAdminHecsa.Controllers
         // GET: TblProveedorContactoes/Create
         public IActionResult Create()
         {
+            List<TblProveedor> ListaProveedor = new List<TblProveedor>();
+            ListaProveedor = (from c in _context.TblProveedor select c).Distinct().ToList();
+            ViewBag.ListaProveedor = ListaProveedor;
+
+            List<CatPerfil> ListaPerfil = new List<CatPerfil>();
+            ListaPerfil = (from c in _context.CatPerfile select c).Distinct().ToList();
+            ViewBag.ListaPerfil = ListaPerfil;
+
             return View();
         }
 
@@ -102,12 +108,34 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProveedorContacto,NombreProveedorContacto,CorreoElectronico,Telefono,IdProveedor,NombreProveedor")] TblProveedorContacto tblProveedorContacto)
+        public async Task<IActionResult> Create([Bind("IdProveedorContacto,IdPerfil,NombreProveedorContacto,CorreoElectronico,Telefono,TelefonoMovil,IdProveedor")] TblProveedorContacto tblProveedorContacto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tblProveedorContacto);
-                await _context.SaveChangesAsync();
+                var DuplicadosEstatus = _context.TblProveedorContacto
+                      .Where(s => s.NombreProveedorContacto == tblProveedorContacto.NombreProveedorContacto)
+                      .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    var fProveedor = (from c in _context.TblProveedor where c.IdProveedor == tblProveedorContacto.IdProveedor select c).Distinct().ToList();
+                    var fPerfil = (from c in _context.CatPerfile where c.IdPerfil == tblProveedorContacto.IdPerfil select c).Distinct().ToList();
+                    tblProveedorContacto.NombreProveedorContacto = tblProveedorContacto.NombreProveedorContacto.ToString().ToUpper();
+                    tblProveedorContacto.FechaRegistro = DateTime.Now;
+                    tblProveedorContacto.IdEstatusRegistro = 1;
+                    tblProveedorContacto.NombreProveedor = fProveedor[0].NombreProveedor;
+                    tblProveedorContacto.PerfilDesc = fPerfil[0].PerfilDesc;
+
+                    _context.SaveChanges();
+                    _context.Add(tblProveedorContacto);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro guardado con éxito", 5);
+                }
+                else
+                {
+                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
+                    _notyf.Warning("Favor de validar, existe un Contacto con el mismo nombre", 5);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(tblProveedorContacto);
@@ -116,6 +144,18 @@ namespace WebAdminHecsa.Controllers
         // GET: TblProveedorContactoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<TblProveedor> ListaProveedor = new List<TblProveedor>();
+            ListaProveedor = (from c in _context.TblProveedor select c).Distinct().ToList();
+            ViewBag.ListaProveedor = ListaProveedor;
+
+            List<CatPerfil> ListaPerfil = new List<CatPerfil>();
+            ListaPerfil = (from c in _context.CatPerfile select c).Distinct().ToList();
+            ViewBag.ListaPerfil = ListaPerfil;
+
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
+
             if (id == null)
             {
                 return NotFound();
@@ -134,7 +174,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProveedorContacto,NombreProveedorContacto,CorreoElectronico,Telefono,IdProveedor,NombreProveedor,IdEstatusRegistro")] TblProveedorContacto tblProveedorContacto)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProveedorContacto,IdPerfil,NombreProveedorContacto,CorreoElectronico,Telefono,TelefonoMovil,IdProveedor,IdEstatusRegistro")] TblProveedorContacto tblProveedorContacto)
         {
             if (id != tblProveedorContacto.IdProveedorContacto)
             {
@@ -145,6 +185,14 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    var fProveedor = (from c in _context.TblProveedor where c.IdProveedor == tblProveedorContacto.IdProveedor select c).Distinct().ToList();
+                    var fPerfil = (from c in _context.CatPerfile where c.IdPerfil == tblProveedorContacto.IdPerfil select c).Distinct().ToList();
+                    tblProveedorContacto.NombreProveedorContacto = tblProveedorContacto.NombreProveedorContacto.ToString().ToUpper();
+                    tblProveedorContacto.FechaRegistro = DateTime.Now;
+                    tblProveedorContacto.IdEstatusRegistro = 1;
+                    tblProveedorContacto.NombreProveedor = fProveedor[0].NombreProveedor;
+                    tblProveedorContacto.PerfilDesc = fPerfil[0].PerfilDesc;
+                    _context.SaveChanges();
                     _context.Update(tblProveedorContacto);
                     await _context.SaveChangesAsync();
                 }
@@ -188,8 +236,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tblProveedorContacto = await _context.TblProveedorContacto.FindAsync(id);
-            _context.TblProveedorContacto.Remove(tblProveedorContacto);
+            tblProveedorContacto.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

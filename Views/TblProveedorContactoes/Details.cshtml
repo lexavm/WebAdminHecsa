@@ -1,61 +1,65 @@
 ﻿@model WebAdminHecsa.Models.TblProveedorContacto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Proveedor Contacto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Proveedor</li>
+        <li class="breadcrumb-item">Control de Proveedor</li>
+        <li class="breadcrumb-item active" aria-current="page">Detalles Proveedor Contacto</li>
+    </ol>
+</nav>
+<hr />
 <div>
-    <h4>TblProveedorContacto</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NombreProveedorContacto)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NombreProveedorContacto)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CorreoElectronico)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CorreoElectronico)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Telefono)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Telefono)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdProveedor)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TelefonoMovil)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdProveedor)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TelefonoMovil)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NombreProveedor)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NombreProveedor)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaRegistro)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaRegistro)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IdEstatusRegistro)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IdEstatusRegistro)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdProveedorContacto">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="form-group">
+    <a asp-action="Index" class="btn btn-info">Regresar</a>
 </div>

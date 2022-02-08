@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 
 namespace WebAdminHecsa.Models
 {
@@ -12,6 +13,7 @@ namespace WebAdminHecsa.Models
 
         [Required(ErrorMessage = "Campo Requerido")]
         [Display(Name = "Nombre")]
+        
         public string NombreCliente { get; set; }
 
         [Display(Name = "RFC")]

@@ -172,6 +172,7 @@
     <script type="text/javascript" src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Plantilla/js/scripts.js")"></script>
     <script type="text/javascript" src="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js")"></script>
+     <script src="~/js/site.js" asp-append-version="true"></script>
     
     @await Component.InvokeAsync("Notyf");
     @await RenderSectionAsync("Scripts", required: false)

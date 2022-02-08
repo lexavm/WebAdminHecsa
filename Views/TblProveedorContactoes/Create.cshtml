@@ -17,29 +17,61 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="IdProveedor" class="control-label"></label>
-                  @*  <select id="idListaProveedor" class="form-select statesSelect" asp-for="IdProveedor" asp-items="@(new SelectList(ViewBag.ListaProveedor,"IdProveedor","NombreProveedor"))">
+                    <select id="idListaProveedor" class="form-select statesSelect" asp-for="IdProveedor" asp-items="@(new SelectList(ViewBag.ListaProveedor,"IdProveedor","NombreProveedor"))">
                         <option value="">SELECCIONAR</option>
-                    </select>*@
+                    </select>
                     <span asp-validation-for="IdProveedor" class="text-danger"></span>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="IdPerfil" class="control-label"></label>
+                    <select id="idListaPerfil" class="form-select statesSelect" asp-for="IdPerfil" asp-items="@(new SelectList(ViewBag.ListaPerfil,"IdPerfil","PerfilDesc"))">
+                        <option value="">SELECCIONAR</option>
+                    </select>
+                    <span asp-validation-for="IdProveedor" class="text-danger"></span>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="form-group">
+                    <label asp-for="NombreProveedorContacto" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="NombreProveedorContacto" class="form-control" />
+                    <span asp-validation-for="NombreProveedorContacto" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="CorreoElectronico" class="control-label"></label>
+                    <input  asp-for="CorreoElectronico" class="form-control" type="email" />
+                    <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
                     <label asp-for="Telefono" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
+                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" type="number" />
                     <span asp-validation-for="Telefono" class="text-danger"></span>
                 </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <label asp-for="TelefonoMovil" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="TelefonoMovil" class="form-control" type="number" />
+                    <span asp-validation-for="TelefonoMovil" class="text-danger"></span>
+                </div>
+
             </div>
         </div>
         <br />
         <div class="form-group">
-            <input type="submit" value="Crear" class="btn btn-primary" />
+            <input type="submit" value="Crear" class="btn btn-success" />
             <a asp-action="Index" class="btn btn-secondary">Regresar</a>
         </div>
     </form>

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
 using WebAdminHecsa.Models;
 
@@ -109,13 +108,40 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProveedorDirecciones,IdTipoDireccion,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,Telefono,IdProveedor")] TblProveedorDirecciones tblProveedorDirecciones)
+        public async Task<IActionResult> Create([Bind("IdProveedorDirecciones,IdTipoDireccion,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,CorreoElectronico,Telefono,IdProveedor")] TblProveedorDirecciones tblProveedorDirecciones)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tblProveedorDirecciones);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var DuplicadosEstatus = _context.TblProveedorDirecciones
+                       .Where(s => s.Calle == tblProveedorDirecciones.Calle && s.CodigoPostal == tblProveedorDirecciones.CodigoPostal)
+                       .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    var fProveedor = (from c in _context.TblProveedor where c.IdProveedor == tblProveedorDirecciones.IdProveedor select c).Distinct().ToList();
+                    var fTipoDireccion  = (from c in _context.CatTipoDireccion where c.IdTipoDireccion == tblProveedorDirecciones.IdTipoDireccion select c).Distinct().ToList();
+                    tblProveedorDirecciones.FechaRegistro = DateTime.Now;
+                    tblProveedorDirecciones.IdEstatusRegistro = 1;
+                    tblProveedorDirecciones.NombreProveedor = fProveedor[0].NombreProveedor; 
+                    tblProveedorDirecciones.TipoDireccionDesc = fTipoDireccion[0].TipoDireccionDesc;
+                    var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblProveedorDirecciones.Colonia).FirstOrDefault();
+                    tblProveedorDirecciones.IdColonia = !string.IsNullOrEmpty(tblProveedorDirecciones.Colonia) ? tblProveedorDirecciones.Colonia : tblProveedorDirecciones.Colonia;
+                    tblProveedorDirecciones.Colonia = !string.IsNullOrEmpty(tblProveedorDirecciones.Colonia) ? strColonia.d_asenta.ToUpper() : tblProveedorDirecciones.Colonia;
+                    tblProveedorDirecciones.Calle = !string.IsNullOrEmpty(tblProveedorDirecciones.Calle) ? tblProveedorDirecciones.Calle.ToUpper() : tblProveedorDirecciones.Calle;
+                    tblProveedorDirecciones.LocalidadMunicipio = !string.IsNullOrEmpty(tblProveedorDirecciones.LocalidadMunicipio) ? tblProveedorDirecciones.LocalidadMunicipio.ToUpper() : tblProveedorDirecciones.LocalidadMunicipio;
+                    tblProveedorDirecciones.Ciudad = !string.IsNullOrEmpty(tblProveedorDirecciones.Ciudad) ? tblProveedorDirecciones.Ciudad.ToUpper() : tblProveedorDirecciones.Ciudad;
+                    tblProveedorDirecciones.Estado = !string.IsNullOrEmpty(tblProveedorDirecciones.Estado) ? tblProveedorDirecciones.Estado.ToUpper() : tblProveedorDirecciones.Estado;
+
+                    _context.SaveChanges();
+                    _context.Add(tblProveedorDirecciones);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro guardado con éxito", 5);
+                }
+                else
+                {
+                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
+                    _notyf.Warning("Favor de validar, existe una Direccion con el mismo nombre", 5);
+                }
             }
             else
             {
@@ -127,6 +153,17 @@ namespace WebAdminHecsa.Controllers
         // GET: TblProveedorDirecciones/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<TblProveedor> ListaProveedor = new List<TblProveedor>();
+            ListaProveedor = (from c in _context.TblProveedor select c).Distinct().ToList();
+            ViewBag.ListaProveedor = ListaProveedor;
+
+            List<CatTipoDireccion> ListaTipoDireccion = new List<CatTipoDireccion>();
+            ListaTipoDireccion = (from c in _context.CatTipoDireccion select c).Distinct().ToList();
+            ViewBag.ListaTipoDireccion = ListaTipoDireccion;
+
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
             if (id == null)
             {
                 return NotFound();
@@ -145,7 +182,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProveedorDirecciones,IdTipoDireccion,TipoDireccionDesc,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,Telefono,IdProveedor,NombreProveedor,FechaRegistro,IdEstatusRegistro")] TblProveedorDirecciones tblProveedorDirecciones)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProveedorDirecciones,IdTipoDireccion,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,CorreoElectronico,Telefono,IdProveedor,IdEstatusRegistro")] TblProveedorDirecciones tblProveedorDirecciones)
         {
             if (id != tblProveedorDirecciones.IdProveedorDirecciones)
             {
@@ -156,6 +193,21 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    var fProveedor = (from c in _context.TblProveedor where c.IdProveedor == tblProveedorDirecciones.IdProveedor select c).Distinct().ToList();
+                    var fTipoDireccion = (from c in _context.CatTipoDireccion where c.IdTipoDireccion == tblProveedorDirecciones.IdTipoDireccion select c).Distinct().ToList();
+                    tblProveedorDirecciones.FechaRegistro = DateTime.Now;
+                    tblProveedorDirecciones.IdEstatusRegistro = 1;
+                    tblProveedorDirecciones.NombreProveedor = fProveedor[0].NombreProveedor;
+                    tblProveedorDirecciones.TipoDireccionDesc = fTipoDireccion[0].TipoDireccionDesc;
+                    var strColonia = _context.CatCodigosPostales.Where(s => s.id_asenta_cpcons == tblProveedorDirecciones.Colonia).FirstOrDefault();
+                    tblProveedorDirecciones.IdColonia = !string.IsNullOrEmpty(tblProveedorDirecciones.Colonia) ? tblProveedorDirecciones.Colonia : tblProveedorDirecciones.Colonia;
+                    tblProveedorDirecciones.Colonia = !string.IsNullOrEmpty(tblProveedorDirecciones.Colonia) ? strColonia.d_asenta.ToUpper() : tblProveedorDirecciones.Colonia;
+                    tblProveedorDirecciones.Calle = !string.IsNullOrEmpty(tblProveedorDirecciones.Calle) ? tblProveedorDirecciones.Calle.ToUpper() : tblProveedorDirecciones.Calle;
+                    tblProveedorDirecciones.LocalidadMunicipio = !string.IsNullOrEmpty(tblProveedorDirecciones.LocalidadMunicipio) ? tblProveedorDirecciones.LocalidadMunicipio.ToUpper() : tblProveedorDirecciones.LocalidadMunicipio;
+                    tblProveedorDirecciones.Ciudad = !string.IsNullOrEmpty(tblProveedorDirecciones.Ciudad) ? tblProveedorDirecciones.Ciudad.ToUpper() : tblProveedorDirecciones.Ciudad;
+                    tblProveedorDirecciones.Estado = !string.IsNullOrEmpty(tblProveedorDirecciones.Estado) ? tblProveedorDirecciones.Estado.ToUpper() : tblProveedorDirecciones.Estado;
+
+                    _context.SaveChanges();
                     _context.Update(tblProveedorDirecciones);
                     await _context.SaveChangesAsync();
                 }
@@ -199,8 +251,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tblProveedorDirecciones = await _context.TblProveedorDirecciones.FindAsync(id);
-            _context.TblProveedorDirecciones.Remove(tblProveedorDirecciones);
+            tblProveedorDirecciones.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

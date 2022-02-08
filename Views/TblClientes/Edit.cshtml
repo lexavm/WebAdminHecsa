@@ -1,65 +1,67 @@
 ﻿@model WebAdminHecsa.Models.TblCliente
 
+
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Cliente";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Edit</h1>
-
-<h4>TblCliente</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Empresa</li>
+        <li class="breadcrumb-item">Control de Cliente</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Cliente</li>
+    </ol>
+</nav>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input style="text-transform:uppercase" type="hidden" asp-for="IdCliente" />
-            <div class="form-group">
-                <label asp-for="NombreCliente" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="NombreCliente" class="form-control" />
-                <span asp-validation-for="NombreCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RFC" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="RFC" class="form-control" />
-                <span asp-validation-for="RFC" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GiroComercial" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="GiroComercial" class="form-control" />
-                <span asp-validation-for="GiroComercial" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEmpresa" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdEmpresa" class="form-control" />
-                <span asp-validation-for="IdEmpresa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreEmpresa" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="NombreEmpresa" class="form-control" />
-                <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdEstatusRegistro" class="form-control" />
-                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input style="text-transform:uppercase" type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="IdCliente" />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="NombreCliente" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="NombreCliente" class="form-control" />
+                    <span asp-validation-for="NombreCliente" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="GiroComercial" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="GiroComercial" class="form-control" />
+                    <span asp-validation-for="GiroComercial" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="RFC" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="RFC" class="form-control" />
+                    <span asp-validation-for="RFC" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="IdEstatusRegistro" class="control-label"></label>
+                    <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaEstatus,"IdEstatus","EstatusDesc"))">
+                        <option value="">Seleccionar Estatus</option>
+                    </select>
+                    <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Actualizar" class="btn btn-warning" />
+            <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        </div>
+    </form>
 </div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

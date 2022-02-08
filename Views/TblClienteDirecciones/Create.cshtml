@@ -20,7 +20,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="IdCliente" class="control-label"></label>
-                    <select id="idListaProveedor" class="form-select statesSelect" asp-for="IdCliente" asp-items="@(new SelectList(ViewBag.ListaProveedor,"IdProveedor","NombreProveedor"))">
+                    <select id="idListaProveedor" class="form-select statesSelect" asp-for="IdCliente" asp-items="@(new SelectList(ViewBag.ListaCliente,"IdCliente","NombreCliente"))">
                         <option value="">SELECCIONAR</option>
                     </select>
                     <span asp-validation-for="IdCliente" class="text-danger"></span>
@@ -93,7 +93,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="Telefono" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
+                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" type="number" />
                     <span asp-validation-for="Telefono" class="text-danger"></span>
                 </div>
             </div>
@@ -112,6 +112,48 @@
         $(document).ready(function () {
             $(".statesSelect").select2();
         });
+                   function validaRFC(){
+          let pattern = /^[a-zA-Z]{3,4}(\d{6})((\D|\d){2,3})?$/;
+          let rfc = document.getElementById("iRFC").value;
+          document.getElementById("estatus").innerHTML = pattern.test(rfc);
+        }
+                function filtro_cp() {
+
+                    var valor_cp = document.getElementById("iCodigoPostal").value;
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/CatCodigosPostales/FiltroCodigosPostales/",
+                        data: { id: valor_cp },
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (list) {
+                            var $select_colonias = $('#drpColonias');
+                            $("#drpColonias").empty();
+
+                            if (list.length == 0) {
+                                $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                                document.getElementById("idLocalidadMunicipio").value = null;
+                                document.getElementById("idCiudad").value = null;
+                                document.getElementById("idEstados").value = null;
+                            }
+                            else {
+                                $select_colonias.append('<option value="">Seleccionar Colonia</option>');
+                                for (var i = 0, len = list.length; i < len; i++) {
+                                    $select_colonias.append('<option value=' + list[i].id_asenta_cpcons + '>' + list[i].d_asenta + '</option>');
+                                     document.getElementById("idLocalidadMunicipio").setAttribute('value',list[i].d_mnpio);
+                                     document.getElementById("idCiudad").setAttribute('value',list[i].d_ciudad);
+                                     document.getElementById("idEstados").setAttribute('value',list[i].d_estado);
+                                }
+                            }
+                        },
+                        error: function () {
+                            alert("Error!!")
+                        }
+                    });
+
+                }
     </script>
 }
+
 }

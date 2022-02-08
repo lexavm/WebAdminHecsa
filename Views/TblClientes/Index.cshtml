@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<WebAdminHecsa.Models.TblCliente>
 
 @{
-    ViewData["Title"] = "Tipos Clientes";
+    ViewData["Title"] = "Clientes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
-        <li class="breadcrumb-item">Clientes</li>>
+        <li class="breadcrumb-item">Clientes</li>
         <li class="breadcrumb-item active" aria-current="page">Control de Clientes</li>
     </ol>
 </nav>
@@ -26,12 +26,6 @@
             </th>
             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.GiroComercial)
-            </th>
-            <th style="text-align:center">
-                @Html.DisplayNameFor(model => model.IdEmpresa)
-            </th>
-            <th style="text-align:center">
-                @Html.DisplayNameFor(model => model.NombreEmpresa)
             </th>
             <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.FechaRegistro)
@@ -55,12 +49,6 @@
                     </td>
                      <td style="text-align:center">
                         @Html.DisplayFor(modelItem => item.GiroComercial)
-                    </td>
-                     <td style="text-align:center">
-                        @Html.DisplayFor(modelItem => item.IdEmpresa)
-                    </td>
-                     <td style="text-align:center">
-                        @Html.DisplayFor(modelItem => item.NombreEmpresa)
                     </td>
                      <td style="text-align:center">
                         @Html.DisplayFor(modelItem => item.FechaRegistro)

@@ -84,7 +84,7 @@
     $(document).ready(function() {
             var vEstatusFlag = '@ViewBag.EstatusFlag'
             var vEmpresaFlag = '@ViewBag.EmpresaFlag'
-            var vProveedorFlag = '@ViewBag.ProveedorFlag'
+            var vClienteFlag = '@ViewBag.ClienteFlag'
 
           if (vEstatusFlag == 0)
           {
@@ -98,7 +98,7 @@
               }
               else
               {
-                  if (vProveedorFlag == 0)
+                  if (vClienteFlag == 0)
                   {
                   document.getElementById("iNuevo").style.visibility="hidden";
                   }

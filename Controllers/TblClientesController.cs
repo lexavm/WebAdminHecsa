@@ -78,13 +78,34 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCliente,NombreCliente,RFC,GiroComercial,CorreoElectronico,IdEmpresa,NombreEmpresa,FechaRegistro,IdEstatusRegistro")] TblCliente tblCliente)
+        public async Task<IActionResult> Create([Bind("IdCliente,NombreCliente,RFC,GiroComercial")] TblCliente tblCliente)
         {
             if (ModelState.IsValid)
             {
-                tblCliente.IdCliente = Guid.NewGuid();
-                _context.Add(tblCliente);
-                await _context.SaveChangesAsync();
+                var DuplicadosEstatus = _context.TblCliente
+                                          .Where(s => s.NombreCliente == tblCliente.NombreCliente)
+                                          .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    var vEmpresa = _context.TblEmpresa.ToList();
+                    tblCliente.FechaRegistro = DateTime.Now;
+                    tblCliente.NombreCliente = tblCliente.NombreCliente.ToString().ToUpper();
+                    tblCliente.GiroComercial = !string.IsNullOrEmpty(tblCliente.GiroComercial) ? tblCliente.GiroComercial.ToUpper() : tblCliente.GiroComercial;
+                    tblCliente.RFC = !string.IsNullOrEmpty(tblCliente.RFC) ? tblCliente.RFC.ToUpper() : tblCliente.RFC;
+                    tblCliente.IdEmpresa = vEmpresa[0].IdEmpresa;
+                    tblCliente.NombreEmpresa = vEmpresa[0].NombreEmpresa;
+                    tblCliente.IdEstatusRegistro = 1;
+
+                    _context.SaveChanges();
+                    _context.Add(tblCliente);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro guardado con éxito", 5);
+                }
+                else
+                {
+                    _notyf.Warning("Favor de validar, existe una Estatus con el mismo nombre", 5);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(tblCliente);
@@ -93,6 +114,10 @@ namespace WebAdminHecsa.Controllers
         // GET: TblClientes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
+
             if (id == null)
             {
                 return NotFound();
@@ -111,7 +136,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdCliente,NombreCliente,RFC,GiroComercial,CorreoElectronico,IdEmpresa,NombreEmpresa,FechaRegistro,IdEstatusRegistro")] TblCliente tblCliente)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdCliente,NombreCliente,RFC,GiroComercial,IdEstatusRegistro")] TblCliente tblCliente)
         {
             if (id != tblCliente.IdCliente)
             {
@@ -122,6 +147,14 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    var vEmpresa = _context.TblEmpresa.ToList();
+                    tblCliente.FechaRegistro = DateTime.Now;
+                    tblCliente.NombreCliente = tblCliente.NombreCliente.ToString().ToUpper();
+                    tblCliente.GiroComercial = !string.IsNullOrEmpty(tblCliente.GiroComercial) ? tblCliente.GiroComercial.ToUpper() : tblCliente.GiroComercial;
+                    tblCliente.RFC = !string.IsNullOrEmpty(tblCliente.RFC) ? tblCliente.RFC.ToUpper() : tblCliente.RFC;
+                    tblCliente.IdEmpresa = vEmpresa[0].IdEmpresa;
+                    tblCliente.NombreEmpresa = vEmpresa[0].NombreEmpresa;
+
                     _context.Update(tblCliente);
                     await _context.SaveChangesAsync();
                 }
@@ -165,8 +198,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var tblCliente = await _context.TblCliente.FindAsync(id);
-            _context.TblCliente.Remove(tblCliente);
+            tblCliente.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Success("Registro Desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 
