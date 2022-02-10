@@ -1,12 +1,15 @@
 ﻿@model WebAdminHecsa.Models.TblClienteDirecciones
-
+@{
+    ViewData["Title"] = "Crear Cliente Direcciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Empresa</li>
         <li class="breadcrumb-item">Control de Proveedor</li>
-        <li class="breadcrumb-item active" aria-current="page">Crear Proveedor Direcciones</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Cliente Direcciones</li>
     </ol>
 </nav>
 <hr />
@@ -90,17 +93,24 @@
             </div>
         </div>
         <div class="row">
+           <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="CorreoElectronico" class="control-label"></label>
+                    <input id="iCorreoElectronico" asp-for="CorreoElectronico" class="form-control" type="email"  />
+                    <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="Telefono" class="control-label"></label>
-                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" type="number" />
+                    <input asp-for="Telefono" class="form-control" type="number" />
                     <span asp-validation-for="Telefono" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <br />
         <div class="form-group">
-            <input type="submit" value="Crear" class="btn btn-primary" />
+            <input type="submit" value="Crear" class="btn btn-success" />
             <a asp-action="Index" class="btn btn-secondary">Regresar</a>
         </div>
     </form>

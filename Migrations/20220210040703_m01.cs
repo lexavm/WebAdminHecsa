@@ -159,7 +159,7 @@ namespace WebAdminHecsa.Migrations
                     IdMarca = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MarcaDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdProveedor = table.Column<int>(type: "int", nullable: false),
+                    IdProveedor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProveedorDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdEstatusRegistro = table.Column<int>(type: "int", nullable: false)
@@ -319,7 +319,7 @@ namespace WebAdminHecsa.Migrations
                     IdClienteDirecciones = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdTipoDireccion = table.Column<int>(type: "int", nullable: false),
-                    TipoDireccionDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TipoDireccionDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Calle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CodigoPostal = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdColonia = table.Column<string>(type: "nvarchar(max)", nullable: true),

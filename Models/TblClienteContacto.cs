@@ -32,7 +32,7 @@ namespace WebAdminHecsa.Models
         [Display(Name = "Teléfono Movil")]
         [DataType(DataType.PhoneNumber)]
         public string TelefonoMovil { get; set; }
-
+        [Required(ErrorMessage = "Campo Requerido")]
         public Guid IdCliente { get; set; }
 
         [Display(Name = "Nombre Cliente")]

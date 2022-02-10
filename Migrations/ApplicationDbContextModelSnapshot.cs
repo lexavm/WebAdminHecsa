@@ -440,8 +440,8 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("int")
                         .HasColumnName("IdEstatusRegistro");
 
-                    b.Property<int>("IdProveedor")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdProveedor")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MarcaDesc")
                         .IsRequired()
@@ -777,7 +777,6 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoDireccionDesc")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdClienteDirecciones");

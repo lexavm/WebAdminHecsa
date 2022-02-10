@@ -19,7 +19,7 @@ namespace WebAdminHecsa.Models
         public string MarcaDesc { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
-        public int IdProveedor { get; set; }
+        public Guid IdProveedor { get; set; }
 
         [Display(Name = "Proveedor")]
         public string ProveedorDesc { get; set; }

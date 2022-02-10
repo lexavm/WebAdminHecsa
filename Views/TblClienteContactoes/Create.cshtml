@@ -1,64 +1,88 @@
 ﻿@model WebAdminHecsa.Models.TblClienteContacto
 
-@{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h1>Create</h1>
-
-<h4>TblClienteContacto</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Empresa</li>
+        <li class="breadcrumb-item">Control de Cliente</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Cliente Contacto</li>
+    </ol>
+</nav>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NombreClienteContacto" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="NombreClienteContacto" class="form-control" />
-                <span asp-validation-for="NombreClienteContacto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CorreoElectronico" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="CorreoElectronico" class="form-control" />
-                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdCliente" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdCliente" class="form-control" />
-                <span asp-validation-for="IdCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreCliente" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="NombreCliente" class="form-control" />
-                <span asp-validation-for="NombreCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdEstatusRegistro" class="form-control" />
-                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input style="text-transform:uppercase" type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="IdCliente" class="control-label"></label>
+                    <select id="idListaCliente" class="form-select statesSelect" asp-for="IdCliente" asp-items="@(new SelectList(ViewBag.ListaCliente,"IdCliente","NombreCliente"))">
+                        <option value="">SELECCIONAR</option>
+                    </select>
+                    <span asp-validation-for="IdCliente" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="IdPerfil" class="control-label"></label>
+                    <select id="idListaPerfil" class="form-select statesSelect" asp-for="IdPerfil" asp-items="@(new SelectList(ViewBag.ListaPerfil,"IdPerfil","PerfilDesc"))">
+                        <option value="">SELECCIONAR</option>
+                    </select>
+                    <span asp-validation-for="IdCliente" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="NombreClienteContacto" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="NombreClienteContacto" class="form-control" />
+                    <span asp-validation-for="NombreClienteContacto" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="CorreoElectronico" class="control-label"></label>
+                    <input  asp-for="CorreoElectronico" class="form-control" type="email" />
+                    <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Telefono" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="Telefono" class="form-control" type="number" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <label asp-for="TelefonoMovil" class="control-label"></label>
+                    <input style="text-transform:uppercase" asp-for="TelefonoMovil" class="form-control" type="number" />
+                    <span asp-validation-for="TelefonoMovil" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Crear" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        </div>
+    </form>
+</div>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    <script>
+        $(document).ready(function () {
+            $(".statesSelect").select2();
+        });
+    </script>
+}
 }

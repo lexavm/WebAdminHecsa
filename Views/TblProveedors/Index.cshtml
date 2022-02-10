@@ -16,7 +16,7 @@
 <p>
     <a id="iNuevo" type="submit" class="btn btn-outline-primary" asp-action="Create" value="Nuevo" title="Nuevo"><i class="fas fa-plus"></i> Nuevo</a>
 </p>
-<table class="table">
+<table class="table" id="tblProveedores">
     <thead>
         <tr>
             <th style="text-align:center">
@@ -79,6 +79,9 @@
 }
 <script type="text/javascript">
           $(document).ready(function() {
+
+               $('#tblProveedores').DataTable();
+
               var vEstatusFlag = '@ViewBag.EstatusFlag'
               var vEmpresaFlag = '@ViewBag.EmpresaFlag'
 

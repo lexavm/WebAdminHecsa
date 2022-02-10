@@ -39,13 +39,13 @@ namespace WebAdminHecsa.Controllers
                 else
                 {
                     ViewBag.EmpresaFlag = 0;
-                    _notyf.Warning("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                    _notyf.Information("Favor de registrar los datos de la Empresa para la Aplicación", 5);
                 }
             }
             else
             {
                 ViewBag.EstatusFlag = 0;
-                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.TblProveedor.ToListAsync());
         }
@@ -100,7 +100,7 @@ namespace WebAdminHecsa.Controllers
                     _context.SaveChanges();
                     _context.Add(tblProveedor);
                     await _context.SaveChangesAsync();
-                    _notyf.Success("Registro guardado con éxito", 5);
+                     _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace WebAdminHecsa.Controllers
                 {
                     var idEmpresa = _context.TblEmpresa.FirstOrDefault();
                     tblProveedor.FechaRegistro = DateTime.Now;
-                    tblProveedor.NombreProveedor = tblProveedor.NombreEmpresa.ToString().ToUpper();
+                    tblProveedor.NombreProveedor = tblProveedor.NombreProveedor.ToString().ToUpper();
                     tblProveedor.GiroComercial = !string.IsNullOrEmpty(tblProveedor.GiroComercial) ? tblProveedor.GiroComercial.ToUpper() : tblProveedor.GiroComercial;
                     tblProveedor.RFC = !string.IsNullOrEmpty(tblProveedor.RFC) ? tblProveedor.RFC.ToUpper() : tblProveedor.RFC;
                     tblProveedor.IdEstatusRegistro = 1;
@@ -156,7 +156,7 @@ namespace WebAdminHecsa.Controllers
                     tblProveedor.NombreEmpresa = idEmpresa.NombreEmpresa;
                     _context.Update(tblProveedor);
                     await _context.SaveChangesAsync();
-                    _notyf.Success("Registro Actualizado con éxito", 5);
+                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -201,7 +201,7 @@ namespace WebAdminHecsa.Controllers
             tblProveedor.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
-            _notyf.Success("Registro Desactivado con éxito", 5);
+            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

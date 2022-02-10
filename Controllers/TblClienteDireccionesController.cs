@@ -44,19 +44,19 @@ namespace WebAdminHecsa.Controllers
                     else
                     {
                         ViewBag.ClienteFlag = 0;
-                        _notyf.Warning("Favor de registrar los datos de la Proveedor para la Aplicación", 5);
+                        _notyf.Information("Favor de registrar los datos de la Proveedor para la Aplicación", 5);
                     }
                 }
                 else
                 {
                     ViewBag.EmpresaFlag = 0;
-                    _notyf.Warning("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                    _notyf.Information("Favor de registrar los datos de la Empresa para la Aplicación", 5);
                 }
             }
             else
             {
                 ViewBag.EstatusFlag = 0;
-                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.TblClienteDirecciones.ToListAsync());
         }
@@ -98,7 +98,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdClienteDirecciones,IdTipoDireccion,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,Telefono,IdCliente")] TblClienteDirecciones tblClienteDirecciones)
+        public async Task<IActionResult> Create([Bind("IdClienteDirecciones,IdTipoDireccion,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,CorreoElectronico,Telefono,IdCliente")] TblClienteDirecciones tblClienteDirecciones)
         {
             if (ModelState.IsValid)
             {
@@ -125,7 +125,7 @@ namespace WebAdminHecsa.Controllers
                     _context.SaveChanges();
                     _context.Add(tblClienteDirecciones);
                     await _context.SaveChangesAsync();
-                    _notyf.Success("Registro guardado con éxito", 5);
+                     _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -140,6 +140,17 @@ namespace WebAdminHecsa.Controllers
         // GET: TblClienteDirecciones/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<TblCliente> ListaCliente = new List<TblCliente>();
+            ListaCliente = (from c in _context.TblCliente select c).Distinct().ToList();
+            ViewBag.ListaCliente = ListaCliente;
+
+            List<CatTipoDireccion> ListaTipoDireccion = new List<CatTipoDireccion>();
+            ListaTipoDireccion = (from c in _context.CatTipoDireccion select c).Distinct().ToList();
+            ViewBag.ListaTipoDireccion = ListaTipoDireccion;
+
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
             if (id == null)
             {
                 return NotFound();
@@ -158,7 +169,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdClienteDirecciones,IdTipoDireccion,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,Telefono,IdCliente,IdEstatusRegistro")] TblClienteDirecciones tblClienteDirecciones)
+        public async Task<IActionResult> Edit(int id, [Bind("IdClienteDirecciones,IdTipoDireccion,Calle,CodigoPostal,IdColonia,Colonia,LocalidadMunicipio,Ciudad,Estado,CorreoElectronico,Telefono,IdCliente,IdEstatusRegistro")] TblClienteDirecciones tblClienteDirecciones)
         {
             if (id != tblClienteDirecciones.IdClienteDirecciones)
             {
@@ -185,6 +196,7 @@ namespace WebAdminHecsa.Controllers
 
                     _context.Update(tblClienteDirecciones);
                     await _context.SaveChangesAsync();
+                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -229,7 +241,7 @@ namespace WebAdminHecsa.Controllers
             tblClienteDirecciones.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
-            _notyf.Success("Registro Desactivado con éxito", 5);
+            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

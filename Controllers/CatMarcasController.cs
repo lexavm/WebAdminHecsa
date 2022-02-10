@@ -1,11 +1,10 @@
-﻿using System;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
 using WebAdminHecsa.Models;
 
@@ -30,11 +29,33 @@ namespace WebAdminHecsa.Controllers
             if (ValidaEstatus.Count == 2)
             {
                 ViewBag.EstatusFlag = 1;
+                var ValidaEmpresa = _context.TblEmpresa.ToList();
+
+                if (ValidaEmpresa.Count == 1)
+                {
+                    ViewBag.EmpresaFlag = 1;
+                    var ValidaProveedor = _context.TblProveedor.ToList();
+
+                    if (ValidaProveedor.Count >= 1)
+                    {
+                        ViewBag.ProveedorFlag = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ProveedorFlag = 0;
+                        _notyf.Information("Favor de registrar los datos de Proveedores para la Aplicación", 5);
+                    }
+                }
+                else
+                {
+                    ViewBag.EmpresaFlag = 0;
+                    _notyf.Information("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                }
             }
             else
             {
                 ViewBag.EstatusFlag = 0;
-                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.CatMarca.ToListAsync());
         }
@@ -60,6 +81,9 @@ namespace WebAdminHecsa.Controllers
         // GET: CatMarcas/Create
         public IActionResult Create()
         {
+            List<TblProveedor> ListaProveedor = new List<TblProveedor>();
+            ListaProveedor = (from c in _context.TblProveedor select c).Distinct().ToList();
+            ViewBag.ListaProveedor = ListaProveedor;
             return View();
         }
 
@@ -68,20 +92,52 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdMarca,MarcaDesc,IdProveedor,ProveedorDesc,FechaRegistro,IdEstatusRegistro")] CatMarca catMarca)
+        public async Task<IActionResult> Create([Bind("IdMarca,MarcaDesc,IdProveedor,ProveedorDesc")] CatMarca catMarca)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(catMarca);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var DuplicadosEstatus = _context.CatMarca
+       .Where(s => s.MarcaDesc == catMarca.MarcaDesc)
+       .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    var fProveedor = (from c in _context.TblProveedor where c.IdProveedor == catMarca.IdProveedor select c).Distinct().ToList();
+
+                    catMarca.FechaRegistro = DateTime.Now;
+                    catMarca.IdEstatusRegistro = 1;
+                    catMarca.ProveedorDesc = fProveedor[0].NombreProveedor;
+                    catMarca.MarcaDesc = !string.IsNullOrEmpty(catMarca.MarcaDesc) ? catMarca.MarcaDesc.ToUpper() : catMarca.MarcaDesc;
+
+                    _context.SaveChanges();
+                    _context.Add(catMarca);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro creado con éxito", 5);
+                }
+                else
+                {
+                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
+                    _notyf.Warning("Favor de validar, existe una Direccion con el mismo nombre", 5);
+                }
             }
+            else
+            {
+                _notyf.Error("Error en la validacion de campos", 5);
+            }
+
             return View(catMarca);
         }
 
         // GET: CatMarcas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<TblProveedor> ListaProveedor = new List<TblProveedor>();
+            ListaProveedor = (from c in _context.TblProveedor select c).Distinct().ToList();
+            ViewBag.ListaProveedor = ListaProveedor;
+
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
             if (id == null)
             {
                 return NotFound();
@@ -100,7 +156,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdMarca,MarcaDesc,IdProveedor,ProveedorDesc,FechaRegistro,IdEstatusRegistro")] CatMarca catMarca)
+        public async Task<IActionResult> Edit(int id, [Bind("IdMarca,MarcaDesc,IdProveedor,IdEstatusRegistro")] CatMarca catMarca)
         {
             if (id != catMarca.IdMarca)
             {

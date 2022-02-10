@@ -29,34 +29,45 @@ namespace WebAdminHecsa.Controllers
 
             if (ValidaEstatus.Count == 2)
             {
-                ViewBag.EstatusFlag = true;
+                ViewBag.EstatusFlag = 1;
                 var ValidaEmpresa = _context.TblEmpresa.ToList();
 
                 if (ValidaEmpresa.Count == 1)
                 {
-                    ViewBag.EmpresaFlag = true;
-                    var ValidaMarca = _context.CatMarca.ToList();
+                    ViewBag.EmpresaFlag = 1;
+                    var ValidaProveedor = _context.TblProveedor.ToList();
 
-                    if (ValidaMarca.Count > 1)
+                    if (ValidaProveedor.Count >= 1)
                     {
-                        ViewBag.MarcaFlag = true;
+                        ViewBag.ProveedorFlag = 1;
+                        var ValidaMarca = _context.CatMarca.ToList();
+
+                        if (ValidaMarca.Count >= 1)
+                        {
+                            ViewBag.MarcaFlag = 1;
+                        }
+                        else
+                        {
+                            ViewBag.MArcaFlag = 0;
+                            _notyf.Information("Favor de registrar los datos de Marcas para la Aplicación", 5);
+                        }
                     }
                     else
                     {
-                        ViewBag.MarcaFlag = false;
-                        _notyf.Warning("Favor de registrar los datos de la Marca para la Aplicación", 5);
+                        ViewBag.ProveedorFlag = 0;
+                        _notyf.Information("Favor de registrar los datos de Proveedores para la Aplicación", 5);
                     }
                 }
                 else
                 {
-                    ViewBag.EmpresaFlag = false;
-                    _notyf.Warning("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                    ViewBag.EmpresaFlag = 0;
+                    _notyf.Information("Favor de registrar los datos de la Empresa para la Aplicación", 5);
                 }
             }
             else
             {
-                ViewBag.EstatusFlag = false;
-                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+                ViewBag.EstatusFlag = 0;
+                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.CatCategoria.ToListAsync());
         }

@@ -12,7 +12,7 @@ using WebAdminHecsa.Data;
 namespace WebAdminHecsa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220205195008_m01")]
+    [Migration("20220210040703_m01")]
     partial class m01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -442,8 +442,8 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("int")
                         .HasColumnName("IdEstatusRegistro");
 
-                    b.Property<int>("IdProveedor")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdProveedor")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MarcaDesc")
                         .IsRequired()
@@ -779,7 +779,6 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoDireccionDesc")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdClienteDirecciones");

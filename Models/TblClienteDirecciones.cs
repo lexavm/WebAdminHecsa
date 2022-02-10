@@ -14,7 +14,7 @@ namespace WebAdminHecsa.Models
         [Display(Name = "ID Tipo Direccion")]
         public int IdTipoDireccion { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido")]
+        
         [Display(Name = "Tipo Direccion")]
         public string TipoDireccionDesc { get; set; }
 

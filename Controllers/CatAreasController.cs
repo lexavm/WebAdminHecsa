@@ -33,7 +33,7 @@ namespace WebAdminHecsa.Controllers
             else
             {
                 ViewBag.EstatusFlag = 0;
-                _notyf.Warning("Favor de registrar los Estatus para la Aplicación", 5);
+                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
             return View(await _context.CatArea.ToListAsync());
         }
@@ -84,12 +84,12 @@ namespace WebAdminHecsa.Controllers
 
                 _context.Add(catArea);
                 await _context.SaveChangesAsync();
-                _notyf.Success("Registro guardado con éxito", 5);
+                 _notyf.Success("Registro creado con éxito", 5);
             }
             else
             {
                 //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
-                _notyf.Warning("Favor de validar, existe una Estatus con el mismo nombre", 5);
+                _notyf.Information("Favor de validar, existe una Estatus con el mismo nombre", 5);
             }
                 return RedirectToAction(nameof(Index));
             }
@@ -137,7 +137,7 @@ namespace WebAdminHecsa.Controllers
                     _context.SaveChanges();
                     _context.Update(catArea);
                     await _context.SaveChangesAsync();
-                    _notyf.Success("Registro actualizado con éxito", 5);
+                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -182,7 +182,7 @@ namespace WebAdminHecsa.Controllers
             catArea.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
-            _notyf.Success("Registro Desactivado con éxito", 5);
+            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

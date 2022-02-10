@@ -1,23 +1,22 @@
 ﻿@model WebAdminHecsa.Models.TblClienteDirecciones
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Desactivar Cliente Direccion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Cliente</li>
+        <li class="breadcrumb-item">Control de Cliente</li>
+        <li class="breadcrumb-item active" aria-current="page">Desactivar Cliente Direccion</li>
+    </ol>
+</nav>
+<hr />
 <div>
-    <h4>TblClienteDirecciones</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdTipoDireccion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdTipoDireccion)
-        </dd>
+   <dl class="row">
+ 
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TipoDireccionDesc)
         </dt>
@@ -35,12 +34,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CodigoPostal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdColonia)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdColonia)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Colonia)
@@ -72,12 +65,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Telefono)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdCliente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdCliente)
-        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NombreCliente)
         </dt>
@@ -97,10 +85,9 @@
             @Html.DisplayFor(model => model.IdEstatusRegistro)
         </dd>
     </dl>
-    
     <form asp-action="Delete">
-        <input style="text-transform:uppercase" type="hidden" asp-for="IdClienteDirecciones" />
-        <input style="text-transform:uppercase" type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="hidden" asp-for="IdClienteDirecciones" />
+        <input type="submit" value="Desactivar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
     </form>
 </div>
