@@ -48,7 +48,7 @@ namespace WebAdminHecsa.Controllers
                         }
                         else
                         {
-                            ViewBag.MArcaFlag = 0;
+                            ViewBag.MarcaFlag = 0;
                             _notyf.Information("Favor de registrar los datos de Marcas para la Aplicación", 5);
                         }
                     }
@@ -93,6 +93,9 @@ namespace WebAdminHecsa.Controllers
         // GET: CatCategorias/Create
         public IActionResult Create()
         {
+            List<CatMarca> ListaMarca = new List<CatMarca>();
+            ListaMarca = (from c in _context.CatMarca select c).Distinct().ToList();
+            ViewBag.ListaMarca = ListaMarca;
             return View();
         }
 
@@ -105,8 +108,28 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(catCategoria);
-                await _context.SaveChangesAsync();
+                var DuplicadosEstatus = _context.CatCategoria
+               .Where(s => s.CategoriaDesc == catCategoria.CategoriaDesc)
+               .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    var fMarca = (from c in _context.CatMarca where c.IdMarca == catCategoria.IdMarca select c).Distinct().ToList();
+                    catCategoria.FechaRegistro = DateTime.Now;
+                    catCategoria.IdEstatusRegistro = 1;
+                    catCategoria.MarcaDesc = fMarca[0].MarcaDesc;
+                    catCategoria.CategoriaDesc = !string.IsNullOrEmpty(catCategoria.CategoriaDesc) ? catCategoria.CategoriaDesc.ToUpper() : catCategoria.CategoriaDesc;
+
+                    _context.SaveChanges();
+                    _context.Add(catCategoria);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro creado con éxito", 5);
+                }
+                else
+                {
+                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
+                    _notyf.Warning("Favor de validar, existe una Categoria con el mismo nombre", 5);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(catCategoria);
@@ -115,6 +138,14 @@ namespace WebAdminHecsa.Controllers
         // GET: CatCategorias/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<CatMarca> ListaMarca = new List<CatMarca>();
+            ListaMarca = (from c in _context.CatMarca select c).Distinct().ToList();
+            ViewBag.ListaMarca = ListaMarca;
+
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
+
             if (id == null)
             {
                 return NotFound();
@@ -144,8 +175,17 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    var fMarca = (from c in _context.CatMarca where c.IdMarca == catCategoria.IdMarca select c).Distinct().ToList();
+                    catCategoria.FechaRegistro = DateTime.Now;
+                    catCategoria.IdEstatusRegistro = 1;
+                    catCategoria.MarcaDesc = fMarca[0].MarcaDesc;
+                    catCategoria.CategoriaDesc = !string.IsNullOrEmpty(catCategoria.CategoriaDesc) ? catCategoria.CategoriaDesc.ToUpper() : catCategoria.CategoriaDesc;
+
+                    _context.SaveChanges();
+                    _context.Add(catCategoria);
                     _context.Update(catCategoria);
                     await _context.SaveChangesAsync();
+                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -187,8 +227,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var catCategoria = await _context.CatCategoria.FindAsync(id);
-            _context.CatCategoria.Remove(catCategoria);
+            catCategoria.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

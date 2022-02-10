@@ -1,7 +1,7 @@
 ﻿@model WebAdminHecsa.Models.CatMarca
 
 @{
-    ViewData["Title"] = "Detalles Género";
+    ViewData["Title"] = "Detalles Marca";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
@@ -9,9 +9,9 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Género</li>
-        <li class="breadcrumb-item">Control de Género</li>
-        <li class="breadcrumb-item active" aria-current="page">Detalles Género</li>
+        <li class="breadcrumb-item">Marca</li>
+        <li class="breadcrumb-item">Control de Marca</li>
+        <li class="breadcrumb-item active" aria-current="page">Detalles Marca</li>
     </ol>
 </nav>
 <hr />
@@ -23,12 +23,6 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MarcaDesc)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdProveedor)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdProveedor)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ProveedorDesc)
@@ -50,6 +44,6 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Index" class="btn btn-secondary">Regresar</a>
-</div>
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-info">Regresar</a>
+    </div>

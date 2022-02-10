@@ -97,13 +97,12 @@ namespace WebAdminHecsa.Controllers
             if (ModelState.IsValid)
             {
                 var DuplicadosEstatus = _context.CatMarca
-       .Where(s => s.MarcaDesc == catMarca.MarcaDesc)
-       .ToList();
+               .Where(s => s.MarcaDesc == catMarca.MarcaDesc)
+               .ToList();
 
                 if (DuplicadosEstatus.Count == 0)
                 {
                     var fProveedor = (from c in _context.TblProveedor where c.IdProveedor == catMarca.IdProveedor select c).Distinct().ToList();
-
                     catMarca.FechaRegistro = DateTime.Now;
                     catMarca.IdEstatusRegistro = 1;
                     catMarca.ProveedorDesc = fProveedor[0].NombreProveedor;
@@ -117,12 +116,9 @@ namespace WebAdminHecsa.Controllers
                 else
                 {
                     //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
-                    _notyf.Warning("Favor de validar, existe una Direccion con el mismo nombre", 5);
+                    _notyf.Warning("Favor de validar, existe una Marca con el mismo nombre", 5);
                 }
-            }
-            else
-            {
-                _notyf.Error("Error en la validacion de campos", 5);
+                return RedirectToAction(nameof(Index));
             }
 
             return View(catMarca);
@@ -167,8 +163,17 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+
+                    var fProveedor = (from c in _context.TblProveedor where c.IdProveedor == catMarca.IdProveedor select c).Distinct().ToList();
+                    catMarca.FechaRegistro = DateTime.Now;
+                    catMarca.IdEstatusRegistro = 1;
+                    catMarca.ProveedorDesc = fProveedor[0].NombreProveedor;
+                    catMarca.MarcaDesc = !string.IsNullOrEmpty(catMarca.MarcaDesc) ? catMarca.MarcaDesc.ToUpper() : catMarca.MarcaDesc;
+                    _context.SaveChanges();
+                    _context.Add(catMarca);
                     _context.Update(catMarca);
                     await _context.SaveChangesAsync();
+                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -210,8 +215,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var catMarca = await _context.CatMarca.FindAsync(id);
-            _context.CatMarca.Remove(catMarca);
+            catMarca.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

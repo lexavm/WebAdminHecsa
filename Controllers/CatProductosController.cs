@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,72 @@ namespace WebAdminHecsa.Controllers
     public class CatProductosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotyfService _notyf;
 
-        public CatProductosController(ApplicationDbContext context)
+        public CatProductosController(ApplicationDbContext context, INotyfService notyf)
         {
             _context = context;
+            _notyf = notyf;
         }
 
         // GET: CatProductos
         public async Task<IActionResult> Index()
         {
+            var ValidaEstatus = _context.CatEstatus.ToList();
+
+            if (ValidaEstatus.Count == 2)
+            {
+                ViewBag.EstatusFlag = 1;
+                var ValidaEmpresa = _context.TblEmpresa.ToList();
+
+                if (ValidaEmpresa.Count == 1)
+                {
+                    ViewBag.EmpresaFlag = 1;
+                    var ValidaProveedor = _context.TblProveedor.ToList();
+
+                    if (ValidaProveedor.Count >= 1)
+                    {
+                        ViewBag.ProveedorFlag = 1;
+                        var ValidaMarca = _context.CatMarca.ToList();
+
+                        if (ValidaMarca.Count >= 1)
+                        {
+                            ViewBag.MarcaFlag = 1;
+                            var ValidaCategoria = _context.CatCategoria.ToList();
+
+                            if (ValidaCategoria.Count >= 1)
+                            {
+                                ViewBag.CategoriaFlag = 1;
+                            }
+                            else
+                            {
+                                ViewBag.CategoriaFlag = 0;
+                                _notyf.Information("Favor de registrar los datos de Categoria para la Aplicación", 5);
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.MarcaFlag = 0;
+                            _notyf.Information("Favor de registrar los datos de Marca para la Aplicación", 5);
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ProveedorFlag = 0;
+                        _notyf.Information("Favor de registrar los datos de Proveedores para la Aplicación", 5);
+                    }
+                }
+                else
+                {
+                    ViewBag.EmpresaFlag = 0;
+                    _notyf.Information("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                }
+            }
+            else
+            {
+                ViewBag.EstatusFlag = 0;
+                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
+            }
             return View(await _context.CatProductos.ToListAsync());
         }
 
