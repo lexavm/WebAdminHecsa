@@ -340,6 +340,31 @@ namespace WebAdminHecsa.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TblCotizacionGeneral",
+                columns: table => new
+                {
+                    IdCotizacionGeneral = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NumeroCotizacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdEmpresaFiscales = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NombreFiscal = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmpresaGeneral = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmpresaContacto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdCliente = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NombreCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RFCCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MediosCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DireccionCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DireccionContacto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClienteContacto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdEstatusRegistro = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TblCotizacionGeneral", x => x.IdCotizacionGeneral);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TblEmpresa",
                 columns: table => new
                 {
@@ -692,6 +717,9 @@ namespace WebAdminHecsa.Migrations
 
             migrationBuilder.DropTable(
                 name: "TblClienteDirecciones");
+
+            migrationBuilder.DropTable(
+                name: "TblCotizacionGeneral");
 
             migrationBuilder.DropTable(
                 name: "TblEmpresa");

@@ -12,14 +12,14 @@ using WebAdminHecsa.Data;
 namespace WebAdminHecsa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220210040703_m01")]
+    [Migration("20220211054458_m01")]
     partial class m01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -784,6 +784,60 @@ namespace WebAdminHecsa.Migrations
                     b.HasKey("IdClienteDirecciones");
 
                     b.ToTable("TblClienteDirecciones");
+                });
+
+            modelBuilder.Entity("WebAdminHecsa.Models.TblCotizacionGeneral", b =>
+                {
+                    b.Property<Guid>("IdCotizacionGeneral")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClienteContacto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DireccionCliente")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DireccionContacto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmpresaContacto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmpresaGeneral")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaRegistro");
+
+                    b.Property<Guid>("IdCliente")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdEmpresaFiscales")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("IdEstatusRegistro")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MediosCliente")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreCliente")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreFiscal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroCotizacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RFCCliente")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdCotizacionGeneral");
+
+                    b.ToTable("TblCotizacionGeneral");
                 });
 
             modelBuilder.Entity("WebAdminHecsa.Models.TblEmpresa", b =>
