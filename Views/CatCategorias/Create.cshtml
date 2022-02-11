@@ -21,13 +21,14 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group">
+             <div class="form-group">
                 <label asp-for="IdMarca" class="control-label"></label>
-                <select id="idListaProveedor" class="js-example-basic-single form-control" asp-for="IdMarca" asp-items="@(new SelectList(ViewBag.ListaMarca,"IdMarca","MarcaDesc"))">
+                <select id="drpColonias" class="form-select" asp-for="IdMarca" asp-items="@(new SelectList(ViewBag.ListaMarca,"IdMarca","MarcaDesc"))">
                     <option value="">SELECCIONAR</option>
                 </select>
                 <span asp-validation-for="IdMarca" class="text-danger"></span>
             </div>
+         
         </div>
 
         <div class="col-md-3">
@@ -50,9 +51,4 @@
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
-<script>
-    $(document).ready(function () {
-         $('.js-example-basic-single').select2();
-    });
-</script>
 }

@@ -104,6 +104,14 @@ namespace WebAdminHecsa.Controllers
         // GET: CatProductos/Create
         public IActionResult Create()
         {
+            List<CatMarca> ListaMarca = new List<CatMarca>();
+            ListaMarca = (from c in _context.CatMarca select c).Distinct().ToList();
+            ViewBag.ListaMarca = ListaMarca;
+            
+            List<CatCategoria> ListaCategoria = new List<CatCategoria>();
+            ListaCategoria = (from c in _context.CatCategoria select c).Distinct().ToList();
+            ViewBag.ListaCategoria = ListaCategoria;
+
             return View();
         }
 
@@ -112,12 +120,34 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProducto,CodigoInterno,CodigoExterno,IdMarca,MarcaDesc,IdCategoria,CategoriaDesc,DescProducto,CantidadMinima,CantidadInicial,ProductoPrecio,PorcentajeGanancia,PorcentajeVenta,SubCosto,Costo,FechaRegistro,IdEstatusRegistro")] CatProducto catProductos)
+        public async Task<IActionResult> Create([Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto")] CatProducto catProductos)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(catProductos);
-                await _context.SaveChangesAsync();
+                var DuplicadosEstatus = _context.CatProductos
+               .Where(s => s.IdCategoria == catProductos.IdMarca && s.IdCategoria == catProductos.IdCategoria && s.DescProducto == catProductos.DescProducto) 
+               .ToList();
+
+                if (DuplicadosEstatus.Count == 0)
+                {
+                    var fMarca = (from c in _context.CatMarca where c.IdMarca == catProductos.IdMarca select c).Distinct().ToList();
+                    var fCategoria = (from c in _context.CatCategoria where c.IdCategoria == catProductos.IdCategoria select c).Distinct().ToList();
+                    catProductos.FechaRegistro = DateTime.Now;
+                    catProductos.IdEstatusRegistro = 1;
+                    catProductos.MarcaDesc = fMarca[0].MarcaDesc;
+                    catProductos.CategoriaDesc = fCategoria[0].CategoriaDesc;
+                    catProductos.DescProducto = !string.IsNullOrEmpty(catProductos.DescProducto) ? catProductos.DescProducto.ToUpper() : catProductos.DescProducto;
+
+                    _context.SaveChanges();
+                    _context.Add(catProductos);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro creado con éxito", 5);
+                }
+                else
+                {
+                    //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
+                    _notyf.Warning("Favor de validar, existe una Producto con la misma marca y misma categoria", 5);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(catProductos);
@@ -126,6 +156,14 @@ namespace WebAdminHecsa.Controllers
         // GET: CatProductos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<CatMarca> ListaMarca = new List<CatMarca>();
+            ListaMarca = (from c in _context.CatMarca select c).Distinct().ToList();
+            ViewBag.ListaMarca = ListaMarca;
+
+            List<CatCategoria> ListaCategoria = new List<CatCategoria>();
+            ListaCategoria = (from c in _context.CatCategoria select c).Distinct().ToList();
+            ViewBag.ListaCategoria = ListaCategoria;
+
             if (id == null)
             {
                 return NotFound();
@@ -144,7 +182,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,CodigoInterno,CodigoExterno,IdMarca,MarcaDesc,IdCategoria,CategoriaDesc,DescProducto,CantidadMinima,CantidadInicial,ProductoPrecio,PorcentajeGanancia,PorcentajeVenta,SubCosto,Costo,FechaRegistro,IdEstatusRegistro")] CatProducto catProductos)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto,CantidadMinima,CantidadInicial,ProductoPrecio,PorcentajeGanancia,PorcentajeVenta,SubCosto,Costo,IdEstatusRegistro")] CatProducto catProductos)
         {
             if (id != catProductos.IdProducto)
             {
@@ -155,8 +193,17 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    var fMarca = (from c in _context.CatMarca where c.IdMarca == catProductos.IdMarca select c).Distinct().ToList();
+                    var fCategoria = (from c in _context.CatCategoria where c.IdCategoria == catProductos.IdCategoria select c).Distinct().ToList();
+                    catProductos.FechaRegistro = DateTime.Now;
+                    catProductos.IdEstatusRegistro = 1;
+                    catProductos.MarcaDesc = fMarca[0].MarcaDesc;
+                    catProductos.CategoriaDesc = fCategoria[0].CategoriaDesc;
+                    catProductos.DescProducto = !string.IsNullOrEmpty(catProductos.DescProducto) ? catProductos.DescProducto.ToUpper() : catProductos.DescProducto;
+                    _context.SaveChanges();
                     _context.Update(catProductos);
                     await _context.SaveChangesAsync();
+                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -198,8 +245,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var catProductos = await _context.CatProductos.FindAsync(id);
-            _context.CatProductos.Remove(catProductos);
+            catProductos.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 
@@ -207,5 +256,7 @@ namespace WebAdminHecsa.Controllers
         {
             return _context.CatProductos.Any(e => e.IdProducto == id);
         }
+
+
     }
 }
