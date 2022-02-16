@@ -48,6 +48,10 @@ namespace WebAdminHecsa.Models
         [Display(Name = "Fecha Nacimiento")]
         public DateTime FechaNacimiento { get; set; }
 
+        [Required(ErrorMessage = "Campo Requerido")]
+        [Display(Name = "Correo Acceso")]
+        public string CorreoAcceso { get; set; }
+
         [Column("FechaRegistro")]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha Registro")]

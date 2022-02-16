@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebAdminHecsa.Data.Configuracion;
 using WebAdminHecsa.Models;
 
 namespace WebAdminHecsa.Data
@@ -35,5 +37,16 @@ namespace WebAdminHecsa.Data
         public DbSet<CatArea> CatArea { get; set; }
 
         public DbSet<TblCotizacionGeneral> TblCotizacionGeneral { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Ignore<IdentityUserLogin<string>>();
+            modelBuilder.Ignore<IdentityUserRole<string>>();
+            modelBuilder.Ignore<IdentityUserClaim<string>>();
+            modelBuilder.Ignore<IdentityUserToken<string>>();
+            modelBuilder.Ignore<IdentityUser<string>>();
+            modelBuilder.ApplyConfiguration(new EstatusConfiguracion());
+
+        }
     }
 }

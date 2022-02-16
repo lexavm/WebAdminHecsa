@@ -1,44 +1,112 @@
 ﻿@model WebAdminHecsa.Models.TblUsuario
 
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Usuaio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>TblUsuario</h4>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">HECSA</li>
+        <li class="breadcrumb-item">Información</li>
+        <li class="breadcrumb-item">Catálogos</li>
+        <li class="breadcrumb-item">Usuaio</li>
+        <li class="breadcrumb-item">Control de Usuaio</li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Usuaio</li>
+    </ol>
+</nav>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NombreUsuario" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="NombreUsuario" class="form-control" />
-                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="IdEstatusRegistro" class="form-control" />
-                <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input style="text-transform:uppercase" type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="IdGenero" class="control-label"></label>
+                <select id="drpGenero" class="form-select" asp-for="IdGenero" asp-items="@(new SelectList(ViewBag.ListaGenero,"IdGenero","GeneroDesc"))">
+                    <option value="">SELECCIONAR</option>
+                </select>
+                <span asp-validation-for="IdGenero" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="FechaNacimiento" class="control-label"></label>
+                <input asp-for="FechaNacimiento" class="form-control" />
+                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="IdArea" class="control-label"></label>
+                <select id="drpArea" class="form-select" asp-for="IdArea" asp-items="@(new SelectList(ViewBag.ListaArea,"IdArea","AreaDesc"))">
+                    <option value="">SELECCIONAR</option>
+                </select>
+                <span asp-validation-for="IdArea" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="IdPerfil" class="control-label"></label>
+                <select id="drpPerfil" class="form-select" asp-for="IdPerfil" asp-items="@(new SelectList(ViewBag.ListaPerfil,"IdPerfil","PerfilDesc"))">
+                    <option value="">SELECCIONAR</option>
+                </select>
+                <span asp-validation-for="IdPerfil" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="IdRol" class="control-label"></label>
+                <select id="drpRol" class="form-select" asp-for="IdRol" asp-items="@(new SelectList(ViewBag.ListaRol,"IdRol","RolDesc"))">
+                    <option value="">SELECCIONAR</option>
+                </select>
+                <span asp-validation-for="IdRol" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Nombres" class="control-label"></label>
+                <input style="text-transform:uppercase" asp-for="Nombres" class="form-control" />
+                <span asp-validation-for="Nombres" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="ApellidoPaterno" class="control-label"></label>
+                <input style="text-transform:uppercase" asp-for="ApellidoPaterno" class="form-control" />
+                <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="ApellidoMaterno" class="control-label"></label>
+                <input style="text-transform:uppercase" asp-for="ApellidoMaterno" class="form-control" />
+                <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="CorreoAcceso" class="control-label"></label>
+            <div class="input-group">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="">Generar</button>
+                </div>
+                <input type="email" asp-for="CorreoAcceso" class="form-control" id="iCorreoAcceso" aria-describedby="basic-addon2">
+            </div>
+            <span asp-validation-for="CorreoAcceso" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Crear" class="btn btn-success" />
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </div>
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
