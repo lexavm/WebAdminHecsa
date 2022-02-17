@@ -91,6 +91,7 @@ namespace WebAdminHecsa.Controllers
                 ViewBag.EstatusFlag = 0;
                 _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
+
             return View(await _context.TblUsuario.ToListAsync());
         }
 
@@ -148,14 +149,30 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var idEmpresa = _context.TblEmpresa.FirstOrDefault();
-                tblUsuario.FechaRegistro = DateTime.Now;
-                tblUsuario.IdEstatusRegistro = 1;
-                tblUsuario.IdEmpresa = idEmpresa.IdEmpresa;
-                tblUsuario.NombreEmpresa = idEmpresa.NombreEmpresa;
-                tblUsuario.IdUsuario = Guid.NewGuid();
-                _context.Add(tblUsuario);
-                await _context.SaveChangesAsync();
+                var vDuplicados = _context.TblUsuario
+                                .Where(s => s.Nombres == tblUsuario.Nombres && s.ApellidoPaterno == tblUsuario.ApellidoPaterno && s.ApellidoMaterno == tblUsuario.ApellidoMaterno)
+                                .ToList();
+
+                if (vDuplicados.Count == 0)
+                {
+                    var idEmpresa = _context.TblEmpresa.FirstOrDefault();
+                    tblUsuario.FechaRegistro = DateTime.Now;
+                    tblUsuario.IdEstatusRegistro = 1;
+                    tblUsuario.IdEmpresa = idEmpresa.IdEmpresa;
+                    tblUsuario.NombreEmpresa = idEmpresa.NombreEmpresa;
+                    tblUsuario.Nombres = tblUsuario.Nombres.ToUpper();
+                    tblUsuario.ApellidoPaterno = tblUsuario.ApellidoPaterno.ToUpper();
+                    tblUsuario.ApellidoMaterno = tblUsuario.ApellidoMaterno.ToUpper();
+                    tblUsuario.IdUsuario = Guid.NewGuid();
+                    _context.Add(tblUsuario);
+                    await _context.SaveChangesAsync();
+                    _notyf.Success("Registro creado con éxito", 5);
+                }
+                else
+                {
+                    _notyf.Warning("Favor de validar, existe Usuario con el mismo nombre.", 5);
+                }
+               
                 return RedirectToAction(nameof(Index));
             }
             return View(tblUsuario);
@@ -164,6 +181,27 @@ namespace WebAdminHecsa.Controllers
         // GET: TblUsuarios/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
+
+            List<CatArea> ListaArea = new List<CatArea>();
+            ListaArea = (from c in _context.CatArea select c).Distinct().ToList();
+            ViewBag.ListaArea = ListaArea;
+
+            List<CatGenero> ListaGenero = new List<CatGenero>();
+            ListaGenero = (from c in _context.CatGenero select c).Distinct().ToList();
+            ViewBag.ListaGenero = ListaGenero;
+
+            List<CatPerfil> ListaPerfil = new List<CatPerfil>();
+            ListaPerfil = (from c in _context.CatPerfile select c).Distinct().ToList();
+            ViewBag.ListaPerfil = ListaPerfil;
+
+            List<CatRole> ListaRol = new List<CatRole>();
+            ListaRol = (from c in _context.CatRole select c).Distinct().ToList();
+            ViewBag.ListaRol = ListaRol;
+
+    
             if (id == null)
             {
                 return NotFound();
@@ -182,7 +220,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdUsuario,NombreUsuario,FechaRegistro,IdEstatusRegistro")] TblUsuario tblUsuario)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdUsuario,IdGenero,IdArea,IdPerfil,IdRol,FechaNacimiento,Nombres,ApellidoPaterno,ApellidoMaterno,CorreoAcceso,IdEstatusRegistro")] TblUsuario tblUsuario)
         {
             if (id != tblUsuario.IdUsuario)
             {
@@ -193,8 +231,17 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
+                    var idEmpresa = _context.TblEmpresa.FirstOrDefault();
+                    tblUsuario.FechaRegistro = DateTime.Now;
+                    tblUsuario.IdEstatusRegistro = 1;
+                    tblUsuario.IdEmpresa = idEmpresa.IdEmpresa;
+                    tblUsuario.NombreEmpresa = idEmpresa.NombreEmpresa;
+                    tblUsuario.Nombres = tblUsuario.Nombres.ToUpper();
+                    tblUsuario.ApellidoPaterno = tblUsuario.ApellidoPaterno.ToUpper();
+                    tblUsuario.ApellidoMaterno = tblUsuario.ApellidoMaterno.ToUpper();
                     _context.Update(tblUsuario);
                     await _context.SaveChangesAsync();
+                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -236,8 +283,10 @@ namespace WebAdminHecsa.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var tblUsuario = await _context.TblUsuario.FindAsync(id);
-            _context.TblUsuario.Remove(tblUsuario);
+            tblUsuario.IdEstatusRegistro = 2;
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
+            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 

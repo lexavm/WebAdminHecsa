@@ -56,3 +56,65 @@
         }
     </tbody>
 </table>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#tblProductos').DataTable();
+
+           var vEstatusFlag = '@ViewBag.EstatusFlag'
+           var vEmpresaFlag = '@ViewBag.EmpresaFlag'
+           var vGeneroFlag = '@ViewBag.GeneroFlag'
+           var vAreaFlag = '@ViewBag.AreaFlag'
+           var vPerfilFlag = '@ViewBag.PerfilFlag'
+           var vRolFlag = '@ViewBag.RolFlag'
+
+         if (vEstatusFlag == 0)
+         {
+         document.getElementById("iNuevo").style.visibility="hidden";
+         }
+         else
+         {
+             if (vEmpresaFlag == 0)
+             {
+             document.getElementById("iNuevo").style.visibility="hidden";
+             }
+             else
+             {
+                 if (vGeneroFlag == 0)
+                 {
+                 document.getElementById("iNuevo").style.visibility="hidden";
+                 }
+                 else
+                 {
+                     if (vAreaFlag == 0)
+                     {
+                     document.getElementById("iNuevo").style.visibility="hidden";
+                     }
+                     else
+                     {
+                         if (vPerfilFlag == 0)
+                         {
+                         document.getElementById("iNuevo").style.visibility="hidden";
+                         }
+                         else
+                         {
+                             if (vRolFlag == 0)
+                             {
+                             document.getElementById("iNuevo").style.visibility="hidden";
+                             }
+                             else
+                             {
+                             document.getElementById("iNuevo").style.visibility="visible";
+                             }
+                         }
+                     }
+                 }
+             }
+         }
+       });
+</script>
+}

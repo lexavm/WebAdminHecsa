@@ -23,7 +23,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="IdEmpresaFiscales" class="control-label"></label>
-                <select id="drpEmpresaFiscalese" class="form-select statesSelect" asp-for="IdEmpresaFiscales" asp-items="@(new SelectList(ViewBag.ListaEfiscales,"IdEmpresaFiscales","NombreFiscal"))">
+                <select id="sLEmpresaFiscalese" class="form-select statesSelect" asp-for="IdEmpresaFiscales" asp-items="@(new SelectList(ViewBag.ListaEfiscales,"IdEmpresaFiscales","NombreFiscal"))" onchange="DatosEmpresaFiscales()">
                     <option value="">SELECCIONAR</option>
                 </select>
                 <span asp-validation-for="IdEmpresaFiscales" class="text-danger"></span>
@@ -32,75 +32,32 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="IdCliente" class="control-label"></label>
-                <select id="idListaCliente" class="form-select statesSelect" asp-for="IdCliente" asp-items="@(new SelectList(ViewBag.ListaCliente,"IdCliente","NombreCliente"))">
+                <select id="sLCliente" class="form-select statesSelect" asp-for="IdCliente" asp-items="@(new SelectList(ViewBag.ListaCliente,"IdCliente","NombreCliente"))" onchange="DatosClientes()">
                     <option value="">SELECCIONAR</option>
                 </select>
                 <span asp-validation-for="IdCliente" class="text-danger"></span>
             </div>
         </div>
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.NombreFiscal)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NombreFiscal)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EmpresaGeneral)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.EmpresaGeneral)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EmpresaContacto)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.EmpresaContacto)
-            </dd>
-        </dl>
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.NombreCliente)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NombreCliente)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.RFCCliente)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.RFCCliente)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.MediosCliente)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.MediosCliente)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.DireccionCliente)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DireccionCliente)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.DireccionContacto)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DireccionContacto)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ClienteContacto)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ClienteContacto)
-            </dd>
-        </dl>
-        <div class="form-group">
-            <input type="submit" value="Crear" class="btn btn-success" />
-            <a asp-action="Index" class="btn btn-secondary">Regresar</a>
-        </div>
 
+    </div>
+
+    <div class="row">
+
+        <dt class="col-sm-2">
+            <label class="control-label">Datos Empresa Fiscales:</label>
+        </dt>
+        <dd class="col-sm-10">
+            <label id="lNombreFiscal"></label>
+        </dd>
+    </div>
+    <div class="row">
+
+        <dt class="col-sm-2">
+            <label class="control-label">Datos Cliente:</label>
+        </dt>
+        <dd class="col-sm-10">
+            <label id="lDatosCliente"></label>
+        </dd>
     </div>
 </form>
 
@@ -110,8 +67,70 @@
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
 <script>
-    $(document).ready(function () {
-        $(".statesSelect").select2();
-    });
+       $(document).ready(function () {
+           $(".statesSelect").select2();
+       });
+         function DatosEmpresaFiscales() {
+
+    var fidEmpresasFiscales = document.getElementById("sLEmpresaFiscalese").value;
+    var DatosEmpresaFiscales;
+
+       $.ajax({
+                        type: "GET",
+                        url: "/TblEmpresaFiscales/FiltroEmpresaFiscales/",
+                        data: { id: fidEmpresasFiscales },
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (list) {
+
+                            if (list.length == 0) {
+
+                                document.getElementById("lNombreFiscal").innerHTML = null;
+
+                            }
+                            else {
+
+                                DatosEmpresaFiscales = list[0].nombreFiscal + ", " + list[0].rfc + ", " + list[0].regimenFiscal + ", " + list[0].calle + ", " + list[0].codigoPostal + ", " + list[0].colonia + ", " + list[0].ciudad + ", " + list[0].estado + ", " + list[0].correoElectronico + ", " + list[0].telefono;
+                                document.getElementById('lNombreFiscal').innerHTML = DatosEmpresaFiscales;
+                            }
+                        },
+                        error: function () {
+                            alert("Error!!")
+                        }
+                    });
+
+                   }
+                   function DatosClientes() {
+
+
+
+    var fCliente = document.getElementById("sLCliente").value;
+    var fDatosCliente;
+
+       $.ajax({
+                        type: "GET",
+                        url: "/TblClientes/FiltroCliente/",
+                        data: { id: fCliente },
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (list) {
+
+                            if (list.length == 0) {
+
+                                document.getElementById("lDatosCliente").innerHTML = null;
+
+                            }
+                            else {
+
+                                DatosCliente = list[0].nombreCliente + ", " + list[0].direccionCliente;
+                                document.getElementById('lDatosCliente').innerHTML = DatosCliente;
+                            }
+                        },
+                        error: function () {
+                            alert("Error!!")
+                        }
+                    });
+
+                   }
 </script>
 }

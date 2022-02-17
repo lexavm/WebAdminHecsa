@@ -48,7 +48,15 @@ namespace WebAdminHecsa.Controllers
             }
             return View(await _context.TblEmpresaFiscales.ToListAsync());
         }
+        [HttpGet]
+        public ActionResult FiltroEmpresaFiscales(Guid id)
+        {
+            var fEmpresaFiscales = (from ta in _context.TblEmpresaFiscales
+                                where ta.IdEmpresaFiscales == id
+                                select ta).Distinct().ToList();
 
+            return Json(fEmpresaFiscales);
+        }
         // GET: TblEmpresaFiscales/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {

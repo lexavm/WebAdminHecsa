@@ -48,7 +48,23 @@ namespace WebAdminHecsa.Controllers
             }
             return View(await _context.TblCliente.ToListAsync());
         }
+        [HttpGet]
+        public ActionResult FiltroCliente(Guid id)
+        {
+            var fCliente = (from tC in _context.TblCliente
+                            join tCd in _context.TblClienteDirecciones on tC.IdCliente equals tCd.IdCliente
+                            where tC.IdCliente == id
+                            select new
+                            {
+                                IdCliente = tC.IdCliente,
+                                NombreCliente = tC.NombreCliente,
+                                DireccionCliente = tCd.Calle + "," + tCd.CodigoPostal + "," + tCd.Colonia + "," + tCd.Ciudad + "," + tCd.Estado + "," + tCd.CorreoElectronico + "," + tCd.Telefono
 
+                            }).Distinct().ToList();
+
+
+            return Json(fCliente);
+        }
         // GET: TblClientes/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -100,7 +116,7 @@ namespace WebAdminHecsa.Controllers
                     _context.SaveChanges();
                     _context.Add(tblCliente);
                     await _context.SaveChangesAsync();
-                     _notyf.Success("Registro creado con éxito", 5);
+                    _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {

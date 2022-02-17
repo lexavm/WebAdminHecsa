@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,106 @@ namespace WebAdminHecsa.Controllers
     public class TblCotizacionGeneralsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotyfService _notyf;
 
-        public TblCotizacionGeneralsController(ApplicationDbContext context)
+        public TblCotizacionGeneralsController(ApplicationDbContext context, INotyfService notyf)
         {
             _context = context;
+            _notyf = notyf;
         }
 
         // GET: TblCotizacionGenerals
         public async Task<IActionResult> Index()
         {
+            var ValidaEstatus = _context.CatEstatus.ToList();
+
+            if (ValidaEstatus.Count == 2)
+            {
+                ViewBag.EstatusFlag = 1;
+                var ValidaEmpresa = _context.TblEmpresa.ToList();
+
+                if (ValidaEmpresa.Count == 1)
+                {
+                    ViewBag.EmpresaFlag = 1;
+                    var ValidaEmpresaFiscales = _context.TblEmpresaFiscales.ToList();
+
+                    if (ValidaEmpresaFiscales.Count >= 1)
+                    {
+                        ViewBag.EmpresaFiscalesFlag = 1;
+                        var ValidaCliente = _context.TblCliente.ToList();
+
+                        if (ValidaCliente.Count >= 1)
+                        {
+                            ViewBag.ClienteFlag = 1;
+                            var ValidaGenero = _context.CatGenero.ToList();
+
+                            if (ValidaGenero.Count >= 1)
+                            {
+                                ViewBag.GeneroFlag = 1;
+                                var ValidaArea = _context.CatArea.ToList();
+
+                                if (ValidaArea.Count >= 1)
+                                {
+                                    ViewBag.AreaFlag = 1;
+                                    var ValidaPerfil = _context.CatPerfile.ToList();
+
+                                    if (ValidaPerfil.Count >= 1)
+                                    {
+                                        ViewBag.PerfilFlag = 1;
+                                        var ValidaRol = _context.CatRole.ToList();
+
+                                        if (ValidaRol.Count >= 1)
+                                        {
+                                            ViewBag.RolFlag = 1;
+                                        }
+                                        else
+                                        {
+                                            ViewBag.RolFlag = 0;
+                                            _notyf.Information("Favor de registrar los datos de Rol para la Aplicación", 5);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ViewBag.PerfilFlag = 0;
+                                        _notyf.Information("Favor de registrar los datos de Perfil para la Aplicación", 5);
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.AreaFlag = 0;
+                                    _notyf.Information("Favor de registrar los datos de Area para la Aplicación", 5);
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.vGeneroFlag = 0;
+                                _notyf.Information("Favor de registrar los datos de Genero para la Aplicación", 5);
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.ClienteFlag = 0;
+                            _notyf.Information("Favor de registrar los datos de la Cliente para la Aplicación", 5);
+                        }
+
+                    }
+                    else
+                    {
+                        ViewBag.EmpresaFiscalesFlag = 0;
+                        _notyf.Information("Favor de registrar los datos Empresa Fiscales para la Aplicación", 5);
+                    }
+                }
+                else
+                {
+                    ViewBag.EmpresaFlag = 0;
+                    _notyf.Information("Favor de registrar los datos de la Empresa para la Aplicación", 5);
+                }
+            }
+            else
+            {
+                ViewBag.EstatusFlag = 0;
+                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
+            }
             return View(await _context.TblCotizacionGeneral.ToListAsync());
         }
 
