@@ -28,17 +28,25 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -56,11 +64,14 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoleClaims");
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -72,10 +83,12 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -87,10 +100,12 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -108,11 +123,101 @@ namespace WebAdminHecsa.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("WebAdminHecsa.Models.CatArea", b =>
@@ -274,16 +379,13 @@ namespace WebAdminHecsa.Migrations
                 {
                     b.Property<int>("IdEstatus")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("IdEstatus");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEstatus"), 1L, 1);
 
                     b.Property<string>("EstatusDesc")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2")
@@ -295,22 +397,6 @@ namespace WebAdminHecsa.Migrations
                     b.HasKey("IdEstatus");
 
                     b.ToTable("CatEstatus");
-
-                    b.HasData(
-                        new
-                        {
-                            IdEstatus = 1,
-                            EstatusDesc = "ACTIVO",
-                            FechaRegistro = new DateTime(2022, 2, 15, 23, 11, 33, 929, DateTimeKind.Local).AddTicks(3129),
-                            IdEstatusRegistro = 1
-                        },
-                        new
-                        {
-                            IdEstatus = 2,
-                            EstatusDesc = "DESACTIVO",
-                            FechaRegistro = new DateTime(2022, 2, 15, 23, 11, 33, 929, DateTimeKind.Local).AddTicks(3156),
-                            IdEstatusRegistro = 1
-                        });
                 });
 
             modelBuilder.Entity("WebAdminHecsa.Models.CatGenero", b =>
@@ -403,8 +489,8 @@ namespace WebAdminHecsa.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProducto"), 1L, 1);
 
-                    b.Property<string>("CantidadInicial")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
 
                     b.Property<int>("CantidadMinima")
                         .HasColumnType("int");
@@ -419,8 +505,8 @@ namespace WebAdminHecsa.Migrations
                     b.Property<string>("CodigoInterno")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Costo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("Costo")
+                        .HasColumnType("decimal(18,3)");
 
                     b.Property<string>("DescProducto")
                         .IsRequired()
@@ -443,17 +529,32 @@ namespace WebAdminHecsa.Migrations
                     b.Property<string>("MarcaDesc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PorcentajeGanancia")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PorcentajePrecioCuatro")
+                        .HasColumnType("decimal(18,3)");
 
-                    b.Property<string>("PorcentajeVenta")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PorcentajePrecioDos")
+                        .HasColumnType("decimal(18,3)");
 
-                    b.Property<string>("ProductoPrecio")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PorcentajePrecioTres")
+                        .HasColumnType("decimal(18,3)");
 
-                    b.Property<string>("SubCosto")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PorcentajePrecioUno")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("ProductoPrecioCuatro")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("ProductoPrecioDos")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("ProductoPrecioTres")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("ProductoPrecioUno")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("SubCosto")
+                        .HasColumnType("decimal(18,3)");
 
                     b.HasKey("IdProducto");
 
@@ -1071,6 +1172,57 @@ namespace WebAdminHecsa.Migrations
                     b.HasKey("IdUsuario");
 
                     b.ToTable("TblUsuario");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

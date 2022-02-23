@@ -40,12 +40,14 @@ namespace WebAdminHecsa.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Ignore<IdentityUserLogin<string>>();
-            modelBuilder.Ignore<IdentityUserRole<string>>();
-            modelBuilder.Ignore<IdentityUserClaim<string>>();
-            modelBuilder.Ignore<IdentityUserToken<string>>();
-            modelBuilder.Ignore<IdentityUser<string>>();
-            modelBuilder.ApplyConfiguration(new EstatusConfiguracion());
+            base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Ignore<IdentityUserLogin<string>>();
+            //modelBuilder.Ignore<IdentityUserRole<string>>();
+            //modelBuilder.Ignore<IdentityUserClaim<string>>();
+            //modelBuilder.Ignore<IdentityUserToken<string>>();
+            //modelBuilder.Ignore<IdentityUser<string>>();
+            //modelBuilder.ApplyConfiguration(new EstatusConfiguracion());
 
         }
     }

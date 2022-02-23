@@ -37,26 +37,51 @@ namespace WebAdminHecsa.Models
         [Required(ErrorMessage = "Campo Requerido")]
         public string DescProducto { get; set; }
 
-        [Display(Name = "Cantidad Minima")]
+        [Display(Name = "Minima")]
         public int CantidadMinima { get; set; }
 
-        [Display(Name = "Cantidad Inicial")]
-        public string CantidadInicial { get; set; }
+        [Display(Name = "Cantidad")]
+        public int Cantidad { get; set; }
 
-        [Display(Name = "Producto Precio")]
-        public string ProductoPrecio { get; set; }
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "$ Uno")]
+        public double ProductoPrecioUno { get; set; }
 
-        [Display(Name = "Porcentaje Ganancia")]
-        public string PorcentajeGanancia { get; set; }
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "% Uno")]
+        public double PorcentajePrecioUno { get; set; }
 
-        [Display(Name = "Porcentaje Venta")]
-        public string PorcentajeVenta { get; set; }
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "$ Dos")]
+        public double ProductoPrecioDos { get; set; }
 
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "% Dos")]
+        public double PorcentajePrecioDos { get; set; }
+
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "$ Tres")]
+        public double ProductoPrecioTres { get; set; }
+
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "% Tres")]
+        public double PorcentajePrecioTres { get; set; }
+
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "$ Cuatro")]
+        public double ProductoPrecioCuatro { get; set; }
+
+        [Column(TypeName = "decimal(18, 3)")]
+        [Display(Name = "% Cuatro")]
+        public double PorcentajePrecioCuatro { get; set; }
+
+        [Column(TypeName = "decimal(18, 3)")]
         [Display(Name = "Sub Costo")]
-        public string SubCosto { get; set; }
+        public double SubCosto { get; set; }
 
+        [Column(TypeName = "decimal(18, 3)")]
         [Display(Name = "Costo")]
-        public string Costo { get; set; }
+        public double Costo { get; set; }
 
         [Column("FechaRegistro")]
         [DataType(DataType.Date)]

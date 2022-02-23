@@ -164,6 +164,10 @@ namespace WebAdminHecsa.Controllers
             ListaCategoria = (from c in _context.CatCategoria select c).Distinct().ToList();
             ViewBag.ListaCategoria = ListaCategoria;
 
+            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
+            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
+            ViewBag.ListaEstatus = ListaCatEstatus;
+
             if (id == null)
             {
                 return NotFound();
@@ -182,7 +186,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto,CantidadMinima,CantidadInicial,ProductoPrecio,PorcentajeGanancia,PorcentajeVenta,SubCosto,Costo,IdEstatusRegistro")] CatProducto catProductos)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto,CantidadMinima,Cantidad,ProductoPrecioUno,PorcentajePrecioUno,ProductoPrecioDos,PorcentajePrecioDos,ProductoPrecioTres,PorcentajePrecioTres,ProductoPrecioCuatro,PorcentajePrecioCuatro,SubCosto,Costo,IdEstatusRegistro")] CatProducto catProductos)
         {
             if (id != catProductos.IdProducto)
             {
