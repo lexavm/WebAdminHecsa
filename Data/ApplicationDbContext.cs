@@ -47,7 +47,7 @@ namespace WebAdminHecsa.Data
             //modelBuilder.Ignore<IdentityUserClaim<string>>();
             //modelBuilder.Ignore<IdentityUserToken<string>>();
             //modelBuilder.Ignore<IdentityUser<string>>();
-            //modelBuilder.ApplyConfiguration(new EstatusConfiguracion());
+            modelBuilder.ApplyConfiguration(new EstatusConfiguracion());
 
         }
     }
