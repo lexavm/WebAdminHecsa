@@ -21,14 +21,17 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="IdMarca" class="control-label"></label>
+             @*   <select asp-for="IdMarca" class="form-control" asp-items="ViewBag.IdMarca">
+                    <option value="">SELECCIONAR</option>
+                </select>*@
                 <select id="drpColonias" class="form-select" asp-for="IdMarca" asp-items="@(new SelectList(ViewBag.ListaMarca,"IdMarca","MarcaDesc"))">
                     <option value="">SELECCIONAR</option>
                 </select>
                 <span asp-validation-for="IdMarca" class="text-danger"></span>
             </div>
-         
+
         </div>
 
         <div class="col-md-3">

@@ -120,7 +120,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto")] CatProducto catProductos)
+        public async Task<IActionResult> Create([Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto")] CatProductos catProductos)
         {
             if (ModelState.IsValid)
             {
@@ -186,7 +186,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto,CantidadMinima,Cantidad,ProductoPrecioUno,PorcentajePrecioUno,ProductoPrecioDos,PorcentajePrecioDos,ProductoPrecioTres,PorcentajePrecioTres,ProductoPrecioCuatro,PorcentajePrecioCuatro,SubCosto,Costo,IdEstatusRegistro")] CatProducto catProductos)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,CodigoExterno,IdMarca,IdCategoria,DescProducto,CantidadMinima,Cantidad,ProductoPrecioUno,PorcentajePrecioUno,ProductoPrecioDos,PorcentajePrecioDos,ProductoPrecioTres,PorcentajePrecioTres,ProductoPrecioCuatro,PorcentajePrecioCuatro,SubCosto,Costo,IdEstatusRegistro")] CatProductos catProductos)
         {
             if (id != catProductos.IdProducto)
             {

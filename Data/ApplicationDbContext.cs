@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using WebAdminHecsa.Data.Configuracion;
 using WebAdminHecsa.Models;
 
@@ -21,7 +23,7 @@ namespace WebAdminHecsa.Data
         public DbSet<CatGenero> CatGenero { get; set; }
         public DbSet<CatMarca> CatMarca { get; set; }
         public DbSet<CatPerfil> CatPerfile { get; set; }
-        public DbSet<CatProducto> CatProductos { get; set; }
+        public DbSet<CatProductos> CatProductos { get; set; }
         public DbSet<CatRole> CatRole { get; set; }
         public DbSet<CatTipoDireccion> CatTipoDireccion { get; set; }
         public DbSet<CatTiposEstatus> CatTiposEstatus { get; set; }

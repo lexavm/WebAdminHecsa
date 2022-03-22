@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAdminHecsa.Models
 {
-    public class CatMarca
+    public partial class CatMarca
     {
+        public CatMarca()
+        {
+            Categorias = new HashSet<CatCategoria>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("IdMarca")]
@@ -21,6 +27,8 @@ namespace WebAdminHecsa.Models
         [Required(ErrorMessage = "Campo Requerido")]
         public Guid IdProveedor { get; set; }
 
+        [NotMapped]
+        [DataType(DataType.Text)]
         [Display(Name = "Proveedor")]
         public string ProveedorDesc { get; set; }
 
@@ -32,5 +40,6 @@ namespace WebAdminHecsa.Models
         [Column("IdEstatusRegistro")]
         [Display(Name = "Estatus Registro")]
         public int IdEstatusRegistro { get; set; }
+        public virtual ICollection<CatCategoria> Categorias { get; set; }
     }
 }

@@ -37,9 +37,7 @@ namespace WebAdminHecsa.Controllers
         public ActionResult FiltroCodigosPostales(string id)
         {
             var fcatCodigosPostales = _context.CatCodigosPostales
-                       .Where(s => s.d_codigo == id)
-                       .ToList();
-
+                       .Where(s => s.d_codigo == id).Distinct().ToList();
             return Json(fcatCodigosPostales);
         }
 

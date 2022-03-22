@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebAdminHecsa.Models
 {
     public class TblProveedor
     {
+        public TblProveedor()
+        {
+            Marcas = new HashSet<CatMarca>();
+        }
         [Key]
         [Display(Name = "Id Proveedor")]
         public Guid IdProveedor { get; set; }
@@ -27,5 +32,7 @@ namespace WebAdminHecsa.Models
 
         [Display(Name = "Estatus Registro")]
         public int IdEstatusRegistro { get; set; }
+
+        public virtual ICollection<CatMarca> Marcas { get; set; }
     }
 }

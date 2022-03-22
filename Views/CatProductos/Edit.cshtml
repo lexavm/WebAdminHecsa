@@ -1,4 +1,4 @@
-﻿@model WebAdminHecsa.Models.CatProducto
+﻿@model WebAdminHecsa.Models.CatProductos
 
 @{
     ViewData["Title"] = "Editar Producto";
@@ -63,70 +63,7 @@
                 <span asp-validation-for="CantidadMinima" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="Cantidad" class="control-label"></label>
-                <input asp-for="Cantidad" class="form-control" type="number" />
-                <span asp-validation-for="Cantidad" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="ProductoPrecioUno" class="control-label"></label>
-                <input asp-for="ProductoPrecioUno" class="form-control" type="number" />
-                <span asp-validation-for="ProductoPrecioUno" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="PorcentajePrecioUno" class="control-label"></label>
-                <input asp-for="PorcentajePrecioUno" class="form-control" type="number" min="0" max="100" />
-                <span asp-validation-for="PorcentajePrecioUno" class="text-danger"></span>
-
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="ProductoPrecioDos" class="control-label"></label>
-                <input asp-for="ProductoPrecioDos" class="form-control" type="number" />
-                <span asp-validation-for="ProductoPrecioDos" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="PorcentajePrecioDos" class="control-label"></label>
-                <input asp-for="PorcentajePrecioDos" class="form-control" type="number" min="0" max="100" />
-                <span asp-validation-for="PorcentajePrecioDos" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="ProductoPrecioTres" class="control-label"></label>
-                <input asp-for="ProductoPrecioTres" class="form-control" type="number" />
-                <span asp-validation-for="ProductoPrecioTres" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="PorcentajePrecioTres" class="control-label"></label>
-                <input asp-for="PorcentajePrecioTres" class="form-control" type="number" min="0" max="100" />
-                <span asp-validation-for="PorcentajePrecioTres" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="ProductoPrecioCuatro" class="control-label"></label>
-                <input asp-for="ProductoPrecioCuatro" class="form-control" type="number" />
-                <span asp-validation-for="ProductoPrecioCuatro" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group">
-                <label asp-for="PorcentajePrecioCuatro" class="control-label"></label>
-                <input asp-for="PorcentajePrecioCuatro" class="form-control" type="number" min="0" max="100" />
-                <span asp-validation-for="PorcentajePrecioCuatro" class="text-danger"></span>
-            </div>
-        </div>
+       
     </div>
     <div class="row">
 

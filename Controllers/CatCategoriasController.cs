@@ -69,7 +69,18 @@ namespace WebAdminHecsa.Controllers
                 ViewBag.EstatusFlag = 0;
                 _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
-            return View(await _context.CatCategoria.ToListAsync());
+            var fCatCategoria = from a in _context.CatCategoria
+                                join b in _context.CatMarca on a.IdMarca equals b.IdMarca
+                                select new CatCategoria
+                                {
+                                    IdCategoria = a.IdCategoria,
+                                    CategoriaDesc = a.CategoriaDesc,
+                                    MarcaDesc = b.MarcaDesc,
+                                    FechaRegistro = a.FechaRegistro,
+                                    IdEstatusRegistro = a.IdEstatusRegistro
+                                };
+
+            return View(await fCatCategoria.ToListAsync());
         }
 
         // GET: CatCategorias/Details/5
@@ -96,6 +107,7 @@ namespace WebAdminHecsa.Controllers
             List<CatMarca> ListaMarca = new List<CatMarca>();
             ListaMarca = (from c in _context.CatMarca select c).Distinct().ToList();
             ViewBag.ListaMarca = ListaMarca;
+            ViewData["IdMarca"] = new SelectList(_context.CatMarca, "IdMarca", "MarcaDesc");
             return View();
         }
 
@@ -104,7 +116,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCategoria,CategoriaDesc,IdMarca,MarcaDesc,FechaRegistro,IdEstatusRegistro")] CatCategoria catCategoria)
+        public async Task<IActionResult> Create([Bind("IdCategoria,CategoriaDesc,IdMarca,FechaRegistro,IdEstatusRegistro")] CatCategoria catCategoria)
         {
             if (ModelState.IsValid)
             {
@@ -114,10 +126,11 @@ namespace WebAdminHecsa.Controllers
 
                 if (DuplicadosEstatus.Count == 0)
                 {
-                    var fMarca = (from c in _context.CatMarca where c.IdMarca == catCategoria.IdMarca select c).Distinct().ToList();
+
+                    //var fMarca = (from c in _context.CatMarca where c.IdMarca == catCategoria.IdMarca select c).Distinct().ToList();
                     catCategoria.FechaRegistro = DateTime.Now;
                     catCategoria.IdEstatusRegistro = 1;
-                    catCategoria.MarcaDesc = fMarca[0].MarcaDesc;
+                    //catCategoria.MarcaDesc = fMarca[0].MarcaDesc;
                     catCategoria.CategoriaDesc = !string.IsNullOrEmpty(catCategoria.CategoriaDesc) ? catCategoria.CategoriaDesc.ToUpper() : catCategoria.CategoriaDesc;
 
                     _context.SaveChanges();
@@ -132,6 +145,7 @@ namespace WebAdminHecsa.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdCategoria"] = new SelectList(_context.CatMarca, "IdMarca", "MarcaDesc", catCategoria.IdCategoria);
             return View(catCategoria);
         }
 
@@ -175,10 +189,10 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
-                    var fMarca = (from c in _context.CatMarca where c.IdMarca == catCategoria.IdMarca select c).Distinct().ToList();
+                    //var fMarca = (from c in _context.CatMarca where c.IdMarca == catCategoria.IdMarca select c).Distinct().ToList();
                     catCategoria.FechaRegistro = DateTime.Now;
                     catCategoria.IdEstatusRegistro = 1;
-                    catCategoria.MarcaDesc = fMarca[0].MarcaDesc;
+                    //catCategoria.MarcaDesc = fMarca[0].MarcaDesc;
                     catCategoria.CategoriaDesc = !string.IsNullOrEmpty(catCategoria.CategoriaDesc) ? catCategoria.CategoriaDesc.ToUpper() : catCategoria.CategoriaDesc;
 
                     _context.SaveChanges();

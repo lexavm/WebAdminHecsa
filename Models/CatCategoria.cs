@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAdminHecsa.Models
 {
-    public class CatCategoria
+    public partial class CatCategoria
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,16 +18,16 @@ namespace WebAdminHecsa.Models
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Campo Requerido")]
         public string CategoriaDesc { get; set; }
-
-        [Display(Name = "Marca Descripcion")]
-        [Required(ErrorMessage = "Campo Requerido")]
-        public int IdMarca { get; set; }
-
-        //[NotMapped]
+       
+        [NotMapped]
         [Display(Name = "Marca Descripcion")]
         [DataType(DataType.Text)]
         public string MarcaDesc { get; set; }
 
+        //[Display(Name = "Marca Descripcion")]
+        [Required(ErrorMessage = "Campo Requerido")]
+        public int IdMarca { get; set; }
+  
         [Column("FechaRegistro")]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha Registro")]
