@@ -2,40 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
-using WebAdminHecsa.Models;
+using WebAdminHecsa.sqlModels;
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatAreasController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly INotyfService _notyf;
-        public CatAreasController(ApplicationDbContext context, INotyfService notyf)
+        private readonly nDbContext _context;
+
+        public CatAreasController(nDbContext context)
         {
             _context = context;
-            _notyf = notyf;
         }
 
         // GET: CatAreas
         public async Task<IActionResult> Index()
         {
-            var ValidaEstatus = _context.CatEstatus.ToList();
-
-            if (ValidaEstatus.Count == 2)
-            {
-                ViewBag.EstatusFlag = 1;
-            }
-            else
-            {
-                ViewBag.EstatusFlag = 0;
-                _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
-            }
-            return View(await _context.CatArea.ToListAsync());
+            var nDbContext = _context.CatAreas.Include(c => c.IdEmpresaNavigation);
+            return View(await nDbContext.ToListAsync());
         }
 
         // GET: CatAreas/Details/5
@@ -46,7 +34,8 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catArea = await _context.CatArea
+            var catArea = await _context.CatAreas
+                .Include(c => c.IdEmpresaNavigation)
                 .FirstOrDefaultAsync(m => m.IdArea == id);
             if (catArea == null)
             {
@@ -59,6 +48,7 @@ namespace WebAdminHecsa.Controllers
         // GET: CatAreas/Create
         public IActionResult Create()
         {
+            ViewData["IdEmpresa"] = new SelectList(_context.TblEmpresas, "IdEmpresa", "CorreoElectronico");
             return View();
         }
 
@@ -67,51 +57,32 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdArea,AreaDesc")] CatArea catArea)
+        public async Task<IActionResult> Create([Bind("IdArea,AreaDesc,IdEmpresa,FechaRegistro,IdEstatusRegistro")] CatArea catArea)
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatArea
-                       .Where(s => s.AreaDesc == catArea.AreaDesc)
-                       .ToList();
-
-            if (DuplicadosEstatus.Count == 0)
-            {
-                catArea.FechaRegistro = DateTime.Now;
-                catArea.AreaDesc = catArea.AreaDesc.ToString().ToUpper();
-                catArea.IdEstatusRegistro = 1;
-                _context.SaveChanges();
-
                 _context.Add(catArea);
                 await _context.SaveChangesAsync();
-                 _notyf.Success("Registro creado con éxito", 5);
-            }
-            else
-            {
-                //_notifyService.Custom("Custom Notification - closes in 5 seconds.", 5, "whitesmoke", "fa fa-gear");
-                _notyf.Information("Favor de validar, existe una Estatus con el mismo nombre", 5);
-            }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdEmpresa"] = new SelectList(_context.TblEmpresas, "IdEmpresa", "CorreoElectronico", catArea.IdEmpresa);
             return View(catArea);
         }
 
         // GET: CatAreas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            List<CatEstatus> ListaCatEstatus = new List<CatEstatus>();
-            ListaCatEstatus = (from c in _context.CatEstatus select c).Distinct().ToList();
-            ViewBag.ListaCatEstatus = ListaCatEstatus;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var catArea = await _context.CatArea.FindAsync(id);
+            var catArea = await _context.CatAreas.FindAsync(id);
             if (catArea == null)
             {
                 return NotFound();
             }
+            ViewData["IdEmpresa"] = new SelectList(_context.TblEmpresas, "IdEmpresa", "CorreoElectronico", catArea.IdEmpresa);
             return View(catArea);
         }
 
@@ -120,7 +91,7 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdArea,AreaDesc,IdEstatusRegistro")] CatArea catArea)
+        public async Task<IActionResult> Edit(int id, [Bind("IdArea,AreaDesc,IdEmpresa,FechaRegistro,IdEstatusRegistro")] CatArea catArea)
         {
             if (id != catArea.IdArea)
             {
@@ -131,13 +102,8 @@ namespace WebAdminHecsa.Controllers
             {
                 try
                 {
-                    catArea.FechaRegistro = DateTime.Now;
-                    catArea.AreaDesc = catArea.AreaDesc.ToString().ToUpper();
-                    catArea.IdEstatusRegistro = catArea.IdEstatusRegistro;
-                    _context.SaveChanges();
                     _context.Update(catArea);
                     await _context.SaveChangesAsync();
-                    _notyf.Warning("Registro actualizado con éxito", 5);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -152,6 +118,7 @@ namespace WebAdminHecsa.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdEmpresa"] = new SelectList(_context.TblEmpresas, "IdEmpresa", "CorreoElectronico", catArea.IdEmpresa);
             return View(catArea);
         }
 
@@ -163,7 +130,8 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catArea = await _context.CatArea
+            var catArea = await _context.CatAreas
+                .Include(c => c.IdEmpresaNavigation)
                 .FirstOrDefaultAsync(m => m.IdArea == id);
             if (catArea == null)
             {
@@ -178,17 +146,15 @@ namespace WebAdminHecsa.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var catArea = await _context.CatArea.FindAsync(id);
-            catArea.IdEstatusRegistro = 2;
-            _context.SaveChanges();
+            var catArea = await _context.CatAreas.FindAsync(id);
+            _context.CatAreas.Remove(catArea);
             await _context.SaveChangesAsync();
-            _notyf.Error("Registro desactivado con éxito", 5);
             return RedirectToAction(nameof(Index));
         }
 
         private bool CatAreaExists(int id)
         {
-            return _context.CatArea.Any(e => e.IdArea == id);
+            return _context.CatAreas.Any(e => e.IdArea == id);
         }
     }
 }

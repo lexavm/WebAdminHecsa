@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebAdminHecsa.Models.CatEstatus>
+﻿@model IEnumerable<WebAdminHecsa.sqlModels.CatEstatus>
 
 @{
     ViewData["Title"] = "Estatus";
@@ -9,7 +9,6 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Estatus</li>
         <li class="breadcrumb-item active" aria-current="page">Control de Estatus</li>
     </ol>
 </nav>
@@ -52,9 +51,9 @@
                     }
                 </td>
                 <td style="text-align:center">
-                    <a asp-action="Edit" asp-route-id="@item.IdEstatus" class="btn btn-outline-secondary" title="Editar"><i class="far fa-edit" style="font-size: 1em; color: #FFC300;"></i></a>
-                    <a asp-action="Details" asp-route-id="@item.IdEstatus" class="btn btn-outline-secondary" title="Detalles"><i class="far fa-list-alt" style="font-size: 1em; color: #67C5C4 ;"></i></a>
-                    <a asp-action="Delete" asp-route-id="@item.IdEstatus" class="btn btn-outline-secondary" title="Desactivar"><i class="far fa-stop-circle" style="font-size: 1em; color: #FF9333;"></i></a>
+                    <a asp-action="Edit" asp-route-id="@item.IdEstatusRegistro" class="btn btn-outline-secondary" title="Editar"><i class="far fa-edit" style="font-size: 1em; color: #FFC300;"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.IdEstatusRegistro" class="btn btn-outline-secondary" title="Detalles"><i class="far fa-list-alt" style="font-size: 1em; color: #67C5C4 ;"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdEstatusRegistro" class="btn btn-outline-secondary" title="Desactivar"><i class="far fa-stop-circle" style="font-size: 1em; color: #FF9333;"></i></a>
                 </td>
             </tr>
         }

@@ -1,21 +1,22 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
-using WebAdminHecsa.Models;
+using WebAdminHecsa.sqlModels;
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatTipoDireccionsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly nDbContext _context;
         private readonly INotyfService _notyf;
 
-        public CatTipoDireccionsController(ApplicationDbContext context, INotyfService notyf)
+        public CatTipoDireccionsController(nDbContext context, INotyfService notyf)
         {
             _context = context;
             _notyf = notyf;
@@ -35,7 +36,7 @@ namespace WebAdminHecsa.Controllers
                 ViewBag.EstatusFlag = 0;
                 _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
-            return View(await _context.CatTipoDireccion.ToListAsync());
+            return View(await _context.CatTipoDireccions.ToListAsync());
         }
 
         // GET: CatTipoDireccions/Details/5
@@ -46,7 +47,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catTipoDireccion = await _context.CatTipoDireccion
+            var catTipoDireccion = await _context.CatTipoDireccions
                 .FirstOrDefaultAsync(m => m.IdTipoDireccion == id);
             if (catTipoDireccion == null)
             {
@@ -71,11 +72,11 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatTipoDireccion
+                var vDuplicados = _context.CatTipoDireccions
                          .Where(s => s.TipoDireccionDesc == catTipoDireccion.TipoDireccionDesc)
                          .ToList();
 
-                if (DuplicadosEstatus.Count == 0)
+                if (vDuplicados.Count == 0)
                 {
                     catTipoDireccion.FechaRegistro = DateTime.Now;
                     catTipoDireccion.TipoDireccionDesc = catTipoDireccion.TipoDireccionDesc.ToString().ToUpper();
@@ -84,7 +85,7 @@ namespace WebAdminHecsa.Controllers
 
                     _context.Add(catTipoDireccion);
                     await _context.SaveChangesAsync();
-                     _notyf.Success("Registro creado con éxito", 5);
+                    _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -107,7 +108,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catTipoDireccion = await _context.CatTipoDireccion.FindAsync(id);
+            var catTipoDireccion = await _context.CatTipoDireccions.FindAsync(id);
             if (catTipoDireccion == null)
             {
                 return NotFound();
@@ -163,7 +164,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catTipoDireccion = await _context.CatTipoDireccion
+            var catTipoDireccion = await _context.CatTipoDireccions
                 .FirstOrDefaultAsync(m => m.IdTipoDireccion == id);
             if (catTipoDireccion == null)
             {
@@ -178,7 +179,7 @@ namespace WebAdminHecsa.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var catTipoDireccion = await _context.CatTipoDireccion.FindAsync(id);
+            var catTipoDireccion = await _context.CatTipoDireccions.FindAsync(id);
             catTipoDireccion.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
@@ -188,7 +189,7 @@ namespace WebAdminHecsa.Controllers
 
         private bool CatTipoDireccionExists(int id)
         {
-            return _context.CatTipoDireccion.Any(e => e.IdTipoDireccion == id);
+            return _context.CatTipoDireccions.Any(e => e.IdTipoDireccion == id);
         }
     }
 }

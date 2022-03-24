@@ -1,21 +1,23 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
-using WebAdminHecsa.Models;
+using WebAdminHecsa.sqlModels;
+
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatDivisasController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly nDbContext _context;
         private readonly INotyfService _notyf;
 
-        public CatDivisasController(ApplicationDbContext context, INotyfService notyf)
+        public CatDivisasController(nDbContext context, INotyfService notyf)
         {
             _context = context;
             _notyf = notyf;
@@ -35,7 +37,7 @@ namespace WebAdminHecsa.Controllers
                 ViewBag.EstatusFlag = 0;
                 _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
-            return View(await _context.CatDivisa.ToListAsync());
+            return View(await _context.CatDivisas.ToListAsync());
         }
 
         // GET: CatDivisas/Details/5
@@ -46,7 +48,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catDivisa = await _context.CatDivisa
+            var catDivisa = await _context.CatDivisas
                 .FirstOrDefaultAsync(m => m.IdDivisa == id);
             if (catDivisa == null)
             {
@@ -71,11 +73,11 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatDivisa
+                var vDuplicados = _context.CatDivisas
                        .Where(s => s.DivisaDesc == catDivisa.DivisaDesc)
                        .ToList();
 
-                if (DuplicadosEstatus.Count == 0)
+                if (vDuplicados.Count == 0)
                 {
                     catDivisa.FechaRegistro = DateTime.Now;
                     catDivisa.DivisaDesc = catDivisa.DivisaDesc.ToString().ToUpper();
@@ -84,7 +86,7 @@ namespace WebAdminHecsa.Controllers
 
                     _context.Add(catDivisa);
                     await _context.SaveChangesAsync();
-                     _notyf.Success("Registro creado con éxito", 5);
+                    _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -109,7 +111,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catDivisa = await _context.CatDivisa.FindAsync(id);
+            var catDivisa = await _context.CatDivisas.FindAsync(id);
             if (catDivisa == null)
             {
                 return NotFound();
@@ -165,7 +167,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catDivisa = await _context.CatDivisa
+            var catDivisa = await _context.CatDivisas
                 .FirstOrDefaultAsync(m => m.IdDivisa == id);
             if (catDivisa == null)
             {
@@ -180,7 +182,7 @@ namespace WebAdminHecsa.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var catDivisa = await _context.CatDivisa.FindAsync(id);
+            var catDivisa = await _context.CatDivisas.FindAsync(id);
             catDivisa.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
@@ -190,7 +192,7 @@ namespace WebAdminHecsa.Controllers
 
         private bool CatDivisaExists(int id)
         {
-            return _context.CatDivisa.Any(e => e.IdDivisa == id);
+            return _context.CatDivisas.Any(e => e.IdDivisa == id);
         }
     }
 }

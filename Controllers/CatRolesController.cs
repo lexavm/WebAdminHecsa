@@ -1,21 +1,22 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
-using WebAdminHecsa.Models;
+using WebAdminHecsa.sqlModels;
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatRolesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly nDbContext _context;
         private readonly INotyfService _notyf;
 
-        public CatRolesController(ApplicationDbContext context, INotyfService notyf)
+        public CatRolesController(nDbContext context, INotyfService notyf)
         {
             _context = context;
             _notyf = notyf;
@@ -35,7 +36,7 @@ namespace WebAdminHecsa.Controllers
                 ViewBag.EstatusFlag = 0;
                 _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
-            return View(await _context.CatRole.ToListAsync());
+            return View(await _context.CatRoles.ToListAsync());
         }
 
         // GET: CatRoles/Details/5
@@ -46,7 +47,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catRole = await _context.CatRole
+            var catRole = await _context.CatRoles
                 .FirstOrDefaultAsync(m => m.IdRol == id);
             if (catRole == null)
             {
@@ -71,11 +72,11 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatRole
+                var vDuplicados = _context.CatRoles
                         .Where(s => s.RolDesc == catRole.RolDesc)
                         .ToList();
 
-                if (DuplicadosEstatus.Count == 0)
+                if (vDuplicados.Count == 0)
                 {
                     catRole.FechaRegistro = DateTime.Now;
                     catRole.RolDesc = catRole.RolDesc.ToString().ToUpper();
@@ -84,7 +85,7 @@ namespace WebAdminHecsa.Controllers
 
                     _context.Add(catRole);
                     await _context.SaveChangesAsync();
-                     _notyf.Success("Registro creado con éxito", 5);
+                    _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -107,7 +108,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catRole = await _context.CatRole.FindAsync(id);
+            var catRole = await _context.CatRoles.FindAsync(id);
             if (catRole == null)
             {
                 return NotFound();
@@ -163,7 +164,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catRole = await _context.CatRole
+            var catRole = await _context.CatRoles
                 .FirstOrDefaultAsync(m => m.IdRol == id);
             if (catRole == null)
             {
@@ -178,7 +179,7 @@ namespace WebAdminHecsa.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var catRole = await _context.CatRole.FindAsync(id);
+            var catRole = await _context.CatRoles.FindAsync(id);
             catRole.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
@@ -188,7 +189,7 @@ namespace WebAdminHecsa.Controllers
 
         private bool CatRoleExists(int id)
         {
-            return _context.CatRole.Any(e => e.IdRol == id);
+            return _context.CatRoles.Any(e => e.IdRol == id);
         }
     }
 }

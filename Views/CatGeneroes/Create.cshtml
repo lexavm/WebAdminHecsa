@@ -1,4 +1,4 @@
-﻿@model WebAdminHecsa.Models.CatGenero
+﻿@model WebAdminHecsa.sqlModels.CatGenero
 
 @{
     ViewData["Title"] = "Crear Estatus";
@@ -9,8 +9,6 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Género</li>
-        <li class="breadcrumb-item">Control de Género</li>
         <li class="breadcrumb-item active" aria-current="page">Crear Género</li>
     </ol>
 </nav>
@@ -36,4 +34,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

@@ -1,4 +1,4 @@
-﻿@model WebAdminHecsa.Models.CatEstatus
+﻿@model WebAdminHecsa.sqlModels.CatEstatus
 
 @{
     ViewData["Title"] = "Desactivar Estatus";
@@ -9,8 +9,6 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Estatus</li>
-        <li class="breadcrumb-item">Control de Estatus</li>
         <li class="breadcrumb-item active" aria-current="page">Desactivar Estatus</li>
     </ol>
 </nav>
@@ -38,7 +36,7 @@
     </dl>
 
     <form asp-action="Delete">
-        <input style="text-transform:uppercase" type="hidden" asp-for="IdEstatus" />
+        <input style="text-transform:uppercase" type="hidden" asp-for="IdEstatusRegistro" />
         <input style="text-transform:uppercase" type="submit" value="Desactivar" class="btn btn-danger" />
         <a asp-action="Index" class="btn btn-secondary">Regresar</a>
     </form>

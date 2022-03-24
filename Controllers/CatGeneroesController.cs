@@ -1,21 +1,22 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
-using WebAdminHecsa.Models;
+using WebAdminHecsa.sqlModels;
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatGeneroesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly nDbContext _context;
         private readonly INotyfService _notyf;
 
-        public CatGeneroesController(ApplicationDbContext context, INotyfService notyf)
+        public CatGeneroesController(nDbContext context, INotyfService notyf)
         {
             _context = context;
             _notyf = notyf;
@@ -35,7 +36,7 @@ namespace WebAdminHecsa.Controllers
                 ViewBag.EstatusFlag = 0;
                 _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
-            return View(await _context.CatGenero.ToListAsync());
+            return View(await _context.CatGeneros.ToListAsync());
         }
 
         // GET: CatGeneroes/Details/5
@@ -46,7 +47,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catGenero = await _context.CatGenero
+            var catGenero = await _context.CatGeneros
                 .FirstOrDefaultAsync(m => m.IdGenero == id);
             if (catGenero == null)
             {
@@ -71,11 +72,11 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatGenero
+                var vDuplicados = _context.CatGeneros
                        .Where(s => s.GeneroDesc == catGenero.GeneroDesc)
                        .ToList();
 
-                if (DuplicadosEstatus.Count == 0)
+                if (vDuplicados.Count == 0)
                 {
                     catGenero.FechaRegistro = DateTime.Now;
                     catGenero.GeneroDesc = catGenero.GeneroDesc.ToString().ToUpper();
@@ -84,7 +85,7 @@ namespace WebAdminHecsa.Controllers
 
                     _context.Add(catGenero);
                     await _context.SaveChangesAsync();
-                     _notyf.Success("Registro creado con éxito", 5);
+                    _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -109,7 +110,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catGenero = await _context.CatGenero.FindAsync(id);
+            var catGenero = await _context.CatGeneros.FindAsync(id);
             if (catGenero == null)
             {
                 return NotFound();
@@ -165,7 +166,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catGenero = await _context.CatGenero
+            var catGenero = await _context.CatGeneros
                 .FirstOrDefaultAsync(m => m.IdGenero == id);
             if (catGenero == null)
             {
@@ -180,7 +181,7 @@ namespace WebAdminHecsa.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var catGenero = await _context.CatGenero.FindAsync(id);
+            var catGenero = await _context.CatGeneros.FindAsync(id);
             catGenero.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
@@ -190,7 +191,7 @@ namespace WebAdminHecsa.Controllers
 
         private bool CatGeneroExists(int id)
         {
-            return _context.CatGenero.Any(e => e.IdGenero == id);
+            return _context.CatGeneros.Any(e => e.IdGenero == id);
         }
     }
 }

@@ -1,21 +1,22 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
-using WebAdminHecsa.Models;
+using WebAdminHecsa.sqlModels;
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatEstatusController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly nDbContext _context;
         private readonly INotyfService _notyf;
 
-        public CatEstatusController(ApplicationDbContext context, INotyfService notyf)
+        public CatEstatusController(nDbContext context, INotyfService notyf)
         {
             _context = context;
             _notyf = notyf;
@@ -47,7 +48,7 @@ namespace WebAdminHecsa.Controllers
             }
 
             var catEstatus = await _context.CatEstatus
-                .FirstOrDefaultAsync(m => m.IdEstatus == id);
+                .FirstOrDefaultAsync(m => m.IdEstatusRegistro == id);
             if (catEstatus == null)
             {
                 return NotFound();
@@ -67,15 +68,15 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEstatus,EstatusDesc")] CatEstatus catEstatus)
+        public async Task<IActionResult> Create([Bind("IdEstatusRegistro,EstatusDesc")] CatEstatus catEstatus)
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatEstatus
+                var vDuplicados = _context.CatEstatus
                        .Where(s => s.EstatusDesc == catEstatus.EstatusDesc)
                        .ToList();
 
-                if (DuplicadosEstatus.Count == 0)
+                if (vDuplicados.Count == 0)
                 {
                     catEstatus.FechaRegistro = DateTime.Now;
                     catEstatus.EstatusDesc = catEstatus.EstatusDesc.ToString().ToUpper();
@@ -84,7 +85,7 @@ namespace WebAdminHecsa.Controllers
 
                     _context.Add(catEstatus);
                     await _context.SaveChangesAsync();
-                     _notyf.Success("Registro creado con éxito", 5);
+                    _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -122,9 +123,9 @@ namespace WebAdminHecsa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdEstatus,EstatusDesc,FechaRegistro,IdEstatusRegistro")] CatEstatus catEstatus)
+        public async Task<IActionResult> Edit(int id, [Bind("IdEstatusRegistro,EstatusDesc")] CatEstatus catEstatus)
         {
-            if (id != catEstatus.IdEstatus)
+            if (id != catEstatus.IdEstatusRegistro)
             {
                 return NotFound();
             }
@@ -143,7 +144,7 @@ namespace WebAdminHecsa.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CatEstatusExists(catEstatus.IdEstatus))
+                    if (!CatEstatusExists(catEstatus.IdEstatusRegistro))
                     {
                         return NotFound();
                     }
@@ -166,7 +167,7 @@ namespace WebAdminHecsa.Controllers
             }
 
             var catEstatus = await _context.CatEstatus
-                .FirstOrDefaultAsync(m => m.IdEstatus == id);
+                .FirstOrDefaultAsync(m => m.IdEstatusRegistro == id);
             if (catEstatus == null)
             {
                 return NotFound();
@@ -190,7 +191,7 @@ namespace WebAdminHecsa.Controllers
 
         private bool CatEstatusExists(int id)
         {
-            return _context.CatEstatus.Any(e => e.IdEstatus == id);
+            return _context.CatEstatus.Any(e => e.IdEstatusRegistro == id);
         }
     }
 }

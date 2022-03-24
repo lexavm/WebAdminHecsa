@@ -1,7 +1,7 @@
-﻿@model WebAdminHecsa.Models.CatTipoEnvio
+﻿@model WebAdminHecsa.sqlModels.CatTipoEnvio
 
 @{
-    ViewData["Title"] = "Desactivar Tipo Envío";
+    ViewData["Title"] = "Detalles Tipo Envío";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
@@ -9,9 +9,7 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Tipo Envío</li>
-        <li class="breadcrumb-item">Control de Tipo Envío</li>
-        <li class="breadcrumb-item active" aria-current="page">Desactivar Tipo Envío</li>
+        <li class="breadcrumb-item active" aria-current="page">Detalles Tipo Envío</li>
     </ol>
 </nav>
 <hr />
@@ -36,10 +34,7 @@
             @Html.DisplayFor(model => model.IdEstatusRegistro)
         </dd>
     </dl>
-
-    <form asp-action="Delete">
-        <input style="text-transform:uppercase" type="hidden" asp-for="IdTiposEnvio" />
-        <input style="text-transform:uppercase" type="submit" value="Desactivar" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
-    </form>
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-info">Regresar</a>
+    </div>
 </div>

@@ -1,4 +1,5 @@
-﻿@model WebAdminHecsa.Models.CatRole
+﻿@model WebAdminHecsa.sqlModels.CatRole
+
 
 @{
     ViewData["Title"] = "Editar Rol";
@@ -9,8 +10,6 @@
         <li class="breadcrumb-item">HECSA</li>
         <li class="breadcrumb-item">Información</li>
         <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Rol</li>
-        <li class="breadcrumb-item">Control de Rol</li>
         <li class="breadcrumb-item active" aria-current="page">Editar Rol</li>
     </ol>
 </nav>
@@ -27,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaCatEstatus,"IdEstatus","EstatusDesc"))">
+                <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaCatEstatus,"IdEstatusRegistro","EstatusDesc"))">
                     <option value="">Seleccionar Estatus</option>
                 </select>
                 <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>

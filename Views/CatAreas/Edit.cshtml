@@ -1,48 +1,47 @@
-﻿@model WebAdminHecsa.Models.CatArea
-
+﻿@model WebAdminHecsa.sqlModels.CatArea
 
 @{
-    ViewData["Title"] = "Editar Área";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">HECSA</li>
-        <li class="breadcrumb-item">Información</li>
-        <li class="breadcrumb-item">Catálogos</li>
-        <li class="breadcrumb-item">Área</li>
-        <li class="breadcrumb-item">Control de Estatus</li>
-        <li class="breadcrumb-item active" aria-current="page">Editar Área</li>
-    </ol>
-</nav>
+
+<h1>Edit</h1>
+
+<h4>CatArea</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input style="text-transform:uppercase" type="hidden" asp-for="IdArea" id="IdEstatus" />
+            <input type="hidden" asp-for="IdArea" />
             <div class="form-group">
                 <label asp-for="AreaDesc" class="control-label"></label>
-                <input style="text-transform:uppercase" asp-for="AreaDesc" class="form-control" />
+                <input asp-for="AreaDesc" class="form-control" />
                 <span asp-validation-for="AreaDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IdEmpresa" class="control-label"></label>
+                <select asp-for="IdEmpresa" class="form-control" asp-items="ViewBag.IdEmpresa"></select>
+                <span asp-validation-for="IdEmpresa" class="text-danger"></span>
+            </div>
+           <div class="form-group">
                 <label asp-for="IdEstatusRegistro" class="control-label"></label>
-                <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaCatEstatus,"IdEstatus","EstatusDesc"))">
-                    <option value="">Seleccionar Estatus</option>
+                <select id="idEstatusLista" class="form-select" asp-for="IdEstatusRegistro" asp-items="@(new SelectList(ViewBag.ListaCatEstatus,"IdEstatusRegistro","EstatusDesc"))">
+                    <option value="">SELECCIONAR</option>
                 </select>
                 <span asp-validation-for="IdEstatusRegistro" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Actualizar" class="btn btn-warning" />
+                <input  type="submit" value="Actualizar" class="btn btn-warning" />
                 <a asp-action="Index" class="btn btn-secondary">Regresar</a>
             </div>
         </form>
     </div>
 </div>
 
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

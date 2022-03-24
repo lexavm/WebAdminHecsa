@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAdminHecsa.Data;
-using WebAdminHecsa.Models;
+using WebAdminHecsa.sqlModels;
 
 namespace WebAdminHecsa.Controllers
 {
     public class CatTipoEnviosController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly nDbContext _context;
         private readonly INotyfService _notyf;
-        public CatTipoEnviosController(ApplicationDbContext context, INotyfService notyf)
+        public CatTipoEnviosController(nDbContext context, INotyfService notyf)
         {
             _context = context;
             _notyf = notyf;
@@ -35,7 +35,7 @@ namespace WebAdminHecsa.Controllers
                 ViewBag.EstatusFlag = 0;
                 _notyf.Information("Favor de registrar los Estatus para la Aplicación", 5);
             }
-            return View(await _context.CatTipoEnvio.ToListAsync());
+            return View(await _context.CatTipoEnvios.ToListAsync());
         }
 
         // GET: CatTipoEnvios/Details/5
@@ -46,7 +46,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catTipoEnvio = await _context.CatTipoEnvio
+            var catTipoEnvio = await _context.CatTipoEnvios
                 .FirstOrDefaultAsync(m => m.IdTiposEnvio == id);
             if (catTipoEnvio == null)
             {
@@ -71,11 +71,11 @@ namespace WebAdminHecsa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicadosEstatus = _context.CatTipoEnvio
+                var vDuplicados = _context.CatTipoEnvios
                        .Where(s => s.TiposEnvioDesc == catTipoEnvio.TiposEnvioDesc)
                        .ToList();
 
-                if (DuplicadosEstatus.Count == 0)
+                if (vDuplicados.Count == 0)
                 {
                     catTipoEnvio.FechaRegistro = DateTime.Now;
                     catTipoEnvio.TiposEnvioDesc = catTipoEnvio.TiposEnvioDesc.ToString().ToUpper();
@@ -84,7 +84,7 @@ namespace WebAdminHecsa.Controllers
 
                     _context.Add(catTipoEnvio);
                     await _context.SaveChangesAsync();
-                     _notyf.Success("Registro creado con éxito", 5);
+                    _notyf.Success("Registro creado con éxito", 5);
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catTipoEnvio = await _context.CatTipoEnvio.FindAsync(id);
+            var catTipoEnvio = await _context.CatTipoEnvios.FindAsync(id);
             if (catTipoEnvio == null)
             {
                 return NotFound();
@@ -163,7 +163,7 @@ namespace WebAdminHecsa.Controllers
                 return NotFound();
             }
 
-            var catTipoEnvio = await _context.CatTipoEnvio
+            var catTipoEnvio = await _context.CatTipoEnvios
                 .FirstOrDefaultAsync(m => m.IdTiposEnvio == id);
             if (catTipoEnvio == null)
             {
@@ -178,7 +178,7 @@ namespace WebAdminHecsa.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var catTipoEnvio = await _context.CatTipoEnvio.FindAsync(id);
+            var catTipoEnvio = await _context.CatTipoEnvios.FindAsync(id);
             catTipoEnvio.IdEstatusRegistro = 2;
             _context.SaveChanges();
             await _context.SaveChangesAsync();
@@ -188,7 +188,7 @@ namespace WebAdminHecsa.Controllers
 
         private bool CatTipoEnvioExists(int id)
         {
-            return _context.CatTipoEnvio.Any(e => e.IdTiposEnvio == id);
+            return _context.CatTipoEnvios.Any(e => e.IdTiposEnvio == id);
         }
     }
 }
